@@ -1,0 +1,54 @@
+{
+  "name": "erp-duronto",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@brainhubeu/react-file-input": "^0.7.16",
+    "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^18.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
+    "@material-ui/core": "^4.9.9",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "draft-js": "^0.11.5",
+    "formik": "^2.1.4",
+    "formik-material-ui": "^2.0.0-beta.1",
+    "react": "^16.13.1",
+    "react-axios": "^2.0.3",
+    "react-bootstrap": "^1.0.0",
+    "react-confirm-alert": "^2.6.1",
+    "react-dom": "^16.13.1",
+    "react-dropzone": "^10.2.2",
+    "react-dropzone-uploader": "^2.11.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-select": "^2.0.0-beta.7",
+    "semantic-ui-react": "^0.88.2",
+    "shortid": "^2.2.15",
+    "yup": "^0.28.3"
+  },
+  "scripts": {
+    "start": "set PORT=5000 && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
