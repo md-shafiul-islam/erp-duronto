@@ -41,6 +41,8 @@ import UserDetails from "./component/User/userDetails";
 import UpdatePandingUsers from "./component/User/updatePandingUsers";
 import UpdateDetailsView from "./component/User/updateDetailsView";
 import EditableUsers from "./component/User/editableUsers";
+import UserApprovalPanding from "./component/User/userApprovalPanding";
+import RejectUsers from "./component/User/rejectUsers";
 
 function App() {
   return (
@@ -93,12 +95,16 @@ function App() {
 
         <Route exact path="/users/upgrade" component={EditableUsers} />
 
+        <Route exact path="/users/reject" component={RejectUsers} />
+
         <Route exact path="/roles" component={Roles} />
         <Route exact path="/roles/role" component={AddRole} />
 
         <Route path="/roles/role/edit/:id" component={EditRole} />
 
         <Route exact path="/packages" component={PackagesView} />
+
+        <Route exact path="/users/approval" component={UserApprovalPanding} />
         <Route
           exact
           path="/packages/package/edit/:id"

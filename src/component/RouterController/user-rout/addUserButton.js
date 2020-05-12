@@ -6,7 +6,7 @@ const AddUserButton = () => {
     <React.Fragment>
       <Link to="/users/user" className="nav-link">
         <i className="far fa-dot-circle nav-icon" />
-        <p>Add</p>
+        <p>User Add</p>
       </Link>
     </React.Fragment>
   );

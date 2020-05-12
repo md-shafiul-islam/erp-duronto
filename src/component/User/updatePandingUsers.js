@@ -50,7 +50,7 @@ class UpdatePandingUsers extends Component {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h3 className="card-title">All User List View</h3>
+                    <h3 className="card-title">All Update Aproval User</h3>
                   </div>
                   {/* /.card-header */}
                   <div className="card-body">
@@ -78,8 +78,8 @@ class UpdatePandingUsers extends Component {
                           return (
                             <React.Fragment>
                               <tr>
-                                <td>{idx}</td>
-                                <td>{item.id}</td>
+                                <td>{idx + 1}</td>
+                                <td>{item.userGemId}</td>
                                 <td>
                                   {item.name != null ? item.name : "Anonymous"}
                                 </td>

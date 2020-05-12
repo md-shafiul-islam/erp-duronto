@@ -731,10 +731,15 @@ class Menu extends Component {
                       </a>
                       <ul className="nav nav-treeview">
                         <li className="nav-item">
-                          <UserButton />
-                        </li>
-                        <li className="nav-item">
                           <AddUserButton />
+                        </li>
+
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            action="/users/approval"
+                            btnIconClass="nav-icon fas fa-user-edit"
+                            labelName="Add Approval"
+                          />
                         </li>
 
                         <li className="nav-item">
@@ -748,9 +753,18 @@ class Menu extends Component {
                         <li className="nav-item">
                           <UpdatePandingUsersButton />
                         </li>
-                        {/*  Sub menu Role Start */}
 
-                        {/* Sub menu Role End */}
+                        <li className="nav-item">
+                          <UserButton />
+                        </li>
+
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            action="/users/reject"
+                            btnIconClass="nav-icon fas fa-user-edit"
+                            labelName="Reject Users"
+                          />
+                        </li>
                       </ul>
                     </li>
                     {/* User End */}

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 
-const userList = [];
+let userList = [];
+const baseUrl = "http://localhost:8085/api";
 
 class Users extends Component {
   state = {
@@ -21,6 +22,54 @@ class Users extends Component {
       this.setState({ userLoad: true });
     }
   }
+
+  userInActive = async (pubId) => {
+    let inActiveUrl = `${baseUrl}/users/user/inactive/${pubId}`;
+    console.log(" User InActive Action !!");
+    console.log(" User InActive Action URL ", inActiveUrl);
+    await Axios.put(inActiveUrl)
+      .then((res) => {
+        this.setState({ inactiveMsg: res.data });
+        this.loadAllUsers();
+        console.log(
+          " User InActive Action Done!! MSG ",
+          this.state.inactiveMsg
+        );
+      })
+      .catch((res) => {
+        this.setState({
+          inactiveMsg:
+            "Please chaeck you network connection and try again or contact administrator, Thanks",
+        });
+        console.log(
+          " User Active InAction Done!! MSG CA",
+          this.state.activeMsg
+        );
+      });
+    console.log(" User InActive Action All Pass");
+  };
+
+  userActiveAction = async (pubId) => {
+    let activeUrl = `${baseUrl}/users/user/active/${pubId}`;
+
+    console.log(" User Active Action !!");
+    console.log(" User Active Action URL ", activeUrl);
+    await Axios.put(activeUrl)
+      .then((res) => {
+        this.setState({ activeMsg: res.data });
+        console.log(" User Active Action Done!! MSG ", this.state.activeMsg);
+        this.loadAllUsers();
+      })
+      .catch((res) => {
+        this.setState({
+          activeMsg:
+            "Please chaeck you network connection and try again or contact administrator, Thanks",
+        });
+        console.log(" User Active Action Done!! MSG CA", this.state.activeMsg);
+      });
+
+    console.log(" User Active Action All Pass");
+  };
 
   loadAllUsers = async () => {
     await Axios.get("http://localhost:8085/api/users")
@@ -50,7 +99,7 @@ class Users extends Component {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h3 className="card-title">All User List View</h3>
+                    <h3 className="card-title">All Confirmed User</h3>
                   </div>
                   {/* /.card-header */}
                   <div className="card-body">
@@ -116,13 +165,19 @@ class Users extends Component {
                                   {item &&
                                     (item.status == 1 ? (
                                       <a
-                                        href={`/users/user/inactive/${item.publicId}`}
+                                        href={`javascript:void(0);`}
+                                        onClick={() => {
+                                          this.userInActive(item.publicId);
+                                        }}
                                       >
                                         Deactive
                                       </a>
                                     ) : (
                                       <a
-                                        href={`/users/user/active/${item.publicId}`}
+                                        href={`javascript:void(0);`}
+                                        onClick={() => {
+                                          this.userActiveAction(item.publicId);
+                                        }}
                                       >
                                         Active
                                       </a>
