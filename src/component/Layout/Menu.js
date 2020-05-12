@@ -110,6 +110,38 @@ class Menu extends Component {
                     </li>
                   </ul>
                 </li>
+
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-clipboard-check" />
+                    <p>
+                      Terms & Conditions (T&C)
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/terms/add"
+                        labelName="Add (T&C)"
+                        btnIconClass="fas fa-plus-square nav-icon"
+                      />
+                    </li>
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/terms"
+                        labelName="T&C View"
+                        btnIconClass="fas fa-tasks nav-icon"
+                      />
+                    </li>
+                  </ul>
+                </li>
+
                 {/* Rules & Regulation End */}
                 {/*  Sale */}
                 <li className="nav-item has-treeview">

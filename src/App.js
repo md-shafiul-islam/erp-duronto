@@ -43,11 +43,15 @@ import UpdateDetailsView from "./component/User/updateDetailsView";
 import EditableUsers from "./component/User/editableUsers";
 import UserApprovalPanding from "./component/User/userApprovalPanding";
 import RejectUsers from "./component/User/rejectUsers";
+import AddTermsAndConditions from "./component/TermsAndConditions/addTermsAndConditions";
+import TermsAndConditions from "./component/TermsAndConditions/termsAndConditions";
+import TermsDetails from "./component/TermsAndConditions/termsDetails";
+import UpdateTermsAndConds from "./component/TermsAndConditions/updateTermsAndConds";
 
 function App() {
   return (
     <Router>
-      <div>
+      <React.Fragment>
         <Header />
         <Menu />
         <Route exact path="/" component={Dashboard} />
@@ -135,8 +139,16 @@ function App() {
           component={PackageUpdateApprovalPending}
         />
 
+        <Route exact path="/terms" component={TermsAndConditions} />
+        <Route exact path="/terms/add" component={AddTermsAndConditions} />
+        <Route exact path="/terms/term/details/:id" component={TermsDetails} />
+        <Route
+          exact
+          path="/terms/term/edit/:id"
+          component={UpdateTermsAndConds}
+        />
         <Footer />
-      </div>
+      </React.Fragment>
     </Router>
   );
 }
