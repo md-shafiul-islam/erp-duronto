@@ -653,276 +653,217 @@ class AddPackageData extends Component {
                                           <React.Fragment>
                                             {/* Item loop set here */}
 
-                                            {props.values.itarnarys.map(
-                                              (item, inx) => {
-                                                console.log(
-                                                  "Item Loop !! After Upload!!"
-                                                );
-                                                console.log(item.index);
-                                                return (
-                                                  <React.Fragment>
-                                                    <div
-                                                      className="card-body"
-                                                      key={item.index}
-                                                    >
-                                                      <div className="row pading-top">
-                                                        <div className="col-md-12">
-                                                          <fieldset>
-                                                            <legend className="area-outlin">
-                                                              Day: {inx + 1}
-                                                            </legend>
-                                                            <input
-                                                              type="hidden"
-                                                              name={`itarnarys[${inx}].dayOrDurations`}
-                                                              id={`itarnarys[${inx}].dayOrDurations`}
-                                                              value={inx + 1}
-                                                            />
-                                                            <div className="row">
-                                                              <div className="col-md-12">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Heading:
-                                                                  </label>
-                                                                  <input
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    name={`itarnarys[${inx}].heading`}
-                                                                    id={`itarnarys[${inx}].heading`}
-                                                                    value={
-                                                                      item.heading
-                                                                    }
-                                                                    onChange={
-                                                                      props.handleChange
-                                                                    }
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                              <div className="col-md-12">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    HightLight:
-                                                                  </label>
-
-                                                                  <UsoitCKEditor
-                                                                    onChange={(
-                                                                      e,
-                                                                      editor
-                                                                    ) => {
-                                                                      props.setFieldValue(
-                                                                        `itarnarys[${inx}].hightLightText`,
-                                                                        editor.getData()
-                                                                      );
-                                                                    }}
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                            <div className="row">
-                                                              <div className="col-md-12">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Description
-                                                                  </label>
-
-                                                                  <UsoitCKEditor
-                                                                    onChange={(
-                                                                      e,
-                                                                      editor
-                                                                    ) => {
-                                                                      props.setFieldValue(
-                                                                        `itarnarys[${inx}].description`,
-                                                                        editor.getData()
-                                                                      );
-                                                                    }}
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                            <div className="row">
-                                                              <div className="col-md-12">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Included:
-                                                                  </label>
-
-                                                                  <UsoitCKEditor
-                                                                    onChange={(
-                                                                      e,
-                                                                      editor
-                                                                    ) => {
-                                                                      props.setFieldValue(
-                                                                        `itarnarys[${inx}].includedText`,
-                                                                        editor.getData()
-                                                                      );
-                                                                    }}
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                              <div className="col-md-12">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Excluded:
-                                                                  </label>
-
-                                                                  <UsoitCKEditor
-                                                                    onChange={(
-                                                                      e,
-                                                                      editor
-                                                                    ) => {
-                                                                      props.setFieldValue(
-                                                                        `itarnarys[${inx}].excludedText`,
-                                                                        editor.getData()
-                                                                      );
-                                                                    }}
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                            <div className="row">
-                                                              <div className="col-md-6">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Hotel
-                                                                    Category:
-                                                                  </label>
-                                                                  <Select
-                                                                    isSearchable={
-                                                                      true
-                                                                    }
-                                                                    isClearable={
-                                                                      false
-                                                                    }
-                                                                    name={`itarnarys[${inx}].category`}
-                                                                    id={`itarnarys[${inx}].category`}
-                                                                    value={
-                                                                      this.value
-                                                                    }
-                                                                    options={
-                                                                      this.state
-                                                                        .catList
-                                                                    }
-                                                                    onChange={(
-                                                                      opt,
-                                                                      e
-                                                                    ) => {
-                                                                      props.handleChange.bind(
-                                                                        this
-                                                                      );
-                                                                      props.setFieldValue(
-                                                                        `itarnarys[${inx}].category`,
-                                                                        opt.value
-                                                                      );
-                                                                    }}
-                                                                  />
-                                                                </div>
-                                                              </div>
-
-                                                              <div className="col-md-6">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Hotel Name:
-                                                                  </label>
-                                                                  <input
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    name={`itarnarys[${inx}].hotel`}
-                                                                    id={`itarnarys[${inx}].hotel`}
-                                                                    value={
-                                                                      item.hotel
-                                                                    }
-                                                                    onChange={
-                                                                      props.handleChange
-                                                                    }
-                                                                    placeholder="Hotel Name Or Title"
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                            </div>
-
-                                                            <div className="row">
-                                                              <div className="col-md-6">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    Country:
-                                                                  </label>
-
-                                                                  <Select
-                                                                    isSearchable={
-                                                                      true
-                                                                    }
-                                                                    isClearable={
-                                                                      false
-                                                                    }
-                                                                    options={
-                                                                      this.state
-                                                                        .countryesList
-                                                                    }
-                                                                    name={`itarnarys[${inx}].itn_country`}
-                                                                    id={`itarnarys[${inx}].itn_country`}
-                                                                    value={
-                                                                      this.value
-                                                                    }
-                                                                    onChange={(
-                                                                      opt,
-                                                                      e
-                                                                    ) => {
-                                                                      props.handleChange.bind(
-                                                                        this
-                                                                      );
-                                                                      props.setFieldValue(
-                                                                        `itarnarys[${inx}].itn_country`,
-                                                                        opt.value
-                                                                      );
-                                                                    }}
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                              <div className="col-md-6">
-                                                                <div className="form-group">
-                                                                  <label>
-                                                                    City:
-                                                                  </label>
-                                                                  <Field
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    placeholder="City"
-                                                                    name={`itarnarys[${inx}].city`}
-                                                                    id={`itarnarys[${inx}].city`}
-                                                                    value={
-                                                                      item.city
-                                                                    }
-                                                                    onChange={
-                                                                      props.handleChange
-                                                                    }
-                                                                  />
-                                                                </div>
-                                                              </div>
-                                                            </div>
-
-                                                            <fieldset className="mp-10">
+                                            {props.values.itarnarys &&
+                                              props.values.itarnarys.map(
+                                                (item, inx) => {
+                                                  console.log(
+                                                    "Item Loop !! After Upload!!"
+                                                  );
+                                                  console.log(item.index);
+                                                  return (
+                                                    <React.Fragment>
+                                                      <div
+                                                        className="card-body"
+                                                        key={item.index}
+                                                      >
+                                                        <div className="row pading-top">
+                                                          <div className="col-md-12">
+                                                            <fieldset>
                                                               <legend className="area-outlin">
-                                                                Source Info
+                                                                Day: {inx + 1}
                                                               </legend>
+                                                              <input
+                                                                type="hidden"
+                                                                name={`itarnarys[${inx}].dayOrDurations`}
+                                                                id={`itarnarys[${inx}].dayOrDurations`}
+                                                                value={inx + 1}
+                                                              />
+                                                              <div className="row">
+                                                                <div className="col-md-12">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      Heading:
+                                                                    </label>
+                                                                    <input
+                                                                      className="form-control"
+                                                                      type="text"
+                                                                      name={`itarnarys[${inx}].heading`}
+                                                                      id={`itarnarys[${inx}].heading`}
+                                                                      value={
+                                                                        item.heading
+                                                                      }
+                                                                      onChange={
+                                                                        props.handleChange
+                                                                      }
+                                                                    />
+                                                                  </div>
+                                                                </div>
+                                                                <div className="col-md-12">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      HightLight:
+                                                                    </label>
+
+                                                                    <UsoitCKEditor
+                                                                      onChange={(
+                                                                        e,
+                                                                        editor
+                                                                      ) => {
+                                                                        props.setFieldValue(
+                                                                          `itarnarys[${inx}].hightLightText`,
+                                                                          editor.getData()
+                                                                        );
+                                                                      }}
+                                                                    />
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="row">
+                                                                <div className="col-md-12">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      Description
+                                                                    </label>
+
+                                                                    <UsoitCKEditor
+                                                                      onChange={(
+                                                                        e,
+                                                                        editor
+                                                                      ) => {
+                                                                        props.setFieldValue(
+                                                                          `itarnarys[${inx}].description`,
+                                                                          editor.getData()
+                                                                        );
+                                                                      }}
+                                                                    />
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="row">
+                                                                <div className="col-md-12">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      Included:
+                                                                    </label>
+
+                                                                    <UsoitCKEditor
+                                                                      onChange={(
+                                                                        e,
+                                                                        editor
+                                                                      ) => {
+                                                                        props.setFieldValue(
+                                                                          `itarnarys[${inx}].includedText`,
+                                                                          editor.getData()
+                                                                        );
+                                                                      }}
+                                                                    />
+                                                                  </div>
+                                                                </div>
+                                                                <div className="col-md-12">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      Excluded:
+                                                                    </label>
+
+                                                                    <UsoitCKEditor
+                                                                      onChange={(
+                                                                        e,
+                                                                        editor
+                                                                      ) => {
+                                                                        props.setFieldValue(
+                                                                          `itarnarys[${inx}].excludedText`,
+                                                                          editor.getData()
+                                                                        );
+                                                                      }}
+                                                                    />
+                                                                  </div>
+                                                                </div>
+                                                              </div>
                                                               <div className="row">
                                                                 <div className="col-md-6">
                                                                   <div className="form-group">
                                                                     <label>
-                                                                      Vendor:
-                                                                    </label>{" "}
+                                                                      Hotel
+                                                                      Category:
+                                                                    </label>
                                                                     <Select
+                                                                      isSearchable={
+                                                                        true
+                                                                      }
                                                                       isClearable={
                                                                         false
                                                                       }
-                                                                      isSearchable={
-                                                                        true
+                                                                      name={`itarnarys[${inx}].category`}
+                                                                      id={`itarnarys[${inx}].category`}
+                                                                      value={
+                                                                        this
+                                                                          .value
                                                                       }
                                                                       options={
                                                                         this
                                                                           .state
-                                                                          .vendorList
+                                                                          .catList
                                                                       }
-                                                                      name={`itarnarys[${inx}].vendor`}
-                                                                      id={`itarnarys[${inx}].vendor`}
+                                                                      onChange={(
+                                                                        opt,
+                                                                        e
+                                                                      ) => {
+                                                                        props.handleChange.bind(
+                                                                          this
+                                                                        );
+                                                                        props.setFieldValue(
+                                                                          `itarnarys[${inx}].category`,
+                                                                          opt.value
+                                                                        );
+                                                                      }}
+                                                                    />
+                                                                  </div>
+                                                                </div>
+
+                                                                <div className="col-md-6">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      Hotel
+                                                                      Name:
+                                                                    </label>
+                                                                    <input
+                                                                      className="form-control"
+                                                                      type="text"
+                                                                      name={`itarnarys[${inx}].hotel`}
+                                                                      id={`itarnarys[${inx}].hotel`}
+                                                                      value={
+                                                                        item.hotel
+                                                                      }
+                                                                      onChange={
+                                                                        props.handleChange
+                                                                      }
+                                                                      placeholder="Hotel Name Or Title"
+                                                                    />
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+
+                                                              <div className="row">
+                                                                <div className="col-md-6">
+                                                                  <div className="form-group">
+                                                                    <label>
+                                                                      Country:
+                                                                    </label>
+
+                                                                    <Select
+                                                                      isSearchable={
+                                                                        true
+                                                                      }
+                                                                      isClearable={
+                                                                        false
+                                                                      }
+                                                                      options={
+                                                                        this
+                                                                          .state
+                                                                          .countryesList
+                                                                      }
+                                                                      name={`itarnarys[${inx}].itn_country`}
+                                                                      id={`itarnarys[${inx}].itn_country`}
                                                                       value={
                                                                         this
                                                                           .value
@@ -934,35 +875,27 @@ class AddPackageData extends Component {
                                                                         props.handleChange.bind(
                                                                           this
                                                                         );
-                                                                        this.setState(
-                                                                          {
-                                                                            loadVendor: true,
-                                                                            vendorId:
-                                                                              opt.value,
-                                                                          }
-                                                                        );
                                                                         props.setFieldValue(
-                                                                          `itarnarys[${inx}].vendor`,
+                                                                          `itarnarys[${inx}].itn_country`,
                                                                           opt.value
                                                                         );
                                                                       }}
                                                                     />
                                                                   </div>
                                                                 </div>
-
                                                                 <div className="col-md-6">
                                                                   <div className="form-group">
                                                                     <label>
-                                                                      Exp Date:
+                                                                      City:
                                                                     </label>
                                                                     <Field
                                                                       className="form-control"
-                                                                      type="date"
-                                                                      placeholder="Exp Date"
-                                                                      name={`itarnarys[${inx}].expDate`}
-                                                                      id={`itarnarys[${inx}].expDate`}
+                                                                      type="text"
+                                                                      placeholder="City"
+                                                                      name={`itarnarys[${inx}].city`}
+                                                                      id={`itarnarys[${inx}].city`}
                                                                       value={
-                                                                        item.expDate
+                                                                        item.city
                                                                       }
                                                                       onChange={
                                                                         props.handleChange
@@ -970,369 +903,443 @@ class AddPackageData extends Component {
                                                                     />
                                                                   </div>
                                                                 </div>
-
-                                                                <div className="col-md-6">
-                                                                  <div className="form-group">
-                                                                    <label>
-                                                                      Source
-                                                                      File:
-                                                                    </label>{" "}
-                                                                    <Dropzone
-                                                                      fileName={`itarnarys[${inx}].file`}
-                                                                      onDropAccepted={(
-                                                                        e
-                                                                      ) => {
-                                                                        props.setFieldValue(
-                                                                          `itarnarys[${inx}].file`,
-                                                                          e
-                                                                        );
-                                                                        this.imageHandeller(
-                                                                          props,
-                                                                          `itarnarys[${inx}].file`,
-                                                                          e.value
-                                                                        );
-                                                                      }}
-                                                                      onDrop={(
-                                                                        acceptedFiles
-                                                                      ) =>
-                                                                        console.log(
-                                                                          acceptedFiles
-                                                                        )
-                                                                      }
-                                                                    >
-                                                                      {({
-                                                                        getRootProps,
-                                                                        getInputProps,
-                                                                        acceptedFiles,
-                                                                      }) => (
-                                                                        <section>
-                                                                          <div className="container">
-                                                                            <div
-                                                                              {...getRootProps(
-                                                                                {
-                                                                                  className:
-                                                                                    "dropzone",
-                                                                                }
-                                                                              )}
-                                                                            >
-                                                                              <input
-                                                                                className="input-area"
-                                                                                {...getInputProps()}
-                                                                              />
-                                                                              <a
-                                                                                className="upload-area"
-                                                                                href="javascript:void(0);"
-                                                                              >
-                                                                                <i className="fas fa-cloud-upload-alt fa-2x"></i>
-                                                                              </a>
-                                                                            </div>
-                                                                            <aside>
-                                                                              <ul className="file_label">
-                                                                                {acceptedFiles.map(
-                                                                                  (
-                                                                                    file
-                                                                                  ) => (
-                                                                                    <li
-                                                                                      key={
-                                                                                        file.path
-                                                                                      }
-                                                                                    >
-                                                                                      {
-                                                                                        file.path
-                                                                                      }{" "}
-                                                                                      -{" "}
-                                                                                      {
-                                                                                        file.size
-                                                                                      }{" "}
-                                                                                      bytes
-                                                                                    </li>
-                                                                                  )
-                                                                                )}
-                                                                              </ul>
-                                                                            </aside>
-                                                                          </div>
-                                                                        </section>
-                                                                      )}
-                                                                    </Dropzone>
-                                                                  </div>
-                                                                </div>
-                                                                <div className="col-md-6">
-                                                                  <div className="form-group">
-                                                                    <label>
-                                                                      Source
-                                                                      File:
-                                                                    </label>
-
-                                                                    <Dropzone
-                                                                      fileName={`itarnarys[${inx}].fil2`}
-                                                                      onDropAccepted={(
-                                                                        e
-                                                                      ) => {
-                                                                        props.setFieldValue(
-                                                                          `itarnarys[${inx}].fil2`,
-                                                                          e
-                                                                        );
-                                                                      }}
-                                                                      onDrop={(
-                                                                        acceptedFiles
-                                                                      ) =>
-                                                                        console.log(
-                                                                          acceptedFiles
-                                                                        )
-                                                                      }
-                                                                    >
-                                                                      {({
-                                                                        getRootProps,
-                                                                        getInputProps,
-                                                                        acceptedFiles,
-                                                                      }) => (
-                                                                        <section>
-                                                                          <div className="container">
-                                                                            <div
-                                                                              {...getRootProps(
-                                                                                {
-                                                                                  className:
-                                                                                    "dropzone",
-                                                                                }
-                                                                              )}
-                                                                            >
-                                                                              <input
-                                                                                className="input-area"
-                                                                                {...getInputProps()}
-                                                                              />
-                                                                              <a
-                                                                                className="upload-area"
-                                                                                href="javascript:void(0);"
-                                                                              >
-                                                                                <i className="fas fa-cloud-upload-alt fa-2x"></i>
-                                                                              </a>
-                                                                            </div>
-                                                                            <aside>
-                                                                              <ul className="file_label">
-                                                                                {acceptedFiles.map(
-                                                                                  (
-                                                                                    file
-                                                                                  ) => (
-                                                                                    <li
-                                                                                      key={
-                                                                                        file.path
-                                                                                      }
-                                                                                    >
-                                                                                      {
-                                                                                        file.path
-                                                                                      }{" "}
-                                                                                      -{" "}
-                                                                                      {
-                                                                                        file.size
-                                                                                      }{" "}
-                                                                                      bytes
-                                                                                    </li>
-                                                                                  )
-                                                                                )}
-                                                                              </ul>
-                                                                            </aside>
-                                                                          </div>
-                                                                        </section>
-                                                                      )}
-                                                                    </Dropzone>
-                                                                  </div>
-                                                                </div>
                                                               </div>
-                                                              <div
-                                                                className="row"
-                                                                id="jsonLoadVendor"
-                                                              >
-                                                                {/* Json data load here */}
 
-                                                                {this.state
-                                                                  .allVendor !=
-                                                                  null &&
-                                                                this.state
-                                                                  .vendorId >
-                                                                  0 ? (
-                                                                  <React.Fragment>
-                                                                    {this.state.allVendor.map(
-                                                                      (
-                                                                        vend,
-                                                                        idx
-                                                                      ) => {
-                                                                        return (
-                                                                          <React.Fragment>
-                                                                            {vend.id ==
+                                                              <fieldset className="mp-10">
+                                                                <legend className="area-outlin">
+                                                                  Source Info
+                                                                </legend>
+                                                                <div className="row">
+                                                                  <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                      <label>
+                                                                        Vendor:
+                                                                      </label>{" "}
+                                                                      <Select
+                                                                        isClearable={
+                                                                          false
+                                                                        }
+                                                                        isSearchable={
+                                                                          true
+                                                                        }
+                                                                        options={
+                                                                          this
+                                                                            .state
+                                                                            .vendorList
+                                                                        }
+                                                                        name={`itarnarys[${inx}].vendor`}
+                                                                        id={`itarnarys[${inx}].vendor`}
+                                                                        value={
+                                                                          this
+                                                                            .value
+                                                                        }
+                                                                        onChange={(
+                                                                          opt,
+                                                                          e
+                                                                        ) => {
+                                                                          props.handleChange.bind(
                                                                             this
-                                                                              .state
-                                                                              .vendorId ? (
-                                                                              <React.Fragment>
-                                                                                <div
-                                                                                  className="row"
-                                                                                  key={
-                                                                                    idx
+                                                                          );
+                                                                          this.setState(
+                                                                            {
+                                                                              loadVendor: true,
+                                                                              vendorId:
+                                                                                opt.value,
+                                                                            }
+                                                                          );
+                                                                          props.setFieldValue(
+                                                                            `itarnarys[${inx}].vendor`,
+                                                                            opt.value
+                                                                          );
+                                                                        }}
+                                                                      />
+                                                                    </div>
+                                                                  </div>
+
+                                                                  <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                      <label>
+                                                                        Exp
+                                                                        Date:
+                                                                      </label>
+                                                                      <Field
+                                                                        className="form-control"
+                                                                        type="date"
+                                                                        placeholder="Exp Date"
+                                                                        name={`itarnarys[${inx}].expDate`}
+                                                                        id={`itarnarys[${inx}].expDate`}
+                                                                        value={
+                                                                          item.expDate
+                                                                        }
+                                                                        onChange={
+                                                                          props.handleChange
+                                                                        }
+                                                                      />
+                                                                    </div>
+                                                                  </div>
+
+                                                                  <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                      <label>
+                                                                        Source
+                                                                        File:
+                                                                      </label>{" "}
+                                                                      <Dropzone
+                                                                        fileName={`itarnarys[${inx}].file`}
+                                                                        onDropAccepted={(
+                                                                          e
+                                                                        ) => {
+                                                                          props.setFieldValue(
+                                                                            `itarnarys[${inx}].file`,
+                                                                            e
+                                                                          );
+                                                                          this.imageHandeller(
+                                                                            props,
+                                                                            `itarnarys[${inx}].file`,
+                                                                            e.value
+                                                                          );
+                                                                        }}
+                                                                        onDrop={(
+                                                                          acceptedFiles
+                                                                        ) =>
+                                                                          console.log(
+                                                                            acceptedFiles
+                                                                          )
+                                                                        }
+                                                                      >
+                                                                        {({
+                                                                          getRootProps,
+                                                                          getInputProps,
+                                                                          acceptedFiles,
+                                                                        }) => (
+                                                                          <section>
+                                                                            <div className="container">
+                                                                              <div
+                                                                                {...getRootProps(
+                                                                                  {
+                                                                                    className:
+                                                                                      "dropzone",
                                                                                   }
+                                                                                )}
+                                                                              >
+                                                                                <input
+                                                                                  className="input-area"
+                                                                                  {...getInputProps()}
+                                                                                />
+                                                                                <a
+                                                                                  className="upload-area"
+                                                                                  href="javascript:void(0);"
                                                                                 >
-                                                                                  <div className="row mp10">
-                                                                                    {" "}
-                                                                                    <h2>
-                                                                                      {" "}
-                                                                                      Vendor
-                                                                                      Info
-                                                                                    </h2>
-                                                                                    <div className="col-md-12">
-                                                                                      {" "}
-                                                                                      <label className="inf-label">
-                                                                                        Vendor
-                                                                                        Id:
-                                                                                        {
-                                                                                          vend.vGenId
+                                                                                  <i className="fas fa-cloud-upload-alt fa-2x"></i>
+                                                                                </a>
+                                                                              </div>
+                                                                              <aside>
+                                                                                <ul className="file_label">
+                                                                                  {acceptedFiles.map(
+                                                                                    (
+                                                                                      file
+                                                                                    ) => (
+                                                                                      <li
+                                                                                        key={
+                                                                                          file.path
                                                                                         }
-                                                                                      </label>
-                                                                                      <label className="inf-label">
-                                                                                        Company
-                                                                                        Name:
-                                                                                        {` ${vend.companyName}`}
-                                                                                      </label>
+                                                                                      >
+                                                                                        {
+                                                                                          file.path
+                                                                                        }{" "}
+                                                                                        -{" "}
+                                                                                        {
+                                                                                          file.size
+                                                                                        }{" "}
+                                                                                        bytes
+                                                                                      </li>
+                                                                                    )
+                                                                                  )}
+                                                                                </ul>
+                                                                              </aside>
+                                                                            </div>
+                                                                          </section>
+                                                                        )}
+                                                                      </Dropzone>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                      <label>
+                                                                        Source
+                                                                        File:
+                                                                      </label>
+
+                                                                      <Dropzone
+                                                                        fileName={`itarnarys[${inx}].fil2`}
+                                                                        onDropAccepted={(
+                                                                          e
+                                                                        ) => {
+                                                                          props.setFieldValue(
+                                                                            `itarnarys[${inx}].fil2`,
+                                                                            e
+                                                                          );
+                                                                        }}
+                                                                        onDrop={(
+                                                                          acceptedFiles
+                                                                        ) =>
+                                                                          console.log(
+                                                                            acceptedFiles
+                                                                          )
+                                                                        }
+                                                                      >
+                                                                        {({
+                                                                          getRootProps,
+                                                                          getInputProps,
+                                                                          acceptedFiles,
+                                                                        }) => (
+                                                                          <section>
+                                                                            <div className="container">
+                                                                              <div
+                                                                                {...getRootProps(
+                                                                                  {
+                                                                                    className:
+                                                                                      "dropzone",
+                                                                                  }
+                                                                                )}
+                                                                              >
+                                                                                <input
+                                                                                  className="input-area"
+                                                                                  {...getInputProps()}
+                                                                                />
+                                                                                <a
+                                                                                  className="upload-area"
+                                                                                  href="javascript:void(0);"
+                                                                                >
+                                                                                  <i className="fas fa-cloud-upload-alt fa-2x"></i>
+                                                                                </a>
+                                                                              </div>
+                                                                              <aside>
+                                                                                <ul className="file_label">
+                                                                                  {acceptedFiles.map(
+                                                                                    (
+                                                                                      file
+                                                                                    ) => (
+                                                                                      <li
+                                                                                        key={
+                                                                                          file.path
+                                                                                        }
+                                                                                      >
+                                                                                        {
+                                                                                          file.path
+                                                                                        }{" "}
+                                                                                        -{" "}
+                                                                                        {
+                                                                                          file.size
+                                                                                        }{" "}
+                                                                                        bytes
+                                                                                      </li>
+                                                                                    )
+                                                                                  )}
+                                                                                </ul>
+                                                                              </aside>
+                                                                            </div>
+                                                                          </section>
+                                                                        )}
+                                                                      </Dropzone>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <div
+                                                                  className="row"
+                                                                  id="jsonLoadVendor"
+                                                                >
+                                                                  {/* Json data load here */}
+
+                                                                  {this.state
+                                                                    .allVendor !=
+                                                                    null &&
+                                                                  this.state
+                                                                    .vendorId >
+                                                                    0 ? (
+                                                                    <React.Fragment>
+                                                                      {this.state.allVendor.map(
+                                                                        (
+                                                                          vend,
+                                                                          idx
+                                                                        ) => {
+                                                                          return (
+                                                                            <React.Fragment>
+                                                                              {vend.id ==
+                                                                              this
+                                                                                .state
+                                                                                .vendorId ? (
+                                                                                <React.Fragment>
+                                                                                  <div
+                                                                                    className="row"
+                                                                                    key={
+                                                                                      idx
+                                                                                    }
+                                                                                  >
+                                                                                    <div className="row mp10">
+                                                                                      {" "}
+                                                                                      <h2>
+                                                                                        {" "}
+                                                                                        Vendor
+                                                                                        Info
+                                                                                      </h2>
+                                                                                      <div className="col-md-12">
+                                                                                        {" "}
+                                                                                        <label className="inf-label">
+                                                                                          Vendor
+                                                                                          Id:
+                                                                                          {
+                                                                                            vend.vGenId
+                                                                                          }
+                                                                                        </label>
+                                                                                        <label className="inf-label">
+                                                                                          Company
+                                                                                          Name:
+                                                                                          {` ${vend.companyName}`}
+                                                                                        </label>
+                                                                                      </div>
+                                                                                    </div>
+                                                                                    <div className="row mp10">
+                                                                                      {vend.contactPersons.map(
+                                                                                        (
+                                                                                          person,
+                                                                                          ind
+                                                                                        ) => {
+                                                                                          return (
+                                                                                            <div
+                                                                                              className="col-md-6"
+                                                                                              key={
+                                                                                                ind
+                                                                                              }
+                                                                                            >
+                                                                                              <h3>
+                                                                                                {" "}
+                                                                                                Person
+                                                                                                Information:
+                                                                                                {` ${
+                                                                                                  ind +
+                                                                                                  1
+                                                                                                }`}
+                                                                                              </h3>
+                                                                                              <label className="inf-label">
+                                                                                                Name:
+                                                                                                {` ${person.name}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                Phone
+                                                                                                No.
+                                                                                                1:
+                                                                                                {` ${person.phoneNo}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                Phone
+                                                                                                No.
+                                                                                                2:
+                                                                                                {` ${person.phoneNo2}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                Email:
+                                                                                                {` ${person.email}`}
+                                                                                              </label>
+                                                                                            </div>
+                                                                                          );
+                                                                                        }
+                                                                                      )}
+                                                                                    </div>
+                                                                                    <div className="row mp10">
+                                                                                      {vend.addresses.map(
+                                                                                        (
+                                                                                          addr,
+                                                                                          indx
+                                                                                        ) => {
+                                                                                          return (
+                                                                                            <div
+                                                                                              className="col-md-6"
+                                                                                              key={
+                                                                                                indx
+                                                                                              }
+                                                                                            >
+                                                                                              <h3>
+                                                                                                {" "}
+                                                                                                Address
+                                                                                                Information:
+                                                                                                {` ${
+                                                                                                  indx +
+                                                                                                  1
+                                                                                                }`}
+                                                                                              </h3>
+                                                                                              <label className="inf-label">
+                                                                                                House:
+                                                                                                {` ${addr.house}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                Street:
+                                                                                                {` ${addr.street}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                Village/Area:
+                                                                                                {` ${addr.village}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                Zip
+                                                                                                Code:
+                                                                                                {` ${addr.zipCode}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                City:
+                                                                                                {` ${addr.city}`}
+                                                                                              </label>
+                                                                                              <label className="inf-label">
+                                                                                                County:
+                                                                                                {` ${addr.country.name}`}
+                                                                                              </label>
+                                                                                            </div>
+                                                                                          );
+                                                                                        }
+                                                                                      )}
                                                                                     </div>
                                                                                   </div>
-                                                                                  <div className="row mp10">
-                                                                                    {vend.contactPersons.map(
-                                                                                      (
-                                                                                        person,
-                                                                                        ind
-                                                                                      ) => {
-                                                                                        return (
-                                                                                          <div
-                                                                                            className="col-md-6"
-                                                                                            key={
-                                                                                              ind
-                                                                                            }
-                                                                                          >
-                                                                                            <h3>
-                                                                                              {" "}
-                                                                                              Person
-                                                                                              Information:
-                                                                                              {` ${
-                                                                                                ind +
-                                                                                                1
-                                                                                              }`}
-                                                                                            </h3>
-                                                                                            <label className="inf-label">
-                                                                                              Name:
-                                                                                              {` ${person.name}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              Phone
-                                                                                              No.
-                                                                                              1:
-                                                                                              {` ${person.phoneNo}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              Phone
-                                                                                              No.
-                                                                                              2:
-                                                                                              {` ${person.phoneNo2}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              Email:
-                                                                                              {` ${person.email}`}
-                                                                                            </label>
-                                                                                          </div>
-                                                                                        );
-                                                                                      }
-                                                                                    )}
-                                                                                  </div>
-                                                                                  <div className="row mp10">
-                                                                                    {vend.addresses.map(
-                                                                                      (
-                                                                                        addr,
-                                                                                        indx
-                                                                                      ) => {
-                                                                                        return (
-                                                                                          <div
-                                                                                            className="col-md-6"
-                                                                                            key={
-                                                                                              indx
-                                                                                            }
-                                                                                          >
-                                                                                            <h3>
-                                                                                              {" "}
-                                                                                              Address
-                                                                                              Information:
-                                                                                              {` ${
-                                                                                                indx +
-                                                                                                1
-                                                                                              }`}
-                                                                                            </h3>
-                                                                                            <label className="inf-label">
-                                                                                              House:
-                                                                                              {` ${addr.house}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              Street:
-                                                                                              {` ${addr.street}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              Village/Area:
-                                                                                              {` ${addr.village}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              Zip
-                                                                                              Code:
-                                                                                              {` ${addr.zipCode}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              City:
-                                                                                              {` ${addr.city}`}
-                                                                                            </label>
-                                                                                            <label className="inf-label">
-                                                                                              County:
-                                                                                              {` ${addr.country.name}`}
-                                                                                            </label>
-                                                                                          </div>
-                                                                                        );
-                                                                                      }
-                                                                                    )}
-                                                                                  </div>
-                                                                                </div>
-                                                                              </React.Fragment>
-                                                                            ) : (
-                                                                              <div></div>
-                                                                            )}
-                                                                          </React.Fragment>
-                                                                        );
-                                                                      }
-                                                                    )}
-                                                                  </React.Fragment>
-                                                                ) : (
-                                                                  <div>
-                                                                    Vendor Not
-                                                                    yet Select
-                                                                  </div>
-                                                                )}
-                                                              </div>
+                                                                                </React.Fragment>
+                                                                              ) : (
+                                                                                <div></div>
+                                                                              )}
+                                                                            </React.Fragment>
+                                                                          );
+                                                                        }
+                                                                      )}
+                                                                    </React.Fragment>
+                                                                  ) : (
+                                                                    <div>
+                                                                      Vendor Not
+                                                                      yet Select
+                                                                    </div>
+                                                                  )}
+                                                                </div>
+                                                              </fieldset>
+                                                              {/*  */}
                                                             </fieldset>
-                                                            {/*  */}
-                                                          </fieldset>
+                                                          </div>
+                                                          <div className="col-md-1 n-content">
+                                                            {inx === 0 ? (
+                                                              <span></span>
+                                                            ) : (
+                                                              <a
+                                                                href="javascript:void(0);"
+                                                                onClick={() =>
+                                                                  remove(inx)
+                                                                }
+                                                              >
+                                                                Remove
+                                                              </a>
+                                                            )}
+                                                          </div>
                                                         </div>
-                                                        <div className="col-md-1 n-content">
-                                                          {inx === 0 ? (
-                                                            <span></span>
-                                                          ) : (
-                                                            <a
-                                                              href="javascript:void(0);"
-                                                              onClick={() =>
-                                                                remove(inx)
-                                                              }
-                                                            >
-                                                              Remove
-                                                            </a>
-                                                          )}
-                                                        </div>
+                                                        {/* Item loop End */}
                                                       </div>
-                                                      {/* Item loop End */}
-                                                    </div>
-                                                  </React.Fragment>
-                                                );
-                                              }
-                                            )}
+                                                    </React.Fragment>
+                                                  );
+                                                }
+                                              )}
 
                                             {/** Item End */}
                                             <div className="row">

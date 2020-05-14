@@ -87,7 +87,7 @@ class PrivacyPolicy extends Component {
 
                                   <td>
                                     <a
-                                      href={`/privacyPolicies/Policy/details/${term.publicId}`}
+                                      href={`/privacyPolicies/policy/details/${term.publicId}`}
                                       className="btn btn-info btn-icon-split"
                                     >
                                       <span className="icon text-white-50">

@@ -13,32 +13,32 @@ let headers = {
 class AddPrivacyPolicy extends Component {
   state = {
     redirectStatus: false,
-    tNcNsgStatus: false,
+    policyStatus: false,
   };
 
   addTermsAndConditionsAction = async (fData) => {
-    let tandcUrl = `${baseUrl}/terms/term`;
+    let tandcUrl = `${baseUrl}/privacy-policies/policy`;
     let dJsonData = JSON.stringify(fData, null, 2);
     dJsonData &&
       (await Axios.post(tandcUrl, dJsonData, { headers: headers })
         .then((res) => {
           this.setState({
-            tNcMsg: res.data,
-            tNcNsgStatus: true,
+            policyMSG: res.data,
+            policyStatus: true,
             redirectStatus: true,
           });
         })
         .catch((res) => {
           this.setState({
-            tNcMsg: "Please, check your connection then try again",
-            tNcNsgStatus: true,
+            policyMSG: "Please, check your connection then try again",
+            policyStatus: true,
           });
         }));
   };
 
   render() {
     if (this.state.redirectStatus) {
-      return <Redirect to="/terms" />;
+      return <Redirect to="/privacyPolicies" />;
     }
 
     return (
@@ -48,7 +48,7 @@ class AddPrivacyPolicy extends Component {
             <div className="col-md-12" style={{ margin: "10px auto" }}>
               <div className="card card-primary">
                 <div className="card-header">
-                  <h3 className="card-title">Add Terms And Conditions</h3>
+                  <h3 className="card-title">Add Privacy Policy</h3>
                 </div>
 
                 {/* form start */}

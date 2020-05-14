@@ -47,6 +47,14 @@ import AddTermsAndConditions from "./component/TermsAndConditions/addTermsAndCon
 import TermsAndConditions from "./component/TermsAndConditions/termsAndConditions";
 import TermsDetails from "./component/TermsAndConditions/termsDetails";
 import UpdateTermsAndConds from "./component/TermsAndConditions/updateTermsAndConds";
+import AddPrivacyPolicy from "./component/PrivacyPolicy/addPrivacyPolicy";
+import PrivacyPolicy from "./component/PrivacyPolicy/privacyPolicy";
+import DetailsPrivacyPolicy from "./component/PrivacyPolicy/detailsPrivacyPolicy";
+import UpdatePrivacyPolicy from "./component/PrivacyPolicy/updatePrivacyPolicy";
+import Vendors from "./component/Vendor/vendors";
+import DetailsVendor from "./component/Vendor/detailsVendor";
+import UpdateVendor from "./component/Vendor/updateVendor";
+import AddVendor from "./component/Vendor/addVendor";
 
 function App() {
   return (
@@ -147,6 +155,29 @@ function App() {
           path="/terms/term/edit/:id"
           component={UpdateTermsAndConds}
         />
+
+        <Route exact path="/privacyPolicies" component={PrivacyPolicy} />
+        <Route exact path="/privacyPolicies/add" component={AddPrivacyPolicy} />
+        <Route
+          exact
+          path="/privacyPolicies/policy/details/:id"
+          component={DetailsPrivacyPolicy}
+        />
+        <Route
+          exact
+          path="/privacyPolicies/policy/edit/:id"
+          component={UpdatePrivacyPolicy}
+        />
+
+        <Route exact path="/vendors" component={Vendors} />
+        <Route exact path="/vendors/add" component={AddVendor} />
+        <Route
+          exact
+          path="/vendors/vendor/details/:id"
+          component={DetailsVendor}
+        />
+        <Route exact path="/vendors/vendor/edit/:id" component={UpdateVendor} />
+
         <Footer />
       </React.Fragment>
     </Router>

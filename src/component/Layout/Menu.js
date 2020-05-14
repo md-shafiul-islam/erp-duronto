@@ -83,66 +83,7 @@ class Menu extends Component {
                     <p>Dashboard</p>
                   </a>
                 </li>
-                {/*  Rules & Regulation  */}
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-project-diagram" />
-                    <p>
-                      Rules &amp; Regulation{" "}
-                      <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <a href="/category/view?page=0" className="nav-link">
-                        {" "}
-                        <i className="fas fa-list nav-icon" />
-                        <p>View</p>
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <AddCatButtion />
-                    </li>
-                  </ul>
-                </li>
 
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-clipboard-check" />
-                    <p>
-                      Terms & Conditions (T&C)
-                      <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <MenuLinkOrButton
-                        action="/terms/add"
-                        labelName="Add (T&C)"
-                        btnIconClass="fas fa-plus-square nav-icon"
-                      />
-                    </li>
-                    <li className="nav-item">
-                      <MenuLinkOrButton
-                        action="/terms"
-                        labelName="T&C View"
-                        btnIconClass="fas fa-tasks nav-icon"
-                      />
-                    </li>
-                  </ul>
-                </li>
-
-                {/* Rules & Regulation End */}
                 {/*  Sale */}
                 <li className="nav-item has-treeview">
                   <a
@@ -601,35 +542,49 @@ class Menu extends Component {
                       </a>
                       <ul className="nav nav-treeview">
                         <li className="nav-item">
-                          <a href="/vendor/add" className="nav-link">
-                            {" "}
-                            <i className="fas fa-list nav-icon" />
-                            <p>new vendor / supplier add</p>
-                          </a>
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="vendor/supplier Add"
+                            action="/vendors/add"
+                          />
+                        </li>
+
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier approval"
+                            action="/vendors/approval"
+                          />
+                        </li>
+
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Update "
+                            action="/vendors/update"
+                          />
+                        </li>
+
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Update approval"
+                            action="/vendors/update-approval"
+                          />
                         </li>
                         <li className="nav-item">
-                          <a href="/vendor/approval" className="nav-link">
-                            <i className="fas fa-plus-square nav-icon" />
-                            <p>new vendor / supplier approval</p>
-                          </a>
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Update Confirmed"
+                            action="/vendors"
+                          />
                         </li>
                         <li className="nav-item">
-                          <a href="/vendor/up-approval" className="nav-link">
-                            <i className="fas fa-plus-square nav-icon" />
-                            <p>vendor / supplier update approval</p>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="/vendor/view?page=0" className="nav-link">
-                            <i className="fas fa-plus-square nav-icon" />
-                            <p>vendor / supplier confirmed</p>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="/vendor/rej-view" className="nav-link">
-                            <i className="fas fa-plus-square nav-icon" />
-                            <p>vendor / supplier rejected</p>
-                          </a>
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Rejected"
+                            action="/vendors/reject"
+                          />
                         </li>
                       </ul>
                     </li>
@@ -1044,6 +999,101 @@ class Menu extends Component {
 
                 {/** Countries End */}
 
+                {/*  Rules & Regulation  */}
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-project-diagram" />
+                    <p>
+                      Rules &amp; Regulation{" "}
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <a href="/category/view?page=0" className="nav-link">
+                        {" "}
+                        <i className="fas fa-list nav-icon" />
+                        <p>View</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <AddCatButtion />
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-clipboard-check" />
+                    <p>
+                      Terms & Conditions (T&C)
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/terms/add"
+                        labelName="Add (T&C)"
+                        btnIconClass="fas fa-plus-square nav-icon"
+                      />
+                    </li>
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/terms"
+                        labelName="T&C View"
+                        btnIconClass="fas fa-tasks nav-icon"
+                      />
+                    </li>
+                  </ul>
+                </li>
+
+                {/* Rules & Regulation End */}
+
+                {/** Policy Start */}
+
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-clipboard-check" />
+                    <p>
+                      Privacy Policy
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/privacyPolicies/add"
+                        labelName="Add Privacy Policy"
+                        btnIconClass="fas fa-plus-square nav-icon"
+                      />
+                    </li>
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/privacyPolicies"
+                        labelName="Privacy Policies"
+                        btnIconClass="fas fa-tasks nav-icon"
+                      />
+                    </li>
+                  </ul>
+                </li>
+
+                {/** Policy End */}
                 <li className="nav-item">
                   <a
                     href="javascript:void(0);"
