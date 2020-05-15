@@ -55,6 +55,8 @@ import Vendors from "./component/Vendor/vendors";
 import DetailsVendor from "./component/Vendor/detailsVendor";
 import UpdateVendor from "./component/Vendor/updateVendor";
 import AddVendor from "./component/Vendor/addVendor";
+import ApprovalVendor from "./component/Vendor/approvalVendor";
+import EditVendor from "./component/Vendor/editVendor";
 
 function App() {
   return (
@@ -171,12 +173,14 @@ function App() {
 
         <Route exact path="/vendors" component={Vendors} />
         <Route exact path="/vendors/add" component={AddVendor} />
+        <Route exact path="/vendors/approval" component={ApprovalVendor} />
+        <Route exact path="/vendors/update" component={UpdateVendor} />
         <Route
           exact
           path="/vendors/vendor/details/:id"
           component={DetailsVendor}
         />
-        <Route exact path="/vendors/vendor/edit/:id" component={UpdateVendor} />
+        <Route exact path="/vendors/vendor/edit/:id" component={EditVendor} />
 
         <Footer />
       </React.Fragment>

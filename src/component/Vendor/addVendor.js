@@ -2,15 +2,118 @@ import React, { Component } from "react";
 import { Form, Formik, Field, FieldArray } from "formik";
 import Select from "react-select";
 
+import Axios from "axios";
+import LoadingData from "../Layout/LoadingData";
+import { Redirect } from "react-router-dom";
+
+const countries = [];
+const countryOprions = [];
+const countryPhoneCode = [];
+const vendorOptions = [{ label: `None`, value: 0 }];
+
+const baseUrl = "http://localhost:8085/api";
+
+const headers = {
+  "Content-Type": "application/json",
+};
+
 class AddVendor extends Component {
   state = {
     countryesList: [],
+    optionStatus: true,
+    venCatLis: [],
+    vendorCatStatus: true,
+    redirecStatus: false,
   };
   constructor(props) {
     super(props);
-    console.log("Add Vendor !!!");
   }
+
+  componentDidMount() {
+    this.loadCountry();
+    this.loadVendorCats();
+  }
+
+  loadVendorCats = async () => {
+    await Axios.get(`${baseUrl}/vendor-cats`).then((res) => {
+      res.data &&
+        res.data.map((item, inx) => {
+          vendorOptions.push({ label: `${item.name}`, value: item.id });
+        });
+
+      this.setState({ venCatLis: vendorOptions });
+    });
+
+    this.setState({ vendorCatStatus: false });
+  };
+
+  loadCountry = async () => {
+    await Axios.get(`${baseUrl}/countries`)
+
+      .then((res) => {
+        console.log("Success Get All Countries !! Axios Add Pack");
+        console.log(res.data);
+        res.data.map((count) => {
+          countries.push(count);
+        });
+      })
+      .catch((response) => {
+        console.log("Error: Loadin Countries !!");
+        console.log(response);
+      });
+    //Load Countries End
+
+    if (countries !== undefined) {
+      console.log("Countries Not undefined");
+      if (countries.length !== undefined) {
+        console.log("Countries lenght", countries.length);
+        countries.map((countOp, ind) => {
+          countryOprions.push({ label: `${countOp.name}`, value: countOp.id });
+        });
+        this.setState({ countryesList: countryOprions });
+        countries.map((cntCode, indx) => {
+          countryPhoneCode.push({
+            label: `${cntCode.isoCode}, ${cntCode.dialOrPhoneCode}`,
+            value: cntCode.dialOrPhoneCode,
+          });
+        });
+
+        if (countryOprions.length > 0 && countryPhoneCode.length > 0) {
+          console.log("Country L: ", countryOprions.length);
+          console.log("Country Code L: ", countryPhoneCode.length);
+          this.setState({ optionStatus: false });
+        }
+
+        if (this.state.countryesList.length > 0) {
+          console.log("Country State Size: ", this.state.countryesList.length);
+        } else {
+          console.log("Country State List Not Set !!");
+        }
+      }
+    }
+  };
+
+  submitAction = async (values) => {
+    let fData = JSON.stringify(values, null, 2);
+    await Axios.post(`${baseUrl}/vendors/vendor`, fData, { headers: headers })
+      .then((res) => {
+        console.log("Success: ", res);
+        this.setState({ redirecStatus: true });
+      })
+      .catch((res) => {
+        console.log("Error: ", res);
+      });
+  };
+
   render() {
+    if (this.state.optionStatus || this.state.vendorCatStatus) {
+      return <LoadingData />;
+    }
+
+    if (this.state.redirecStatus) {
+      return <Redirect to="/vendors" />;
+    }
+
     return (
       <React.Fragment>
         {/* Content Wrapper. Contains page content */}
@@ -27,14 +130,15 @@ class AddVendor extends Component {
                   initialValues={{
                     companyName: null,
                     ownerName: null,
+                    comPhoneNo: "",
+                    phoneCode: "",
                     contactPersons: [
                       {
-                        name: null,
-                        phoneNo: null,
-                        phoneNo2: null,
-                        country1: null,
-                        country2: null,
-                        email: null,
+                        name: "",
+                        phoneNo: "",
+                        conPhoneCode: "",
+                        country: null,
+                        email: "",
                       },
                     ],
                     addresses: [
@@ -64,6 +168,22 @@ class AddVendor extends Component {
                     ],
                     vendorCategory: 0,
                   }}
+                  onSubmit={(values, actions) => {
+                    console.log(
+                      "After Submit, ",
+                      JSON.stringify(values, null, 2)
+                    );
+
+                    this.submitAction(values);
+
+                    setTimeout(() => {
+                      //this.submitData(values);
+                      alert(JSON.stringify(values, null, 2));
+                      actions.setSubmitting(false);
+                      console.log("Pomt Data:");
+                      console.log(JSON.stringify(values, null, 2));
+                    }, 1000);
+                  }}
                 >
                   {(props) => (
                     <Form>
@@ -77,7 +197,7 @@ class AddVendor extends Component {
                               <Select
                                 name={`vendorCategory`}
                                 id={`vendorCategory`}
-                                options={this.state.countryesList}
+                                options={this.state.venCatLis}
                                 value={this.value}
                                 onChange={(opt, e) => {
                                   props.handleChange.bind(this);
@@ -115,6 +235,36 @@ class AddVendor extends Component {
                                 name="ownerName"
                                 placeholder="Owner Name"
                               />
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label htmlFor="phoneNo">Phone No.:</label>
+                              <div className="row">
+                                <div className="col-md-4">
+                                  <Select
+                                    options={countryPhoneCode}
+                                    value={this.value}
+                                    name="phoneCode"
+                                    onChange={(opt, e) => {
+                                      props.handleChange.bind(this);
+                                      props.setFieldValue(
+                                        `phoneCode`,
+                                        opt.value
+                                      );
+                                    }}
+                                  />
+                                </div>
+                                <div className="col-md-8">
+                                  <Field
+                                    type="text"
+                                    className="form-control"
+                                    name="comPhoneNo"
+                                    placeholder=" 1710000000"
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </div>
 
@@ -176,32 +326,29 @@ class AddVendor extends Component {
                                                   </label>
                                                   <div className="row">
                                                     <div className="col-md-4">
-                                                      <select></select>
+                                                      <Select
+                                                        options={
+                                                          countryPhoneCode
+                                                        }
+                                                        name={`contactPersons[${indx}].conPhoneCode`}
+                                                        value={this.value}
+                                                        onChange={(opt, e) => {
+                                                          props.handleChange.bind(
+                                                            this
+                                                          );
+                                                          props.setFieldValue(
+                                                            `contactPersons[${indx}].conPhoneCode`,
+                                                            opt.value
+                                                          );
+                                                        }}
+                                                      />
                                                     </div>
                                                     <div className="col-md-8">
                                                       <Field
                                                         type="text"
                                                         className="form-control"
                                                         name={`contactPersons[${indx}].phoneNo`}
-                                                        placeholder="Phone No."
-                                                      />
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-
-                                              <div className="col-md-4">
-                                                <div className="form-group">
-                                                  <label htmlFor="phoneNo">
-                                                    Phone No 2:
-                                                  </label>
-                                                  <div className="row">
-                                                    <div className="col-md-8">
-                                                      <Field
-                                                        type="text"
-                                                        className="form-control"
-                                                        name={`contactPersons[${indx}].phoneNo2`}
-                                                        placeholder="Phone No 2."
+                                                        placeholder=" 1710000000"
                                                       />
                                                     </div>
                                                   </div>
@@ -288,7 +435,6 @@ class AddVendor extends Component {
                         <fieldset className="mp-10">
                           <legend>Address Info</legend>
                           <div className="row">
-                            {console.log("values: ", props.values)}
                             <FieldArray name="addresses">
                               {({ push, remove }) => (
                                 <React.Fragment>

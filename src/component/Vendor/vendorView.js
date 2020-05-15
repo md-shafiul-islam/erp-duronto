@@ -3,7 +3,6 @@ import React from "react";
 const VendorView = (props) => {
   return (
     <React.Fragment>
-      {console.log("Vendor Commponent: ", props.vendors)}
       {props.vendors &&
         props.vendors.map((item, idx) => {
           return (
@@ -46,6 +45,25 @@ const VendorView = (props) => {
                       className="btn btn-block btn-outline-info btn-sm"
                     >
                       Edit
+                    </a>
+                  </td>
+                )}
+
+                {props.approveStatus && (
+                  <td>
+                    <a
+                      href={`javascript:void(0)`}
+                      onClick={() => props.onActionApprove(item.publicId)}
+                      className="btn btn-block btn-success btn-sm"
+                    >
+                      Approve
+                    </a>
+                    <a
+                      href={`javascript:void(0)`}
+                      onClick={() => props.onActionRej(item.publicId)}
+                      className="btn btn-block btn-danger btn-sm"
+                    >
+                      Reject
                     </a>
                   </td>
                 )}
