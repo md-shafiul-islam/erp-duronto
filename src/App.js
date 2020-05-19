@@ -11,7 +11,7 @@ import Footer from "./component/Layout/Footer";
 import Dashboard from "./component/Layout/Dashboard";
 import AddPackageData from "./component/Product/PackFormik/AddPackageData";
 import TestForm from "./component/Product/PackFormik/TestForm";
-import Login from "./component/Layout/User/Login";
+
 import AddCategory from "./component/Category/AddCategory";
 import CategoriesView from "./component/Category/CategoriesView";
 import AddCountry from "./component/Country/addCountry";
@@ -57,6 +57,11 @@ import UpdateVendor from "./component/Vendor/updateVendor";
 import AddVendor from "./component/Vendor/addVendor";
 import ApprovalVendor from "./component/Vendor/approvalVendor";
 import EditVendor from "./component/Vendor/editVendor";
+import UpdateApprovalVendor from "./component/Vendor/updateApprovalVendor";
+import VendorUpdateDetails from "./component/Vendor/vendorUpdateDetails";
+import RejectedVendors from "./component/Vendor/rejectedVendors";
+import UserLogin from "./component/userAuthentications/userLogin";
+import Login from "./component/Layout/User/Login";
 
 function App() {
   return (
@@ -64,8 +69,14 @@ function App() {
       <React.Fragment>
         <Header />
         <Menu />
+
+        {/** Public Route Start*/}
+        <Route exact path="/login" component={Login} />
+        {/** Public Route End */}
+
+        {/** Private  Route Start*/}
         <Route exact path="/" component={Dashboard} />
-        <Route exact path="/user/login" component={Login} />
+
         <Route exact path="/addPackageData" component={AddPackageData} />
         <Route exact path="/category/add" component={AddCategory} />
         <Route exact path="/testFormik" component={TestForm} />
@@ -175,13 +186,27 @@ function App() {
         <Route exact path="/vendors/add" component={AddVendor} />
         <Route exact path="/vendors/approval" component={ApprovalVendor} />
         <Route exact path="/vendors/update" component={UpdateVendor} />
+
         <Route
           exact
           path="/vendors/vendor/details/:id"
           component={DetailsVendor}
         />
         <Route exact path="/vendors/vendor/edit/:id" component={EditVendor} />
+        <Route
+          exact
+          path="/vendors/update-approval"
+          component={UpdateApprovalVendor}
+        />
 
+        <Route
+          exact
+          path="/vendors/update/details/:id"
+          component={VendorUpdateDetails}
+        />
+
+        <Route exact path="/vendors/reject" component={RejectedVendors} />
+        {/** Private  Route End*/}
         <Footer />
       </React.Fragment>
     </Router>

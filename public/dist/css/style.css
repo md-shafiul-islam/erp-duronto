@@ -147,3 +147,25 @@
   padding-top: 25px;
   font-size: 16px;
 }
+
+.mp-as {
+  margin: 5px;
+  padding: 15px 10px;
+}
+
+.mp-35 {
+  margin: 35px;
+  padding: 35px;
+}
+
+.pading-35 {
+  padding: 35px;
+}
+
+.link {
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  display: block;
+  margin: 0 auto;
+}

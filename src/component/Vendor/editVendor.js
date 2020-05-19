@@ -6,10 +6,10 @@ import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Redirect } from "react-router-dom";
 
-const countries = [];
-const countryOprions = [];
-const countryPhoneCode = [];
-const vendorOptions = [{ label: `None`, value: 0 }];
+let countries = [];
+let countryOprions = [{ label: `None`, value: 0 }];
+let countryPhoneCode = [{ label: `None`, value: 0 }];
+let vendorOptions = [{ label: `None`, value: 0 }];
 
 const baseUrl = "http://localhost:8085/api";
 
@@ -24,9 +24,9 @@ class EditVendor extends Component {
   }
 
   state = {
-    countryesList: [],
+    countryesList: [{ label: `None`, value: 0 }],
     optionStatus: true,
-    venCatLis: [],
+    venCatLis: [{ label: `None`, value: 0 }],
     vendorCatStatus: true,
     redirecStatus: false,
     curVandor: {},
@@ -58,9 +58,11 @@ class EditVendor extends Component {
     await Axios.get(`${baseUrl}/vendor-cats`).then((res) => {
       res.data &&
         res.data.map((item, inx) => {
-          vendorOptions.push({ label: `${item.name}`, value: item.id });
+          if (item.name !== undefined) {
+            vendorOptions.push({ label: `${item.name}`, value: item.id });
+          }
         });
-
+      this.state.venCatLis = [];
       this.setState({ venCatLis: vendorOptions });
     });
 
@@ -88,14 +90,22 @@ class EditVendor extends Component {
       if (countries.length !== undefined) {
         console.log("Countries lenght", countries.length);
         countries.map((countOp, ind) => {
-          countryOprions.push({ label: `${countOp.name}`, value: countOp.id });
+          if (countOp.name !== undefined) {
+            countryOprions.push({
+              label: `${countOp.name}`,
+              value: countOp.id,
+            });
+          }
         });
+        this.state.countryesList = [];
         this.setState({ countryesList: countryOprions });
         countries.map((cntCode, indx) => {
-          countryPhoneCode.push({
-            label: `${cntCode.isoCode}, ${cntCode.dialOrPhoneCode}`,
-            value: cntCode.dialOrPhoneCode,
-          });
+          if (cntCode !== undefined) {
+            countryPhoneCode.push({
+              label: `${cntCode.isoCode}, ${cntCode.dialOrPhoneCode}`,
+              value: cntCode.dialOrPhoneCode,
+            });
+          }
         });
 
         if (countryOprions.length > 0 && countryPhoneCode.length > 0) {
@@ -115,7 +125,7 @@ class EditVendor extends Component {
 
   submitAction = async (values) => {
     let fData = JSON.stringify(values, null, 2);
-    await Axios.post(`${baseUrl}/vendors/vendor`, fData, { headers: headers })
+    await Axios.put(`${baseUrl}/vendors/vendor`, fData, { headers: headers })
       .then((res) => {
         console.log("Success: ", res);
         this.setState({ redirecStatus: true });
@@ -196,7 +206,6 @@ class EditVendor extends Component {
                                         return item;
                                       }
                                     }
-                                    return this.state.venCatLis[0];
                                   })
                                 }
                                 options={this.state.venCatLis}
@@ -247,6 +256,21 @@ class EditVendor extends Component {
                                 <div className="col-md-4">
                                   <Select
                                     options={countryPhoneCode}
+                                    defaultValue={countryPhoneCode.map(
+                                      (item, ind) => {
+                                        if (
+                                          item !== undefined &&
+                                          props.values.phoneCode !== undefined
+                                        ) {
+                                          if (
+                                            item.value ===
+                                            props.values.phoneCode
+                                          ) {
+                                            return item;
+                                          }
+                                        }
+                                      }
+                                    )}
                                     value={this.value}
                                     name="phoneCode"
                                     onChange={(opt, e) => {
@@ -299,7 +323,7 @@ class EditVendor extends Component {
                             <FieldArray name="contactPersons">
                               {({ push, remove }) => (
                                 <React.Fragment>
-                                  {props.values &&
+                                  {props.values.contactPersons &&
                                     props.values.contactPersons.map(
                                       (cPerson, indx) => {
                                         return (
@@ -330,6 +354,31 @@ class EditVendor extends Component {
                                                     <div className="row">
                                                       <div className="col-md-4">
                                                         <Select
+                                                          defaultValue={countryPhoneCode.map(
+                                                            (item, ind) => {
+                                                              if (
+                                                                item !==
+                                                                  undefined &&
+                                                                props.values
+                                                                  .contactPersons[
+                                                                  indx
+                                                                ] !== undefined
+                                                              ) {
+                                                                console.log(
+                                                                  "Person Country Code Not Undef"
+                                                                );
+                                                                if (
+                                                                  item.value ===
+                                                                  props.values
+                                                                    .contactPersons[
+                                                                    indx
+                                                                  ].conPhoneCode
+                                                                ) {
+                                                                  return item;
+                                                                }
+                                                              }
+                                                            }
+                                                          )}
                                                           options={
                                                             countryPhoneCode
                                                           }
@@ -363,6 +412,19 @@ class EditVendor extends Component {
 
                                                 <div className="col-md-4">
                                                   <div className="form-group">
+                                                    <label htmlFor="designation">
+                                                      Designation:
+                                                    </label>{" "}
+                                                    <Field
+                                                      className="form-control"
+                                                      name={`contactPersons[${indx}].designation`}
+                                                      placeholder="Designation here"
+                                                    />
+                                                  </div>
+                                                </div>
+
+                                                <div className="col-md-4">
+                                                  <div className="form-group">
                                                     <label htmlFor="email">
                                                       Person Email:
                                                     </label>{" "}
@@ -371,30 +433,6 @@ class EditVendor extends Component {
                                                       className="form-control"
                                                       name={`contactPersons[${indx}].email`}
                                                       placeholder="Email"
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-md-4">
-                                                  <div className="form-group">
-                                                    <label htmlFor="country">
-                                                      Country:
-                                                    </label>
-                                                    <Select
-                                                      name={`countries[${indx}].id`}
-                                                      id={`countries[${indx}].id`}
-                                                      options={
-                                                        this.state.countryesList
-                                                      }
-                                                      value={this.value}
-                                                      onChange={(opt, e) => {
-                                                        props.handleChange.bind(
-                                                          this
-                                                        );
-                                                        props.setFieldValue(
-                                                          `countries[${indx}].id`,
-                                                          opt.value
-                                                        );
-                                                      }}
                                                     />
                                                   </div>
                                                 </div>
@@ -423,10 +461,9 @@ class EditVendor extends Component {
                                       push({
                                         name: "",
                                         phoneNo: "",
-                                        phoneNo2: "",
-                                        country1: "",
-                                        country2: "",
+                                        conPhoneCode: "",
                                         email: "",
+                                        designation: "",
                                       })
                                     }
                                   >
@@ -444,7 +481,7 @@ class EditVendor extends Component {
                             <FieldArray name="addresses">
                               {({ push, remove }) => (
                                 <React.Fragment>
-                                  {props.values &&
+                                  {props.values.addresses &&
                                     props.values.addresses.map(
                                       (address, inx) => {
                                         return (
@@ -493,7 +530,7 @@ class EditVendor extends Component {
                                                     <Field
                                                       type="text"
                                                       className="form-control"
-                                                      name={`addresses[${inx}].zip_code`}
+                                                      name={`addresses[${inx}].zipCode`}
                                                       placeholder="Zip Code"
                                                     />
                                                   </div>
@@ -517,8 +554,34 @@ class EditVendor extends Component {
                                                       Country:
                                                     </label>
                                                     <Select
-                                                      name={`countries[${inx}].id`}
-                                                      id={`countries[${inx}].id`}
+                                                      defaultValue={this.state.countryesList.map(
+                                                        (item, cInx) => {
+                                                          if (
+                                                            props.values
+                                                              .addresses !==
+                                                            undefined
+                                                          ) {
+                                                            if (
+                                                              props.values
+                                                                .addresses[
+                                                                inx
+                                                              ] !== undefined
+                                                            ) {
+                                                              if (
+                                                                props.values
+                                                                  .addresses[
+                                                                  inx
+                                                                ].country ===
+                                                                item.value
+                                                              ) {
+                                                                return item;
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      )}
+                                                      name={`addresses[${inx}].country`}
+                                                      id={`addresses[${inx}].country`}
                                                       options={
                                                         this.state.countryesList
                                                       }
@@ -528,7 +591,7 @@ class EditVendor extends Component {
                                                           this
                                                         );
                                                         props.setFieldValue(
-                                                          `countries[${inx}].id`,
+                                                          `addresses[${inx}].country`,
                                                           opt.value
                                                         );
                                                       }}
@@ -562,7 +625,7 @@ class EditVendor extends Component {
                                         title: "",
                                         village: "",
                                         street: "",
-                                        zip_code: "",
+                                        zipCode: "",
                                         city: "",
                                         country: 0,
                                         code_name: "",
@@ -584,7 +647,7 @@ class EditVendor extends Component {
                             <FieldArray name="paymentInfos">
                               {({ push, remove }) => (
                                 <React.Fragment>
-                                  {props.values &&
+                                  {props.values.paymentInfos &&
                                     props.values.paymentInfos.map(
                                       (cPayInf, idx) => {
                                         return (
@@ -654,8 +717,28 @@ class EditVendor extends Component {
                                                   <div className="form-group">
                                                     <label>Country:</label>{" "}
                                                     <Select
+                                                      defaultValue={this.state.countryesList.map(
+                                                        (item, cIndx) => {
+                                                          if (
+                                                            props.values
+                                                              .paymentInfos[idx]
+                                                              .country !==
+                                                            undefined
+                                                          ) {
+                                                            if (
+                                                              props.values
+                                                                .paymentInfos[
+                                                                idx
+                                                              ].country ===
+                                                              item.value
+                                                            ) {
+                                                              return item;
+                                                            }
+                                                          }
+                                                        }
+                                                      )}
                                                       name={`paymentInfos[${idx}].country`}
-                                                      id={`countries[${idx}].id`}
+                                                      id={`paymentInfos[${idx}].country`}
                                                       options={
                                                         this.state.countryesList
                                                       }
@@ -665,7 +748,7 @@ class EditVendor extends Component {
                                                           this
                                                         );
                                                         props.setFieldValue(
-                                                          `countries[${idx}].id`,
+                                                          `paymentInfos[${idx}].country`,
                                                           opt.value
                                                         );
                                                       }}

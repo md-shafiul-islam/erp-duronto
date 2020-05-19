@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import LoadingData from "../Layout/LoadingData";
-import VendorView from "./vendorView";
 import Axios from "axios";
 import DataNotFound from "../Layout/dataNotFound";
+import VendorView from "./vendorView";
 
 const baseUrl = "http://localhost:8085/api";
 
@@ -10,7 +10,7 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-class UpdateApprovalVendor extends Component {
+class RejectedVendors extends Component {
   constructor(props) {
     super(props);
   }
@@ -21,11 +21,11 @@ class UpdateApprovalVendor extends Component {
   };
 
   componentDidMount() {
-    this.loadUpdatePandingVendor();
+    this.loadRejectedVendor();
   }
 
-  loadUpdatePandingVendor = async () => {
-    await Axios.get(`${baseUrl}/vendors/update-approval`)
+  loadRejectedVendor = async () => {
+    await Axios.get(`${baseUrl}/vendors/rejected`)
       .then((res) => {
         res.data &&
           this.setState({ vendors: res.data, getVendorStatus: false });
@@ -49,7 +49,7 @@ class UpdateApprovalVendor extends Component {
                 <div className="col-12">
                   <div className="card">
                     <div className="card-header">
-                      <h3 className="card-title">All Confirmed Vendor</h3>
+                      <h3 className="card-title">All Rejected Vendor</h3>
                     </div>
                     {/* /.card-header */}
                     <div className="card-body">
@@ -75,7 +75,7 @@ class UpdateApprovalVendor extends Component {
                             userStatus={true}
                             userActin={`/users/user/`}
                             detailStatus={true}
-                            detailActin="/vendors/update/details/"
+                            detailActin="/vendors/vendor/details/"
                             editStatus={false}
                             approveStatus={false}
                           />
@@ -115,4 +115,4 @@ class UpdateApprovalVendor extends Component {
   }
 }
 
-export default UpdateApprovalVendor;
+export default RejectedVendors;

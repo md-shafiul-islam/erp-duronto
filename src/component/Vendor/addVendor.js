@@ -137,8 +137,8 @@ class AddVendor extends Component {
                         name: "",
                         phoneNo: "",
                         conPhoneCode: "",
-                        country: null,
                         email: "",
+                        designation: "",
                       },
                     ],
                     addresses: [
@@ -148,7 +148,7 @@ class AddVendor extends Component {
                         title: null,
                         village: null,
                         street: null,
-                        zip_code: null,
+                        zipCode: null,
                         city: null,
                         country: 0,
                         code_name: null,
@@ -357,6 +357,19 @@ class AddVendor extends Component {
 
                                               <div className="col-md-4">
                                                 <div className="form-group">
+                                                  <label htmlFor="designation">
+                                                    Designation:
+                                                  </label>{" "}
+                                                  <Field
+                                                    className="form-control"
+                                                    name={`contactPersons[${indx}].designation`}
+                                                    placeholder="Designation here"
+                                                  />
+                                                </div>
+                                              </div>
+
+                                              <div className="col-md-4">
+                                                <div className="form-group">
                                                   <label htmlFor="email">
                                                     Person Email:
                                                   </label>{" "}
@@ -365,30 +378,6 @@ class AddVendor extends Component {
                                                     className="form-control"
                                                     name={`contactPersons[${indx}].email`}
                                                     placeholder="Email"
-                                                  />
-                                                </div>
-                                              </div>
-                                              <div className="col-md-4">
-                                                <div className="form-group">
-                                                  <label htmlFor="country">
-                                                    Country:
-                                                  </label>
-                                                  <Select
-                                                    name={`countries[${indx}].id`}
-                                                    id={`countries[${indx}].id`}
-                                                    options={
-                                                      this.state.countryesList
-                                                    }
-                                                    value={this.value}
-                                                    onChange={(opt, e) => {
-                                                      props.handleChange.bind(
-                                                        this
-                                                      );
-                                                      props.setFieldValue(
-                                                        `countries[${indx}].id`,
-                                                        opt.value
-                                                      );
-                                                    }}
                                                   />
                                                 </div>
                                               </div>
@@ -417,10 +406,9 @@ class AddVendor extends Component {
                                       push({
                                         name: "",
                                         phoneNo: "",
-                                        phoneNo2: "",
-                                        country1: "",
-                                        country2: "",
+                                        conPhoneCode: "",
                                         email: "",
+                                        designation: "",
                                       })
                                     }
                                   >
@@ -486,7 +474,7 @@ class AddVendor extends Component {
                                                   <Field
                                                     type="text"
                                                     className="form-control"
-                                                    name={`addresses[${inx}].zip_code`}
+                                                    name={`addresses[${inx}].zipCode`}
                                                     placeholder="Zip Code"
                                                   />
                                                 </div>
@@ -510,8 +498,8 @@ class AddVendor extends Component {
                                                     Country:
                                                   </label>
                                                   <Select
-                                                    name={`countries[${inx}].id`}
-                                                    id={`countries[${inx}].id`}
+                                                    name={`addresses[${inx}].country`}
+                                                    id={`addresses[${inx}].country`}
                                                     options={
                                                       this.state.countryesList
                                                     }
@@ -521,7 +509,7 @@ class AddVendor extends Component {
                                                         this
                                                       );
                                                       props.setFieldValue(
-                                                        `countries[${inx}].id`,
+                                                        `addresses[${inx}].country`,
                                                         opt.value
                                                       );
                                                     }}
@@ -555,7 +543,7 @@ class AddVendor extends Component {
                                         title: "",
                                         village: "",
                                         street: "",
-                                        zip_code: "",
+                                        zipCode: "",
                                         city: "",
                                         country: 0,
                                         code_name: "",
@@ -647,7 +635,7 @@ class AddVendor extends Component {
                                                   <label>Country:</label>{" "}
                                                   <Select
                                                     name={`paymentInfos[${idx}].country`}
-                                                    id={`countries[${idx}].id`}
+                                                    id={`paymentInfos[${idx}].country`}
                                                     options={
                                                       this.state.countryesList
                                                     }
@@ -657,7 +645,7 @@ class AddVendor extends Component {
                                                         this
                                                       );
                                                       props.setFieldValue(
-                                                        `countries[${idx}].id`,
+                                                        `paymentInfos[${idx}].country`,
                                                         opt.value
                                                       );
                                                     }}
