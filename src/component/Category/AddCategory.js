@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
+
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class AddCategory extends Component {
   state = {
@@ -12,6 +14,7 @@ class AddCategory extends Component {
     if (values != null) {
       let category = JSON.stringify(values, null, 2);
 
+      /*
       Axios.post("http://localhost:8085/api/categories/category", category)
         .then((res) => {
           console.log("Done Category Add: ", res.data);
@@ -20,6 +23,7 @@ class AddCategory extends Component {
         .catch((res) => {
           console.log("Error: ", res);
         });
+        */
     }
   };
 
