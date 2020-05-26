@@ -1,3 +1,5 @@
+import { GET_COUNTRIES, GET_COUNTRIY, DELET_COUNTRIY } from "../actions/types";
+
 const initialState = {
   countries: [],
   country: {},
@@ -5,23 +7,23 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_CATEGORIES:
+    case GET_COUNTRIES:
       return {
         ...state,
         countries: action.payload,
       };
 
-    case GET_CATEGORY:
+    case GET_COUNTRIY:
       return {
         ...state,
         country: action.payload,
       };
 
-    case DELET_CATEGORY:
+    case DELET_COUNTRIY:
       return {
         ...state,
-        categories: state.categories.filter(
-          (category) => country.countryIdentifier !== action.payload
+        countries: state.countries.filter(
+          (country) => country.countryIdentifier !== action.payload
         ),
       };
     default:

@@ -4,16 +4,19 @@ import { Field, Formik, Form } from "formik";
 
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { addCategoryAction } from "../../actions/categoryActions";
+import { PropTypes } from "prop-types";
 
 class AddCategory extends Component {
   state = {
     redirect: false,
   };
 
-  addCategoryAction = (values) => {
+  addCatAction = (values) => {
     if (values != null) {
       let category = JSON.stringify(values, null, 2);
 
+      this.props.addCategoryAction(category, this.props.history);
       /*
       Axios.post("http://localhost:8085/api/categories/category", category)
         .then((res) => {
@@ -50,7 +53,7 @@ class AddCategory extends Component {
                   }}
                   onSubmit={(values, actions) => {
                     console.log(JSON.stringify(values, null, 2));
-                    this.addCategoryAction(values);
+                    this.addCatAction(values);
                   }}
                 >
                   {(props) => (
@@ -100,4 +103,7 @@ class AddCategory extends Component {
   }
 }
 
-export default AddCategory;
+AddCategory.prototypes = {
+  addCategoryAction: PropTypes.func.isRequired,
+};
+export default connect(null, { addCategoryAction })(AddCategory);

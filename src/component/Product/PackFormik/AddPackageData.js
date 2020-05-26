@@ -403,6 +403,10 @@ class AddPackageData extends Component {
                         packHightlightText: "",
                         packageCat: 0,
                         duration: 0,
+                        price: 0.0,
+                        price4Person: 0.0,
+                        price6Person: 0.0,
+                        price8Person: 0.0,
 
                         itarnarys: [
                           {
@@ -441,7 +445,7 @@ class AddPackageData extends Component {
 
                         taxVat: 0.0,
                         highlight: false,
-                        price: 0.0,
+
                         videoUrl: "",
                         countries: [
                           {
@@ -553,12 +557,53 @@ class AddPackageData extends Component {
                                   {/** Package Info */}
 
                                   <div className="row">
-                                    <div className="col-md-6">
+                                    <div className="col-md-2">
                                       <div className="form-group">
-                                        <label htmlFor="price">Price:</label>
+                                        <label htmlFor="price">
+                                          2 Person Price:
+                                        </label>
                                         <Field
                                           type="text"
                                           name="price"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-2">
+                                      <div className="form-group">
+                                        <label htmlFor="price">
+                                          4 Person Price:
+                                        </label>
+                                        <Field
+                                          type="text"
+                                          name="price4Person"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-2">
+                                      <div className="form-group">
+                                        <label htmlFor="price">
+                                          6 Person Price:
+                                        </label>
+                                        <Field
+                                          type="text"
+                                          name="price6Person"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-2">
+                                      <div className="form-group">
+                                        <label htmlFor="price">
+                                          8 Person Price:
+                                        </label>
+                                        <Field
+                                          type="text"
+                                          name="price8Person"
                                           className="form-control"
                                         />
                                       </div>

@@ -1,12 +1,33 @@
 import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
-import Axios from "axios";
 
-let headers = {
-  "Content-Type": "application/json",
-};
+import { PropTypes } from "prop-types";
+import { connect } from "react-redux";
+import { loginAction } from "../../../actions/securityActions";
 
 class Login extends Component {
+  constructor() {
+    super();
+  }
+
+  state = {
+    errors: {},
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log("Change state: ", nextProps);
+
+    if (nextProps.security !== undefined) {
+      if (nextProps.security.validToken) {
+        this.props.history.push("/");
+      }
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   submitAction = async (values) => {
     console.log(values);
 
@@ -14,18 +35,12 @@ class Login extends Component {
     console.log("After Strigfi Data");
     console.log(loginData);
 
-    let url = `http://localhost:8085/api/users/login`;
-    await Axios.post(url, loginData, { headers: headers })
-      .then((res) => {
-        console.log("Login Success ", res.data);
-      })
-      .catch((res) => {
-        console.log("Connection Error, Login ", res);
-      });
+    this.props.loginAction(loginData);
 
     console.log("Submit ACtion");
   };
   render() {
+    const { errors } = this.state;
     return (
       <div className="content-wrapper">
         <section className="content">
@@ -116,4 +131,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.prototypes = {
+  login: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  security: state.security,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { loginAction })(Login);
