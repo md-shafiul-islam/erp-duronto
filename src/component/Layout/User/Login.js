@@ -4,6 +4,8 @@ import { Formik, Form, Field } from "formik";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import { loginAction } from "../../../actions/securityActions";
+import { getAccess } from "../../../actions/appStoreAction";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   constructor() {
@@ -12,6 +14,7 @@ class Login extends Component {
 
   state = {
     errors: {},
+    redirectStatus: false,
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -40,9 +43,12 @@ class Login extends Component {
     console.log("Submit ACtion");
   };
   render() {
+    if (this.state.redirectStatus) {
+      return <Redirect to="/" />;
+    }
     const { errors } = this.state;
     return (
-      <div className="content-wrapper">
+      <div className="content-wrapper" style={{ backgroundColor: "#FFFFFF" }}>
         <section className="content">
           <div className="container-fluid">
             <div className="row pading-35">
@@ -133,12 +139,16 @@ class Login extends Component {
 
 Login.prototypes = {
   login: PropTypes.func.isRequired,
+
   errors: PropTypes.object.isRequired,
   security: PropTypes.object.isRequired,
+  tokenData: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   security: state.security,
   errors: state.errors,
+  accesses: state.appStore,
+  tokenData: state.tokenData,
 });
 
 export default connect(mapStateToProps, { loginAction })(Login);

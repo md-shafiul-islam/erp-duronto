@@ -169,3 +169,13 @@
   display: block;
   margin: 0 auto;
 }
+
+.visibale-inactive {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.visibale-active {
+  visibility: visible;
+  opacity: 1;
+}

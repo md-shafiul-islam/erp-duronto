@@ -5,6 +5,7 @@ import {
   REQUEST_HEADER,
   SET_CURRENT_USER,
   GET_ERRORS,
+  SET_TOKEN,
 } from "./types";
 import setJWTToken from "../SecurityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
@@ -34,8 +35,13 @@ export const loginAction = (LoginRequest) => async (dispatch) => {
       type: SET_CURRENT_USER,
       payload: decoded,
     });
-
     console.log("After dispatch Set User");
+    dispatch({
+      type: SET_TOKEN,
+      payload: token,
+    });
+
+    console.log("After dispatch Set Toke");
   } catch (err) {
     dispatch({
       type: GET_ERRORS,

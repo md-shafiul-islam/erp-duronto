@@ -27,13 +27,68 @@ import AddPackApprovalPemdingButton from "../RouterController/package-rout/addPa
 import UpdatePackageButton from "../RouterController/package-rout/updatePackageButton";
 import UpdatePandingUsersButton from "../RouterController/user-rout/updatePandingUsersButton";
 import MenuLinkOrButton from "./menuLinkOrButton";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
+import { getAccess } from "../../actions/appStoreAction";
+import LoadingData from "./LoadingData";
 
 class Menu extends Component {
+  state = {
+    accessStatus: true,
+    reloadStatus: true,
+  };
+
+  componentDidMount() {
+    console.log("Commponent Run Menu");
+    if (this.props && this.props.security.user) {
+      if (this.props.security.user.id) {
+        //this.props.getAccess(this.props.security.user.id);
+      }
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      console.log("This Props: ", this.props);
+      console.log("Next Props: ", nextProps);
+
+      /*
+      if (nextProps.validToken) {
+        this.props.getAccess(
+          this.props.security.user.id,
+          nextProps.tokenData.token
+        );
+      }*/
+    }
+  }
+
+  loadAccess = () => {
+    if (this.props.security.validToken) {
+    }
+
+    if (this.props.accesses !== undefined) {
+      if (this.props.accesses.user === undefined) {
+        this.loadAccess();
+      }
+    }
+  };
+
   render() {
+    let { package_ac, role, sale, user, vendor } = this.props.access.accesses;
+    let { validToken } = this.props.security;
+
+    let classNameData = "main-sidebar sidebar-dark-primary elevation-4";
+    if (!validToken) {
+      classNameData += " visibale-inactive";
+    } else {
+      classNameData =
+        "main-sidebar sidebar-dark-primary elevation-4 visibale-active";
+    }
+
     return (
-      <div>
+      <React.Fragment>
         {/* Main Sidebar Container Menu Start*/}
-        <aside className="main-sidebar sidebar-dark-primary elevation-4">
+        <aside className={classNameData}>
           {/* Brand Logo */}
           <a href="/" className="brand-link">
             {" "}
@@ -345,6 +400,7 @@ class Menu extends Component {
                   </a>
                   <ul className="nav nav-treeview">
                     {/* Clients / Customer Start */}
+
                     <li className="nav-item">
                       <a href="/category/view?page=0" className="nav-link">
                         {" "}
@@ -525,69 +581,103 @@ class Menu extends Component {
                         {/*  Sub Menu B2B Client / Customer */}
                       </ul>
                     </li>
+
                     {/* Clients / Customer End */}
+
                     {/* vendor / supplier Start */}
-                    <li className="nav-item">
-                      <a
-                        href="javascript:void(0);"
-                        onClick={NoAction}
-                        className="nav-link"
-                      >
-                        {" "}
-                        <i className="fas fa-plus-square nav-icon" />
-                        <p>
-                          vendor / supplier{" "}
-                          <i className="right fas fa-angle-left" />
-                        </p>
-                      </a>
-                      <ul className="nav nav-treeview">
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            btnIconClass="fas fa-plus-square nav-icon"
-                            labelName="vendor/supplier Add"
-                            action="/vendors/add"
-                          />
-                        </li>
+                    {vendor && vendor.noAccess !== 1 ? (
+                      <li className="nav-item">
+                        <a
+                          href="javascript:void(0);"
+                          onClick={NoAction}
+                          className="nav-link"
+                        >
+                          {" "}
+                          <i className="fas fa-plus-square nav-icon" />
+                          <p>
+                            vendor / supplier{" "}
+                            <i className="right fas fa-angle-left" />
+                          </p>
+                        </a>
+                        <ul className="nav nav-treeview">
+                          {vendor.add === 1 || vendor.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                btnIconClass="fas fa-plus-square nav-icon"
+                                labelName="vendor/supplier Add"
+                                action="/vendors/add"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            btnIconClass="fas fa-list nav-icon"
-                            labelName="vendor/supplier approval"
-                            action="/vendors/approval"
-                          />
-                        </li>
+                          {vendor.approve === 1 || vendor.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                btnIconClass="fas fa-list nav-icon"
+                                labelName="vendor/supplier approval"
+                                action="/vendors/approval"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            btnIconClass="fas fa-list nav-icon"
-                            labelName="vendor/supplier Update "
-                            action="/vendors/update"
-                          />
-                        </li>
+                          {vendor.edit === 1 || vendor.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                btnIconClass="fas fa-list nav-icon"
+                                labelName="vendor/supplier Update "
+                                action="/vendors/update"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            btnIconClass="fas fa-list nav-icon"
-                            labelName="vendor/supplier Update approval"
-                            action="/vendors/update-approval"
-                          />
-                        </li>
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            btnIconClass="fas fa-list nav-icon"
-                            labelName="vendor/supplier Update Confirmed"
-                            action="/vendors"
-                          />
-                        </li>
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            btnIconClass="fas fa-list nav-icon"
-                            labelName="vendor/supplier Rejected"
-                            action="/vendors/reject"
-                          />
-                        </li>
-                      </ul>
-                    </li>
+                          {vendor.updateApproval === 1 || vendor.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                btnIconClass="fas fa-list nav-icon"
+                                labelName="vendor/supplier Update approval"
+                                action="/vendors/update-approval"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+                          {vendor.noAccess === 1 ? (
+                            ""
+                          ) : (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                btnIconClass="fas fa-list nav-icon"
+                                labelName="vendor/supplier Confirmed"
+                                action="/vendors"
+                              />
+                            </li>
+                          )}
+                          {vendor.add === 1 ||
+                          vendor.updateApproval === 1 ||
+                          vendor.approve === 1 ||
+                          vendor.edit ||
+                          vendor.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                btnIconClass="fas fa-list nav-icon"
+                                labelName="vendor/supplier Rejected"
+                                action="/vendors/reject"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+                        </ul>
+                      </li>
+                    ) : (
+                      ""
+                    )}
                     {/* vendor / supplier End */}
                   </ul>
                 </li>
@@ -689,6 +779,7 @@ class Menu extends Component {
                 </li>
                 {/*  Designation  End */}
                 {/*  HR  */}
+
                 <li className="nav-item has-treeview">
                   <a
                     href="javascript:void(0);"
@@ -703,58 +794,89 @@ class Menu extends Component {
                   </a>
                   <ul className="nav nav-treeview">
                     {/* User */}
-                    <li className="nav-item has-treeview">
-                      <a
-                        href="javascript:void(0);"
-                        onClick={NoAction}
-                        className="nav-link"
-                      >
-                        {" "}
-                        <i className="nav-icon fas fa-user-tie" />
-                        <p>
-                          User Or Employee{" "}
-                          <i className="right fas fa-angle-left" />
-                        </p>
-                      </a>
-                      <ul className="nav nav-treeview">
-                        <li className="nav-item">
-                          <AddUserButton />
-                        </li>
+                    {user && user.noAccess !== 1 ? (
+                      <li className="nav-item has-treeview">
+                        <a
+                          href="javascript:void(0);"
+                          onClick={NoAction}
+                          className="nav-link"
+                        >
+                          {" "}
+                          <i className="nav-icon fas fa-user-tie" />
+                          <p>
+                            User Or Employee{" "}
+                            <i className="right fas fa-angle-left" />
+                          </p>
+                        </a>
+                        <ul className="nav nav-treeview">
+                          {user.add === 1 || user.all === 1 ? (
+                            <li className="nav-item">
+                              <AddUserButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            action="/users/approval"
-                            btnIconClass="nav-icon fas fa-user-edit"
-                            labelName="Add Approval"
-                          />
-                        </li>
+                          {user.approve === 1 || user.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                action="/users/approval"
+                                btnIconClass="nav-icon fas fa-user-edit"
+                                labelName="Add Approval"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            action="/users/upgrade"
-                            btnIconClass="nav-icon fas fa-user-edit"
-                            labelName="User Upgrade"
-                          />
-                        </li>
+                          {user.edit === 1 || user.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                action="/users/upgrade"
+                                btnIconClass="nav-icon fas fa-user-edit"
+                                labelName="User Upgrade"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <UpdatePandingUsersButton />
-                        </li>
+                          {user.updateApproval === 1 || user.all === 1 ? (
+                            <li className="nav-item">
+                              <UpdatePandingUsersButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
 
-                        <li className="nav-item">
-                          <UserButton />
-                        </li>
+                          {user.noAccess === 1 ? (
+                            ""
+                          ) : (
+                            <li className="nav-item">
+                              <UserButton />
+                            </li>
+                          )}
 
-                        <li className="nav-item">
-                          <MenuLinkOrButton
-                            action="/users/reject"
-                            btnIconClass="nav-icon fas fa-user-edit"
-                            labelName="Reject Users"
-                          />
-                        </li>
-                      </ul>
-                    </li>
+                          {user.add === 1 ||
+                          user.approval === 1 ||
+                          user.all === 1 ? (
+                            <li className="nav-item">
+                              <MenuLinkOrButton
+                                action="/users/reject"
+                                btnIconClass="nav-icon fas fa-user-edit"
+                                labelName="Reject Users"
+                              />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+                        </ul>
+                      </li>
+                    ) : (
+                      ""
+                    )}
                     {/* User End */}
+
                     <li className="nav-item">
                       <a href="/user/view?page=0" className="nav-link">
                         {" "}
@@ -782,6 +904,7 @@ class Menu extends Component {
                     </li>
                   </ul>
                 </li>
+
                 {/*  HR End */}
                 <li className="nav-item has-treeview">
                   <a
@@ -821,6 +944,9 @@ class Menu extends Component {
                     {/* Sub menu Role End */}
                   </ul>
                 </li>
+
+                {/** Product Menu Start */}
+
                 <li className="nav-item has-treeview">
                   <a
                     href="javascript:void(0);"
@@ -834,37 +960,70 @@ class Menu extends Component {
                     </p>
                   </a>
                   <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <a
-                        href="javascript:void(0);"
-                        onClick={NoAction}
-                        className="nav-link"
-                      >
-                        {" "}
-                        <i className="far fa-circle nav-icon" />
-                        <p>Tour packages</p>
-                      </a>
-                      <ul className="nav nav-treeview">
-                        <li className="nav-item">
-                          <AddPackageButton />
-                        </li>
-                        <li className="nav-item">
-                          <AddPackApprovalPemdingButton />
-                        </li>
-                        <li className="nav-item">
-                          <UpdatePackageButton />
-                        </li>
-                        <li className="nav-item">
-                          <PackageUpdateApprovalButton />
-                        </li>
-                        <li className="nav-item">
-                          <PackageConfrimViewButton />
-                        </li>
-                        <li className="nav-item">
-                          <PackageRejectViewBuuton />
-                        </li>
-                      </ul>
-                    </li>
+                    {package_ac && package_ac.noAccess !== 1 ? (
+                      <li className="nav-item">
+                        <a
+                          href="javascript:void(0);"
+                          onClick={NoAction}
+                          className="nav-link"
+                        >
+                          {" "}
+                          <i className="far fa-circle nav-icon" />
+                          <p>Tour packages</p>
+                        </a>
+                        <ul className="nav nav-treeview">
+                          {package_ac.add === 1 ? (
+                            <li className="nav-item">
+                              <AddPackageButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+
+                          {package_ac.approve === 1 ? (
+                            <li className="nav-item">
+                              <AddPackApprovalPemdingButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+
+                          {package_ac.edit === 1 ? (
+                            <li className="nav-item">
+                              <UpdatePackageButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+
+                          {package_ac.updateApproval === 1 ? (
+                            <li className="nav-item">
+                              <PackageUpdateApprovalButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+
+                          {package_ac.view === 1 ? (
+                            <li className="nav-item">
+                              <PackageConfrimViewButton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+
+                          {package_ac.add === 1 ? (
+                            <li className="nav-item">
+                              <PackageRejectViewBuuton />
+                            </li>
+                          ) : (
+                            ""
+                          )}
+                        </ul>
+                      </li>
+                    ) : (
+                      ""
+                    )}
                     <li className="nav-item">
                       <a
                         href="javascript:void(0);"
@@ -946,6 +1105,8 @@ class Menu extends Component {
                     </li>
                   </ul>
                 </li>
+
+                {/** Product Menu End */}
 
                 {/** Duration Start */}
 
@@ -1146,9 +1307,23 @@ class Menu extends Component {
           {/* /.sidebar */}
         </aside>
         {/* Main Sidebar Container Menu End */}
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-export default Menu;
+Menu.prototypes = {
+  getAccess: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
+  access: PropTypes.object.isRequired,
+  tokenData: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  security: state.security,
+  errors: state.errors,
+  access: state.appStore,
+  tokenData: state.tokenData,
+});
+
+export default connect(mapStateToProps, { getAccess })(Menu);

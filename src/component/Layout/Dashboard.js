@@ -1,6 +1,43 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
+import { getAccess } from "../../actions/appStoreAction";
+
 class Dashboard extends Component {
+  state = {
+    accessStatus: true,
+    reloadStatus: true,
+  };
+
+  componentDidMount() {
+    console.log("Commponent Run DashBoard");
+    if (this.props && this.props.security.user) {
+      if (this.props.security.user.id) {
+        this.props.getAccess(
+          this.props.security.user.id,
+          this.props.tokenData.token
+        );
+
+        this.setState({ accessStatus: false });
+      }
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      console.log("This Props Dashboard: ", this.props);
+      console.log("Next Props Dashboard: ", nextProps);
+
+      if (nextProps.validToken && this.state.accessStatus) {
+        this.props.getAccess(
+          this.props.security.user.id,
+          nextProps.tokenData.token
+        );
+        this.setState({ accessStatus: false });
+      }
+    }
+  }
   render() {
     return (
       <React.Fragment>
@@ -116,4 +153,18 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+Dashboard.prototypes = {
+  getAccess: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
+  access: PropTypes.object.isRequired,
+  tokenData: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  security: state.security,
+  errors: state.errors,
+  access: state.appStore,
+  tokenData: state.tokenData,
+});
+
+export default connect(mapStateToProps, { getAccess })(Dashboard);

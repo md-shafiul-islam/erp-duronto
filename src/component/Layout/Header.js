@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import HelperServices from "../Helper/HelperServices";
 import NoAction from "../Helper/NoAction";
+import { connect } from "react-redux";
+import { logOut } from "../../actions/securityActions";
+import { PropTypes } from "prop-types";
 
 class Header extends Component {
+  actionLogout = () => {
+    this.props.logOut();
+  };
+
   render() {
+    let { user, validToken } = this.props.security;
     return (
       <div>
-        <HelperServices />
         {/* navbar */}
 
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
@@ -179,9 +186,19 @@ class Header extends Component {
                   View Profile
                 </a>
                 <div className="dropdown-divider" />
-                <a href="/user/logout" className="dropdown-item">
-                  <i className="fas fa-lock" /> Log Out
-                </a>
+                {validToken ? (
+                  <a
+                    href={`javascript:void(0);`}
+                    onClick={this.actionLogout}
+                    className="dropdown-item"
+                  >
+                    <i className="fas fa-lock" /> Log Out
+                  </a>
+                ) : (
+                  <a href={`/login`} className="dropdown-item">
+                    <i className="fas fa-lock" /> Log In
+                  </a>
+                )}
               </div>
             </li>
             <li className="nav-item">
@@ -202,4 +219,12 @@ class Header extends Component {
   }
 }
 
-export default Header;
+Header.prototypes = {
+  errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  security: state.security,
+  errors: state.errors,
+});
+export default connect(mapStateToProps, { logOut })(Header);

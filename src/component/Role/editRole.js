@@ -11,6 +11,7 @@ import {
   Radio,
   Checkbox,
 } from "@material-ui/core";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 let gAccessTypes = [{ id: 1, name: "Sale", value: "sale", numValue: 1 }];
 
@@ -96,6 +97,13 @@ class EditRole extends Component {
     this.loadEditRole();
     this.loadAllAccessTypes();
   }
+
+  isValid = (valueOne, valueTwo) => {
+    if (valueOne === valueTwo) {
+      return true;
+    }
+    return false;
+  };
 
   loadEditRole = async () => {
     let dataUrl = `http://localhost:8085/api/roles/role/${this.paramRoleId}`;
@@ -200,6 +208,18 @@ class EditRole extends Component {
   };
   // Access Types Load End
 
+  submitAction = (values) => {
+    let strinfiValue = JSON.stringify(values, null, 2);
+    let roleUpdateUrl = `${BASE_URL}/roles/role`;
+    Axios.put(roleUpdateUrl, strinfiValue, { headers: REQUEST_HEADER })
+      .then((res) => {
+        console.log("Role Update Success, ", res.data);
+      })
+      .catch((res) => {
+        console.log("Role Update Error ", res);
+      });
+  };
+
   render() {
     if (this.state.preLoad) {
       return (
@@ -225,17 +245,8 @@ class EditRole extends Component {
                     initialValues={this.state.populateRole}
                     onSubmit={(values, actions) => {
                       console.log("Role Submit!!");
-                      /*if (values.isSecondButton) {
-                    console.log("2nd Button");
 
-                    //values.isSecondButton = false;
-                  } else {
-                    console.log("Main Submit Button");
-
-                    this.submitAction(values);
-                    console.log("After submitAction Main Submit Button");
-                  }*/
-
+                      this.submitAction(values);
                       setTimeout(() => {
                         //this.submitData(values);
                         alert(JSON.stringify(values, null, 2));
@@ -326,408 +337,796 @@ class EditRole extends Component {
                                               {values.accesses.map(
                                                 (accessData, ind) => {
                                                   return (
-                                                    <React.Fragment
-                                                      key={`${accessData.accessType.id}-${ind}`}
-                                                    >
-                                                      <Tab.Pane
-                                                        eventKey={`${accessData.accessType.value}-${accessData.accessType.id}`}
-                                                      >
-                                                        <h5>
-                                                          {accessData.accessType !=
-                                                          null
-                                                            ? "Set Access for: " +
-                                                              accessData
-                                                                .accessType.name
-                                                            : "Set Access for:"}
-                                                        </h5>
-                                                        {/* No Access Row Start */}
-                                                        <div
-                                                          className="row"
-                                                          cNData={
-                                                            accessData.noAccess
-                                                          }
+                                                    <React.Fragment>
+                                                      {this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "category"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "pack_category"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "department"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "designation"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "duration"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "countries"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "rules_and_regulation"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "terms_tandc"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "privacy_policy"
+                                                      ) ? (
+                                                        <React.Fragment
+                                                          key={`${accessData.accessType.id}-${ind}`}
                                                         >
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Deny Or No
-                                                                  Access
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>No Access </p>
-                                                            </div>
-                                                          </div>
-
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].noAccess`}
-                                                              value={`${values.accesses[ind].noAccess}`}
-                                                              onChange={
-                                                                handleChange
+                                                          <Tab.Pane
+                                                            eventKey={`${accessData.accessType.value}-${accessData.accessType.id}`}
+                                                          >
+                                                            <h5>
+                                                              {accessData.accessType !=
+                                                              null
+                                                                ? "Set Access for: " +
+                                                                  accessData
+                                                                    .accessType
+                                                                    .name
+                                                                : "Set Access for:"}
+                                                            </h5>
+                                                            {/* No Access Row Start */}
+                                                            <div
+                                                              className="row"
+                                                              cNData={
+                                                                accessData.noAccess
                                                               }
                                                             >
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* No Access Row End */}
-                                                        <div
-                                                          className="row"
-                                                          cVd={accessData.view}
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Deny Or No
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    No Access{" "}
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].noAccess`}
+                                                                  value={`${values.accesses[ind].noAccess}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* No Access Row End */}
+                                                            <div
+                                                              className="row"
+                                                              cVd={
+                                                                accessData.view
+                                                              }
+                                                            >
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>View</b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Details,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].view`}
+                                                                  value={`${values.accesses[ind].view}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 2nd Row */}
+                                                            {/* 3nd Row */}
+                                                            <div
+                                                              className="row"
+                                                              cAVd={
+                                                                accessData.add
+                                                              }
+                                                            >
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Add &amp;
+                                                                      View
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Add, Pending
+                                                                    View,
+                                                                    Details,
+                                                                    Confirm
+                                                                    View, Reject
+                                                                    View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].add`}
+                                                                  value={`${values.accesses[ind].add}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 3rd Row  */}
+                                                            <div
+                                                              className="row"
+                                                              cEd={
+                                                                accessData.edit
+                                                              }
+                                                            >
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Edit Or
+                                                                      Update
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    {" "}
+                                                                    Edit Or
+                                                                    Update,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].edit`}
+                                                                  value={`${values.accesses[ind].edit}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 3rd Row  End */}
+
+                                                            {/* 6th Row */}
+                                                            <div
+                                                              className="row"
+                                                              faD={
+                                                                accessData.all
+                                                              }
+                                                            >
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Full
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    All Kind Of
+                                                                    Approve,
+                                                                    Add, Update,
+                                                                    Reject, View
+                                                                    Or Full
+                                                                    control this
+                                                                    system.
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].all`}
+                                                                  value={`${values.accesses[ind].all}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  {console.log(
+                                                                    "All Data: Current" +
+                                                                      `${ind}`,
+                                                                    values
+                                                                      .accesses[
+                                                                      ind
+                                                                    ].all
+                                                                  )}
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 6th Row */}
+                                                          </Tab.Pane>
+                                                        </React.Fragment>
+                                                      ) : (
+                                                        <React.Fragment
+                                                          key={`${accessData.accessType.id}-${ind}`}
                                                         >
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>View</b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Details, Confirm
-                                                                View
-                                                              </p>
-                                                            </div>
-                                                          </div>
+                                                          <Tab.Pane
+                                                            eventKey={`${accessData.accessType.value}-${accessData.accessType.id}`}
+                                                          >
+                                                            <h5>
+                                                              {accessData.accessType !=
+                                                              null
+                                                                ? "Set Access for: " +
+                                                                  accessData
+                                                                    .accessType
+                                                                    .name
+                                                                : "Set Access for:"}
+                                                            </h5>
+                                                            {/* No Access Row Start */}
+                                                            <div
+                                                              className="row"
+                                                              cNData={
+                                                                accessData.noAccess
+                                                              }
+                                                            >
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Deny Or No
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    No Access{" "}
+                                                                  </p>
+                                                                </div>
+                                                              </div>
 
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].view`}
-                                                              value={`${values.accesses[ind].view}`}
-                                                              onChange={
-                                                                handleChange
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].noAccess`}
+                                                                  value={`${values.accesses[ind].noAccess}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* No Access Row End */}
+                                                            <div
+                                                              className="row"
+                                                              cVd={
+                                                                accessData.view
                                                               }
                                                             >
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* 2nd Row */}
-                                                        {/* 3nd Row */}
-                                                        <div
-                                                          className="row"
-                                                          cAVd={accessData.add}
-                                                        >
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Add &amp; View
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Add, Pending
-                                                                View, Details,
-                                                                Confirm View,
-                                                                Reject View
-                                                              </p>
-                                                            </div>
-                                                          </div>
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>View</b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Details,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
 
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].add`}
-                                                              value={`${values.accesses[ind].add}`}
-                                                              onChange={
-                                                                handleChange
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].view`}
+                                                                  value={`${values.accesses[ind].view}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 2nd Row */}
+                                                            {/* 3nd Row */}
+                                                            <div
+                                                              className="row"
+                                                              cAVd={
+                                                                accessData.add
                                                               }
                                                             >
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* 3rd Row  */}
-                                                        <div
-                                                          className="row"
-                                                          cEd={accessData.edit}
-                                                        >
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Edit Or Update
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                {" "}
-                                                                Edit Or Update,
-                                                                Details View,
-                                                                Confirm View
-                                                              </p>
-                                                            </div>
-                                                          </div>
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Add &amp;
+                                                                      View
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Add, Pending
+                                                                    View,
+                                                                    Details,
+                                                                    Confirm
+                                                                    View, Reject
+                                                                    View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
 
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].edit`}
-                                                              value={`${values.accesses[ind].edit}`}
-                                                              onChange={
-                                                                handleChange
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].add`}
+                                                                  value={`${values.accesses[ind].add}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 3rd Row  */}
+                                                            <div
+                                                              className="row"
+                                                              cEd={
+                                                                accessData.edit
                                                               }
                                                             >
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* 3rd Row  End */}
-                                                        {/*  4th Row */}
-                                                        <div
-                                                          className="row"
-                                                          AAp={
-                                                            accessData.approve
-                                                          }
-                                                        >
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Add Approve
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Add Approval
-                                                                Pending View,
-                                                                Approve, Details
-                                                                View, Confirm
-                                                                View
-                                                              </p>
-                                                            </div>
-                                                          </div>
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Edit Or
+                                                                      Update
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    {" "}
+                                                                    Edit Or
+                                                                    Update,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
 
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].approve`}
-                                                              value={`${values.accesses[ind].approve}`}
-                                                              onChange={
-                                                                handleChange
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].edit`}
+                                                                  value={`${values.accesses[ind].edit}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 3rd Row  End */}
+                                                            {/*  4th Row */}
+                                                            <div
+                                                              className="row"
+                                                              AAp={
+                                                                accessData.approve
                                                               }
                                                             >
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* 4th Row End */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Update
-                                                                  Approval
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Update Or Edit
-                                                                Approval Pending
-                                                                View, Approve
-                                                                Update, Details
-                                                                View, Confirm
-                                                                View
-                                                              </p>
-                                                            </div>
-                                                          </div>
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Add
+                                                                      Approve
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Add Approval
+                                                                    Pending
+                                                                    View,
+                                                                    Approve,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
 
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].updateApproval`}
-                                                              value={`${values.accesses[ind].updateApproval}`}
-                                                              onChange={
-                                                                handleChange
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].approve`}
+                                                                  value={`${values.accesses[ind].approve}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 4th Row End */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Update
+                                                                      Approval
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Update Or
+                                                                    Edit
+                                                                    Approval
+                                                                    Pending
+                                                                    View,
+                                                                    Approve
+                                                                    Update,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].updateApproval`}
+                                                                  value={`${values.accesses[ind].updateApproval}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
+                                                            </div>
+                                                            {/* 5th Row End */}
+                                                            {/* 6th Row */}
+                                                            <div
+                                                              className="row"
+                                                              faD={
+                                                                accessData.all
                                                               }
                                                             >
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* 5th Row End */}
-                                                        {/* 6th Row */}
-                                                        <div
-                                                          className="row"
-                                                          faD={accessData.all}
-                                                        >
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Full Access
-                                                                </b>
-                                                              </label>
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Full
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    All Kind Of
+                                                                    Approve,
+                                                                    Add, Update,
+                                                                    Reject, View
+                                                                    Or Full
+                                                                    control this
+                                                                    system.
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <FormControl component="fieldset">
+                                                                <RadioGroup
+                                                                  row
+                                                                  aria-label="position"
+                                                                  name={`accesses[${ind}].all`}
+                                                                  value={`${values.accesses[ind].all}`}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  {console.log(
+                                                                    "All Data: Current" +
+                                                                      `${ind}`,
+                                                                    values
+                                                                      .accesses[
+                                                                      ind
+                                                                    ].all
+                                                                  )}
+                                                                  <FormControlLabel
+                                                                    value="1"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="On"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                  <FormControlLabel
+                                                                    value="0"
+                                                                    control={
+                                                                      <Radio color="primary" />
+                                                                    }
+                                                                    label="Off"
+                                                                    labelPlacement="end"
+                                                                  />
+                                                                </RadioGroup>
+                                                              </FormControl>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                All Kind Of
-                                                                Approve, Add,
-                                                                Update, Reject,
-                                                                View Or Full
-                                                                control this
-                                                                system.
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <FormControl component="fieldset">
-                                                            <RadioGroup
-                                                              row
-                                                              aria-label="position"
-                                                              name={`accesses[${ind}].all`}
-                                                              value={`${values.accesses[ind].all}`}
-                                                              onChange={
-                                                                handleChange
-                                                              }
-                                                            >
-                                                              {console.log(
-                                                                "All Data: Current" +
-                                                                  `${ind}`,
-                                                                values.accesses[
-                                                                  ind
-                                                                ].all
-                                                              )}
-                                                              <FormControlLabel
-                                                                value="1"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="On"
-                                                                labelPlacement="end"
-                                                              />
-                                                              <FormControlLabel
-                                                                value="0"
-                                                                control={
-                                                                  <Radio color="primary" />
-                                                                }
-                                                                label="Off"
-                                                                labelPlacement="end"
-                                                              />
-                                                            </RadioGroup>
-                                                          </FormControl>
-                                                        </div>
-                                                        {/* 6th Row */}
-                                                      </Tab.Pane>
+                                                            {/* 6th Row */}
+                                                          </Tab.Pane>
+                                                        </React.Fragment>
+                                                      )}
                                                     </React.Fragment>
                                                   );
                                                 }
@@ -743,8 +1142,6 @@ class EditRole extends Component {
                                 {/* Role Row */}
                               </div>
                               {/* card-body */}
-
-                              <pre>{JSON.stringify(values, null, 2)}</pre>
 
                               <div className="card-footer">
                                 <button
