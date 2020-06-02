@@ -74,7 +74,24 @@ class Menu extends Component {
   };
 
   render() {
-    let { package_ac, role, sale, user, vendor } = this.props.access.accesses;
+    let {
+      package_ac,
+      role,
+      sale,
+      user,
+      vendor,
+      category,
+      countries,
+      department,
+      designation,
+      duration,
+      pack_category,
+      privacy_policy,
+      purchase,
+      rules_and_regulation,
+      terms_tandc,
+      visa_service,
+    } = this.props.access.accesses;
     let { validToken } = this.props.security;
 
     let classNameData = "main-sidebar sidebar-dark-primary elevation-4";
@@ -683,100 +700,165 @@ class Menu extends Component {
                 </li>
                 {/* Clients & Vendors End */}
                 {/*  Category */}
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-project-diagram" />
-                    <p>
-                      Category <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <ViewCategories />
+                {category &&
+                  (category.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-project-diagram" />
+                        <p>
+                          Category <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {category.add === 1 ||
+                        category.edit === 1 ||
+                        category.all === 1 ? (
+                          <li className="nav-item">
+                            <ViewCategories />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        {category.add === 1 || category.all === 1 ? (
+                          <li className="nav-item">
+                            <AddCatButtion />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddCatButtion />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
                 {/* Category End */}
 
                 {/** Package Category Start */}
 
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-project-diagram" />
-                    <p>
-                      Package Category <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <PackCategoryButton />
+                {pack_category &&
+                  (pack_category.noAccess !== 1 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-project-diagram" />
+                        <p>
+                          Package Category{" "}
+                          <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {pack_category.view === 1 ||
+                        pack_category.edit === 1 ||
+                        pack_category.all === 1 ||
+                        pack_category.add === 1 ? (
+                          <li className="nav-item">
+                            <PackCategoryButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        {pack_category.add === 1 || pack_category.all === 1 ? (
+                          <li className="nav-item">
+                            <AddPackCatButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddPackCatButton />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
 
                 {/** Package Category End */}
 
                 {/*  Department */}
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-sitemap" />
-                    <p>
-                      Department <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <DepartmentViewButton />
+                {department &&
+                  (department.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-sitemap" />
+                        <p>
+                          Department <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {department.add === 1 ||
+                        department.edit === 1 ||
+                        department.view === 1 ||
+                        department.all === 1 ? (
+                          <li className="nav-item">
+                            <DepartmentViewButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        {department.add === 1 || department.all === 1 ? (
+                          <li className="nav-item">
+                            <AddDepartmentButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddDepartmentButton />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
                 {/* Department End */}
                 {/*  Designation  */}
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-user-tag" />
-                    <p>
-                      Designation <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <DesignationButton />
+                {designation &&
+                  (designation.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-user-tag" />
+                        <p>
+                          Designation <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {designation.add === 1 ||
+                        designation.all === 1 ||
+                        designation.view === 1 ||
+                        designation.edit === 1 ? (
+                          <li className="nav-item">
+                            <DesignationButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+
+                        {designation.add === 1 || designation.all === 1 ? (
+                          <li className="nav-item">
+                            <AddDesignationButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddDesignationButton />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
                 {/*  Designation  End */}
                 {/*  HR  */}
 
@@ -1110,149 +1192,241 @@ class Menu extends Component {
 
                 {/** Duration Start */}
 
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-user-tag" />
-                    <p>
-                      Duration <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <DurationButton />
+                {duration &&
+                  (duration.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-user-tag" />
+                        <p>
+                          Duration <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {duration.view === 1 ||
+                        duration.add === 1 ||
+                        duration.edit === 1 ||
+                        duration.all ? (
+                          <li className="nav-item">
+                            <DurationButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+
+                        {duration.add === 1 || duration.all ? (
+                          <li className="nav-item">
+                            <AddDurationButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddDurationButton />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
 
                 {/** Duration End */}
 
                 {/** Countries start */}
 
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-sitemap" />
-                    <p>
-                      Countries <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <CountriesButton />
+                {countries &&
+                  (countries.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-sitemap" />
+                        <p>
+                          Countries <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {countries.view === 1 ||
+                        countries.add === 1 ||
+                        countries.edit === 1 ||
+                        countries.all === 1 ? (
+                          <li className="nav-item">
+                            <CountriesButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+
+                        {countries.add === 1 || countries.all === 1 ? (
+                          <li className="nav-item">
+                            <AddCountryButton />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddCountryButton />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
 
                 {/** Countries End */}
 
                 {/*  Rules & Regulation  */}
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-project-diagram" />
-                    <p>
-                      Rules &amp; Regulation{" "}
-                      <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <a href="/category/view?page=0" className="nav-link">
+                {rules_and_regulation &&
+                  (rules_and_regulation.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
                         {" "}
-                        <i className="fas fa-list nav-icon" />
-                        <p>View</p>
+                        <i className="nav-icon fas fa-project-diagram" />
+                        <p>
+                          Rules &amp; Regulation{" "}
+                          <i className="right fas fa-angle-left" />
+                        </p>
                       </a>
+                      <ul className="nav nav-treeview">
+                        <li className="nav-item">
+                          {rules_and_regulation.add === 1 ||
+                          rules_and_regulation.all == 1 ||
+                          rules_and_regulation.view === 1 ||
+                          rules_and_regulation.edit === 1 ? (
+                            <MenuLinkOrButton
+                              action="/rules"
+                              labelName="View"
+                              btnIconClass="fas fa-plus-square nav-icon"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {rules_and_regulation.add === 1 ||
+                          rules_and_regulation.all == 1 ? (
+                            <MenuLinkOrButton
+                              action="/rules/add"
+                              labelName="Add"
+                              btnIconClass="fas fa-plus-square nav-icon"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <AddCatButtion />
-                    </li>
-                  </ul>
-                </li>
-
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-clipboard-check" />
-                    <p>
-                      Terms & Conditions (T&C)
-                      <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <MenuLinkOrButton
-                        action="/terms/add"
-                        labelName="Add (T&C)"
-                        btnIconClass="fas fa-plus-square nav-icon"
-                      />
-                    </li>
-                    <li className="nav-item">
-                      <MenuLinkOrButton
-                        action="/terms"
-                        labelName="T&C View"
-                        btnIconClass="fas fa-tasks nav-icon"
-                      />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
 
                 {/* Rules & Regulation End */}
 
+                {/** T&C Start */}
+
+                {terms_tandc &&
+                  (terms_tandc.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-clipboard-check" />
+                        <p>
+                          Terms & Conditions (T&C)
+                          <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        {terms_tandc.view === 1 ||
+                        terms_tandc.edit === 1 ||
+                        terms_tandc.add === 1 ||
+                        terms_tandc.all === 1 ? (
+                          <li className="nav-item">
+                            <MenuLinkOrButton
+                              action="/terms/add"
+                              labelName="Add (T&C)"
+                              btnIconClass="fas fa-plus-square nav-icon"
+                            />
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        <li className="nav-item">
+                          {terms_tandc.add === 1 || terms_tandc.all === 1 ? (
+                            <MenuLinkOrButton
+                              action="/terms"
+                              labelName="T&C View"
+                              btnIconClass="fas fa-tasks nav-icon"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                      </ul>
+                    </li>
+                  ) : (
+                    ""
+                  ))}
+
+                {/** T&C End */}
+
                 {/** Policy Start */}
 
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
-                    {" "}
-                    <i className="nav-icon fas fa-clipboard-check" />
-                    <p>
-                      Privacy Policy
-                      <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <MenuLinkOrButton
-                        action="/privacyPolicies/add"
-                        labelName="Add Privacy Policy"
-                        btnIconClass="fas fa-plus-square nav-icon"
-                      />
+                {privacy_policy &&
+                  (privacy_policy.noAccess === 0 ? (
+                    <li className="nav-item has-treeview">
+                      <a
+                        href="javascript:void(0);"
+                        onClick={NoAction}
+                        className="nav-link"
+                      >
+                        {" "}
+                        <i className="nav-icon fas fa-clipboard-check" />
+                        <p>
+                          Privacy Policy
+                          <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        <li className="nav-item">
+                          {privacy_policy.add === 1 ||
+                          privacy_policy.all === 1 ? (
+                            <MenuLinkOrButton
+                              action="/privacyPolicies/add"
+                              labelName="Add Privacy Policy"
+                              btnIconClass="fas fa-plus-square nav-icon"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {privacy_policy.add === 1 ||
+                          privacy_policy.all === 1 ||
+                          privacy_policy.edit === 1 ||
+                          privacy_policy.view === 1 ? (
+                            <MenuLinkOrButton
+                              action="/privacyPolicies"
+                              labelName="Privacy Policies"
+                              btnIconClass="fas fa-tasks nav-icon"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                      </ul>
                     </li>
-                    <li className="nav-item">
-                      <MenuLinkOrButton
-                        action="/privacyPolicies"
-                        labelName="Privacy Policies"
-                        btnIconClass="fas fa-tasks nav-icon"
-                      />
-                    </li>
-                  </ul>
-                </li>
+                  ) : (
+                    ""
+                  ))}
 
                 {/** Policy End */}
                 <li className="nav-item">

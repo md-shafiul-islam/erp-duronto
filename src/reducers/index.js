@@ -5,6 +5,8 @@ import errorReducer from "./errorReducer";
 import securityReducer from "./securityReducer";
 import appReducer from "./appReducer";
 import tokenReducer from "./tokenReducer";
+import packCatReducer from "./packCatReducer";
+import designationReducer from "./designationReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -13,4 +15,6 @@ export default combineReducers({
   security: securityReducer,
   appStore: appReducer,
   tokenData: tokenReducer,
+  packCats: packCatReducer,
+  designation: designationReducer,
 });

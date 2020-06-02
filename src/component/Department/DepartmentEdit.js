@@ -1,23 +1,46 @@
 import React, { Component } from "react";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 import Axios from "axios";
-import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
-import { REQUEST_HEADER } from "../../actions/types";
+import LoadingData from "../Layout/LoadingData";
+import { Formik, Form, Field } from "formik";
+import { Redirect, Link } from "react-router-dom";
 
-let headers = {
-  "Content-Type": "application/json",
-};
+class DepartmentEdit extends Component {
+  constructor(props) {
+    super(props);
 
-class AddDepartment extends Component {
+    this.paramId = props.match.params.id;
+  }
   state = {
     redirect: false,
+    department: {},
   };
 
-  addCategoryAction = (values) => {
+  componentDidMount() {
+    this.loadSelectedDepartment();
+  }
+
+  loadSelectedDepartment = async () => {
+    let dUrl = `${BASE_URL}/departments/department/${this.paramId}`;
+
+    Axios.get(dUrl, { headers: REQUEST_HEADER })
+      .then((res) => {
+        if (res.data) {
+          console.log("Receve Department to db : ", res.data);
+          this.setState({ department: res.data, loadStatus: false });
+        }
+      })
+      .catch((res) => {
+        console.log("Error Load Department: ", res);
+        this.setState({ loadStatus: true });
+      });
+  };
+
+  updateCategoryAction = (values) => {
     if (values != null) {
       let department = JSON.stringify(values, null, 2);
 
-      Axios.post(
+      Axios.put(
         "http://localhost:8085/api/departments/department",
         department,
         { headers: REQUEST_HEADER }
@@ -25,6 +48,7 @@ class AddDepartment extends Component {
         .then((res) => {
           console.log("Done Category Add: ", res.data);
           this.setState({ redirect: true });
+          this.props.history.push("/departments");
         })
         .catch((res) => {
           console.log("Error: ", res);
@@ -34,8 +58,15 @@ class AddDepartment extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/departments" />;
+      console.log("Link Run");
+      return <Link to="/departments" />;
     }
+
+    if (this.state.loadStatus) {
+      return <LoadingData />;
+    }
+
+    let { department } = this.state;
     return (
       <React.Fragment>
         <div className="content-wrapper">
@@ -43,19 +74,17 @@ class AddDepartment extends Component {
             <div className="col-md-8" style={{ margin: "10px auto" }}>
               <div className="card card-primary">
                 <div className="card-header">
-                  <h3 className="card-title">Add Category</h3>
+                  <h3 className="card-title">Edit Or Update Department</h3>
                 </div>
 
                 {/* form start */}
 
                 <Formik
-                  initialValues={{
-                    name: "",
-                    description: "",
-                  }}
+                  enableReinitialize={true}
+                  initialValues={this.state.department}
                   onSubmit={(values, actions) => {
                     console.log(JSON.stringify(values, null, 2));
-                    this.addCategoryAction(values);
+                    this.updateCategoryAction(values);
                   }}
                 >
                   {(props) => (
@@ -88,7 +117,7 @@ class AddDepartment extends Component {
                             {" "}
                             <i className="fas fa-save" />
                           </span>{" "}
-                          <span className="text">Save</span>
+                          <span className="text">Update</span>
                         </button>
                       </div>
                     </Form>
@@ -105,4 +134,4 @@ class AddDepartment extends Component {
   }
 }
 
-export default AddDepartment;
+export default DepartmentEdit;

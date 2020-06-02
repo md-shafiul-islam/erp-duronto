@@ -3,6 +3,7 @@ import { Formik, Field, FieldArray, Form } from "formik";
 import Axios from "axios";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import { FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 const index = 0;
 const acItem = [{}];
@@ -82,8 +83,9 @@ class AddRole extends Component {
           id: res.data.id,
           name: res.data.name,
           description: res.data.description,
-          authStatus: res.data.authStatus,
+
           accesses: [],
+          authStatus: res.data.authStatus === 1 ? true : false,
         };
 
         res.data.accesses.map((acs, ind) => {
@@ -174,6 +176,18 @@ class AddRole extends Component {
   };
   /** Access Types Load End */
 
+  submitAction = (values) => {
+    let strinfiValue = JSON.stringify(values, null, 2);
+    let roleUpdateUrl = `${BASE_URL}/roles/role`;
+    Axios.post(roleUpdateUrl, strinfiValue, { headers: REQUEST_HEADER })
+      .then((res) => {
+        console.log("Role Save Success, ", res.data);
+      })
+      .catch((res) => {
+        console.log("Role Save Error ", res);
+      });
+  };
+
   render() {
     if (!this.state.roleLoad) {
       return (
@@ -200,17 +214,8 @@ class AddRole extends Component {
                     initialValues={this.state.prepRole}
                     onSubmit={(values, actions) => {
                       console.log("Role Submit!!");
-                      /*if (values.isSecondButton) {
-                        console.log("2nd Button");
 
-                        //values.isSecondButton = false;
-                      } else {
-                        console.log("Main Submit Button");
-
-                        this.submitAction(values);
-                        console.log("After submitAction Main Submit Button");
-                      }*/
-
+                      this.submitAction(values);
                       setTimeout(() => {
                         //this.submitData(values);
                         alert(JSON.stringify(values, null, 2));

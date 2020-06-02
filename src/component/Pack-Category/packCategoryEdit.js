@@ -1,41 +1,59 @@
 import React, { Component } from "react";
-import Axios from "axios";
+
 import { Field, Formik, Form } from "formik";
 import { Redirect } from "react-router-dom";
-import { REQUEST_HEADER } from "../../actions/types";
 
-let headers = {
-  "Content-Type": "application/json",
-};
+import { connect } from "react-redux";
 
-class AddDepartment extends Component {
+import { updatePackCategoryAction } from "../../actions/packCatAction";
+import { BASE_URL, REQUEST_HEADER_GET } from "../../actions/types";
+import Axios from "axios";
+import LoadingData from "../Layout/LoadingData";
+
+class PackCategoryEdit extends Component {
+  constructor(props) {
+    super(props);
+    this.paramId = props.match.params.id;
+  }
   state = {
     redirect: false,
+    packCat: {},
+    pacCatLoadStatus: true,
+  };
+
+  componentDidMount() {
+    this.getSelectedPacageCat();
+  }
+
+  getSelectedPacageCat = async () => {
+    let url = `${BASE_URL}/package-categories/package-category/${this.paramId}`;
+
+    await Axios.get(url, { headers: REQUEST_HEADER_GET })
+      .then((res) => {
+        this.setState({ packCat: res.data, pacCatLoadStatus: false });
+      })
+      .catch((res) => {
+        this.setState({ pacCatLoadStatus: true });
+        console.log("Error:, ", res);
+      });
   };
 
   addCategoryAction = (values) => {
     if (values != null) {
-      let department = JSON.stringify(values, null, 2);
-
-      Axios.post(
-        "http://localhost:8085/api/departments/department",
-        department,
-        { headers: REQUEST_HEADER }
-      )
-        .then((res) => {
-          console.log("Done Category Add: ", res.data);
-          this.setState({ redirect: true });
-        })
-        .catch((res) => {
-          console.log("Error: ", res);
-        });
+      let category = JSON.stringify(values, null, 2);
+      this.props.updatePackCategoryAction(category, this.props.history);
     }
   };
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/departments" />;
+      return <Redirect to="/package-categories" />;
     }
+
+    if (this.state.pacCatLoadStatus) {
+      return <LoadingData />;
+    }
+
     return (
       <React.Fragment>
         <div className="content-wrapper">
@@ -43,16 +61,13 @@ class AddDepartment extends Component {
             <div className="col-md-8" style={{ margin: "10px auto" }}>
               <div className="card card-primary">
                 <div className="card-header">
-                  <h3 className="card-title">Add Category</h3>
+                  <h3 className="card-title">Add Package Category</h3>
                 </div>
 
                 {/* form start */}
 
                 <Formik
-                  initialValues={{
-                    name: "",
-                    description: "",
-                  }}
+                  initialValues={this.state.packCat}
                   onSubmit={(values, actions) => {
                     console.log(JSON.stringify(values, null, 2));
                     this.addCategoryAction(values);
@@ -88,7 +103,7 @@ class AddDepartment extends Component {
                             {" "}
                             <i className="fas fa-save" />
                           </span>{" "}
-                          <span className="text">Save</span>
+                          <span className="text">Update</span>
                         </button>
                       </div>
                     </Form>
@@ -105,4 +120,4 @@ class AddDepartment extends Component {
   }
 }
 
-export default AddDepartment;
+export default connect(null, { updatePackCategoryAction })(PackCategoryEdit);

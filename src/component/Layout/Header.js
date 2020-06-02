@@ -4,14 +4,21 @@ import NoAction from "../Helper/NoAction";
 import { connect } from "react-redux";
 import { logOut } from "../../actions/securityActions";
 import { PropTypes } from "prop-types";
+import { Redirect } from "react-router-dom";
 
 class Header extends Component {
+  state = {
+    redirectStatus: false,
+  };
   actionLogout = () => {
     this.props.logOut();
+    this.setState({ redirectStatus: true });
+    window.location.reload(false);
   };
 
   render() {
     let { user, validToken } = this.props.security;
+
     return (
       <div>
         {/* navbar */}

@@ -53,7 +53,13 @@ class Login extends Component {
           <div className="container-fluid">
             <div className="row pading-35">
               {/* left column */}
-              <div className="col-md-8">{/** Image Add Here */}</div>
+              <div className="col-md-8">
+                <img
+                  src="\uimage\84113967_195974658465936_3399543017957228544_o.png"
+                  alt=""
+                  title="login image"
+                />
+              </div>
               <div className="col-md-4">
                 <div className="row">
                   <div className="col-md-11">

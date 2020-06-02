@@ -33,3 +33,10 @@ export const GET_BACKLOG = "GET_BACKLOG";
 export const SET_TOKEN = "SET_TOKEN";
 
 export const BASE_URL = "http://localhost:8085/api";
+
+export const GET_PACK_CATEGORIES = "GET_PACK_CATEGORIES";
+export const GET_PACK_CATEGORY = "GET_PACK_CATEGORY";
+export const PACK_CAT_DELETE = "GET_PACK_DELETE";
+
+export const GET_DESIGNATIONS = "GET_DESIGNATIONS";
+export const GET_DESIGNATION = "GET_DESIGNATION";

@@ -1,61 +1,45 @@
 import React, { Component } from "react";
 import Axios from "axios";
-
-const designationList = [];
+import CommonTableView from "../Layout/TableView/CommonTableView";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
+import { getAccess } from "../../actions/appStoreAction";
+import { getDesignations } from "../../actions/designationActions";
 
 class Designations extends Component {
-  async componentDidMount() {
-    this.loadDesignationList();
+  componentDidMount() {
+    if (this.props && this.props.security.user) {
+      if (this.props.security.user.id) {
+        this.props.getAccess(
+          this.props.security.user.id,
+          this.props.tokenData.token
+        );
+
+        this.setState({ accessStatus: false });
+      }
+    }
+
+    this.loadDesignationsList();
   }
 
-  loadDesignationList = async () => {
-    await Axios.get("http://localhost:8085/api/designations")
-      .then((res) => {
-        if (designationList.length > 0) {
-          designationList = [];
-        }
+  loadDesignationsList = () => {
+    this.props.getDesignations();
+  };
 
-        console.log("Success Categories Loading... ", res);
-        res.data.map((item, idx) => {
-          designationList.push(item);
-        });
-      })
-      .catch((res) => {
-        console.log("Error Categories Loading... ", res);
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.designation.designations.lenght > 0) {
+      this.setState({
+        designations: this.props.designation.designations,
+        dataLoad: true,
       });
-
-    console.log("Cat List After All work: ", designationList);
-
-    if (this.state.designations.length > 0) {
-      this.setState({ designations: [] });
-      this.setState({ designations: designationList });
-    } else {
-      this.setState({ designations: designationList });
-      this.setState({ dataLoad: true });
     }
-
-    if (designationList.length > 0) {
-      console.log("load All data Done IF");
-      return;
-    } else {
-      console.log("load All data Done Else Run Again this Fnc");
-      this.loadDesignationList();
-    }
-  };
-
-  state = {
-    designations: designationList,
-    dataLoad: false,
-    redirect: false,
-  };
+  }
 
   render() {
-    return !this.state.dataLoad && this.state.designations === null ? (
+    return !this.props.designation.designations ? (
       <div>Loading...</div>
     ) : (
       <React.Fragment>
-        {console.log("After Render: ", designationList)}
-
         {/* Content Wrapper. Contains page content */}
         <div className="content-wrapper">
           <section className="content">
@@ -80,36 +64,20 @@ class Designations extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.state.designations.map((item, ind) => {
-                          return (
-                            <React.Fragment>
-                              <tr key={ind}>
-                                <td>{item.id}</td>
-                                <td>
-                                  {" "}
-                                  {item.name !== "" ? item.name : "Anonymous"}
-                                </td>
-                                <td>
-                                  {item.description !== null
-                                    ? item.description
-                                    : ""}
-                                </td>
-
-                                <td>
-                                  <a
-                                    href="/categories/category/id"
-                                    class="btn btn-info btn-icon-split"
-                                  >
-                                    <span class="icon text-white-50">
-                                      <i class=" nav-icon fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">Edit</span>
-                                  </a>
-                                </td>
-                              </tr>
-                            </React.Fragment>
-                          );
-                        })}
+                        {this.props.designation.designations &&
+                          this.props.designation.designations.map(
+                            (item, ind) => {
+                              return (
+                                <CommonTableView
+                                  item={item}
+                                  index={ind}
+                                  actionIconClass={`nav-icon fas fa-edit`}
+                                  actionLabel={`Edit`}
+                                  action={`/designations/designation/edit/`}
+                                />
+                              );
+                            }
+                          )}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -136,4 +104,22 @@ class Designations extends Component {
   }
 }
 
-export default Designations;
+Designations.prototypes = {
+  getAccess: PropTypes.func.isRequired,
+  getDesignations: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
+  access: PropTypes.object.isRequired,
+  tokenData: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  security: state.security,
+  errors: state.errors,
+  access: state.appStore,
+  tokenData: state.tokenData,
+  designation: state.designation,
+});
+
+export default connect(mapStateToProps, { getAccess, getDesignations })(
+  Designations
+);

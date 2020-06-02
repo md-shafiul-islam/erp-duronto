@@ -71,6 +71,9 @@ import { logOut } from "./actions/securityActions";
 import { PropTypes } from "prop-types";
 import { getAccess } from "./actions/appStoreAction";
 import SecuredRoute from "./SecurityUtils/securedRoute";
+import packCategoryEdit from "./component/Pack-Category/packCategoryEdit";
+import DepartmentEdit from "./component/Department/DepartmentEdit";
+import editDesignation from "./component/Designation/editDesignation";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -90,12 +93,6 @@ if (jwtToken) {
 }
 
 class App extends Component {
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps) {
-      console.log(nextProps.security);
-    }
-  }
-
   render() {
     return (
       <Provider store={store}>
@@ -143,6 +140,12 @@ class App extends Component {
 
               <SecuredRoute
                 exact
+                path="/departments/department/edit/:id"
+                component={DepartmentEdit}
+              />
+
+              <SecuredRoute
+                exact
                 path="/designations"
                 component={Designations}
               />
@@ -150,6 +153,12 @@ class App extends Component {
                 exact
                 path="/designations/designation"
                 component={AddDesignation}
+              />
+
+              <SecuredRoute
+                exact
+                path="/designations/designation/edit/:id"
+                component={editDesignation}
               />
 
               <SecuredRoute exact path="/durations" component={Durations} />
@@ -168,6 +177,12 @@ class App extends Component {
                 exact
                 path="/package-categories/package-category"
                 component={AddPackCategory}
+              />
+
+              <SecuredRoute
+                exact
+                path="/package-categories/package-category/edit/:id"
+                component={packCategoryEdit}
               />
 
               <SecuredRoute exact path="/users" component={Users} />
@@ -343,4 +358,6 @@ class App extends Component {
   }
 }
 
-export default App; //connect(mapStateToProps, { getAccess })(App);
+export default App;
+
+//export default App; //connect(mapStateToProps, { getAccess })(App);

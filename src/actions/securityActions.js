@@ -6,6 +6,7 @@ import {
   SET_CURRENT_USER,
   GET_ERRORS,
   SET_TOKEN,
+  GET_ACCESSES,
 } from "./types";
 import setJWTToken from "../SecurityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
@@ -63,6 +64,21 @@ export const logOut = () => (dispatch) => {
 
   dispatch({
     type: SET_CURRENT_USER,
+    payload: {},
+  });
+
+  dispatch({
+    type: GET_ACCESSES,
+    payload: {},
+  });
+
+  dispatch({
+    type: GET_ACCESSES,
+    payload: {},
+  });
+
+  dispatch({
+    type: SET_TOKEN,
     payload: {},
   });
 };

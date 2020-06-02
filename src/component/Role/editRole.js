@@ -115,17 +115,21 @@ class EditRole extends Component {
           name: res.data.name,
           description: res.data.description,
           accesses: [],
+          authStatus: res.data.authStatus === 1 ? true : false,
+          publicId: res.data.publicId,
         };
 
         res.data.accesses.map((acs, ind) => {
           roleData.accesses.push({
             id: acs.id,
+
             accessType: {
               id: acs.accessType.id,
               name: acs.accessType.name,
               value: acs.accessType.value,
               numValue: acs.accessType.numValue,
             },
+
             name: acs.name,
             description: acs.description,
             view: acs.view,

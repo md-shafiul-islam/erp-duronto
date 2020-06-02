@@ -11,7 +11,6 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    console.log("Commponent Run DashBoard");
     if (this.props && this.props.security.user) {
       if (this.props.security.user.id) {
         this.props.getAccess(
