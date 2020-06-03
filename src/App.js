@@ -74,6 +74,7 @@ import SecuredRoute from "./SecurityUtils/securedRoute";
 import packCategoryEdit from "./component/Pack-Category/packCategoryEdit";
 import DepartmentEdit from "./component/Department/DepartmentEdit";
 import editDesignation from "./component/Designation/editDesignation";
+import EditCatrgory from "./component/Category/editCatrgory";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -124,6 +125,12 @@ class App extends Component {
                 exact
                 path="/categories"
                 component={CategoriesView}
+              />
+
+              <SecuredRoute
+                exact
+                path="/categories/category/edit/:id"
+                component={EditCatrgory}
               />
               <SecuredRoute exact path="/countries" component={Countries} />
               <SecuredRoute

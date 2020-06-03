@@ -16,7 +16,6 @@ export const REQUEST_HEADER = {
 };
 
 export const REQUEST_HEADER_GET = {
-  "Content-Type": "application/x-www-form-urlencoded",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
   Authorization:
@@ -33,6 +32,7 @@ export const GET_BACKLOG = "GET_BACKLOG";
 export const SET_TOKEN = "SET_TOKEN";
 
 export const BASE_URL = "http://localhost:8085/api";
+export const EXT_BASE_URL = "http://localhost:8085/";
 
 export const GET_PACK_CATEGORIES = "GET_PACK_CATEGORIES";
 export const GET_PACK_CATEGORY = "GET_PACK_CATEGORY";

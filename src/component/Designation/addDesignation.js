@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class AddDesignation extends Component {
   state = {
@@ -28,7 +28,7 @@ class AddDesignation extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/designations" />;
+      return <Link to="/designations" />;
     }
     return (
       <React.Fragment>

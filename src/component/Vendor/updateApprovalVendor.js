@@ -3,12 +3,11 @@ import LoadingData from "../Layout/LoadingData";
 import VendorView from "./vendorView";
 import Axios from "axios";
 import DataNotFound from "../Layout/dataNotFound";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-const headers = {
-  "Content-Type": "application/json",
-};
+const headers = REQUEST_HEADER;
 
 class UpdateApprovalVendor extends Component {
   constructor(props) {
@@ -25,7 +24,7 @@ class UpdateApprovalVendor extends Component {
   }
 
   loadUpdatePandingVendor = async () => {
-    await Axios.get(`${baseUrl}/vendors/update-approval`)
+    await Axios.get(`${baseUrl}/vendors/update-approval`, { headers: headers })
       .then((res) => {
         res.data &&
           this.setState({ vendors: res.data, getVendorStatus: false });

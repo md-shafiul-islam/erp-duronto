@@ -12,6 +12,7 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Redirect } from "react-router-dom";
 
 let gAccessTypes = [{ id: 1, name: "Sale", value: "sale", numValue: 1 }];
 
@@ -46,11 +47,10 @@ class EditRole extends Component {
     super(props);
 
     this.paramRoleId = props.match.params.id;
-    console.log("run Edit Constractor!!");
-    console.log("Given ID: ", props.match.params.id);
   }
 
   state = {
+    redirectStatus: false,
     accessTyeps: [{ id: 1, name: "Sale", value: "sale", numValue: 1 }],
     loadAccessType: true,
     populateRole: {
@@ -91,9 +91,6 @@ class EditRole extends Component {
   };
 
   componentDidMount() {
-    console.log("Role Edit Run: ");
-    console.log("Role ID: ", this.paramRoleId);
-
     this.loadEditRole();
     this.loadAllAccessTypes();
   }
@@ -106,8 +103,8 @@ class EditRole extends Component {
   };
 
   loadEditRole = async () => {
-    let dataUrl = `http://localhost:8085/api/roles/role/${this.paramRoleId}`;
-    await Axios.get(dataUrl)
+    let dataUrl = `${BASE_URL}/roles/role/${this.paramRoleId}`;
+    await Axios.get(dataUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         roleData = {};
         roleData = {
@@ -159,9 +156,6 @@ class EditRole extends Component {
       this.setState({ populateRole: roleData });
     }
 
-    console.log("After Set Role Data: ", this.state.populateRole);
-    console.log("Current data Status: ", this.state.preLoad);
-
     if (
       this.state.populateRole &&
       0 >= this.state.populateRole.accesses.length
@@ -173,7 +167,9 @@ class EditRole extends Component {
 
   // Access Types Load Start
   loadAllAccessTypes = async () => {
-    await Axios.get("http://localhost:8085/api/roles/access-tyeps")
+    await Axios.get(`${BASE_URL}/api/roles/access-tyeps`, {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
         console.log("Access Type: ", res.data);
         if (gAccessTypes.length > 0) {
@@ -194,7 +190,7 @@ class EditRole extends Component {
       });
 
     this.setState({ accessTyeps: [] });
-    console.log("Access Type Size: ", this.state.accessTyeps.length);
+
     this.setState({ accessTyeps: gAccessTypes });
     this.setState({ loadAccessType: false });
 
@@ -218,6 +214,8 @@ class EditRole extends Component {
     Axios.put(roleUpdateUrl, strinfiValue, { headers: REQUEST_HEADER })
       .then((res) => {
         console.log("Role Update Success, ", res.data);
+
+        this.setState({ redirectStatus: true });
       })
       .catch((res) => {
         console.log("Role Update Error ", res);
@@ -225,6 +223,9 @@ class EditRole extends Component {
   };
 
   render() {
+    if (this.state.redirectStatus) {
+      return <Redirect to="/roles" />;
+    }
     if (this.state.preLoad) {
       return (
         <React.Fragment>

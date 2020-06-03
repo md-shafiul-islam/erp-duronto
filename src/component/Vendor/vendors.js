@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import VendorView from "./vendorView";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
-let headers = {
-  "Content-Type": "application/json",
-};
+const baseUrl = BASE_URL;
+let headers = REQUEST_HEADER;
 
 class Vendors extends Component {
   state = {
@@ -20,12 +19,10 @@ class Vendors extends Component {
   loadConfVendors = async () => {
     let vendorsUrl = `${baseUrl}/vendors/list`;
 
-    Axios.get(vendorsUrl)
+    Axios.get(vendorsUrl, { headers: headers })
       .then((res) => {
         this.state.vendors = [];
         this.setState({ vendors: res.data, getVendorStatus: false });
-
-        console.log("vendors State: ", this.state.vendors);
       })
       .catch((res) => {
         console.log("Vendor Error: ", res);

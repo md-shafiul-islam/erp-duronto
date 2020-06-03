@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
-let url = "http://localhost:8085/api/packages/update-approval-panding";
+import { BASE_URL, REQUEST_HEADER } from "../../../actions/types";
+import { Link } from "react-router-dom";
+let url = `${BASE_URL}/packages/update-approval-panding`;
 
 class PackageUpdateApprovalPending extends Component {
   state = {
@@ -16,12 +18,11 @@ class PackageUpdateApprovalPending extends Component {
   loadAllPandingPackages = async () => {
     let packas = [];
 
-    await Axios.get(url)
+    await Axios.get(url, { headers: REQUEST_HEADER })
       .then((res) => {
         packas = res.data;
 
         this.setState({ pandinPacks: [] });
-        console.log("Data Packages Load: ", packas);
 
         this.setState({ pandinPacks: packas });
         this.setState({ packLoad: false });
@@ -34,11 +35,10 @@ class PackageUpdateApprovalPending extends Component {
   approveAction = async (pId) => {
     console.log("Public ID ", pId);
 
-    let urlData = `http://localhost:8085/api/packages/package/update-approve`;
+    let urlData = `${BASE_URL}/packages/package/update-approve`;
     let apData = { id: pId };
-    await Axios.put(urlData, apData)
+    await Axios.put(urlData, apData, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Approve Done!!", res.data);
         this.setState({ approveActionStatus: res.data });
       })
       .catch((res) => {
@@ -53,11 +53,9 @@ class PackageUpdateApprovalPending extends Component {
   rejectAction = async (pId) => {
     console.log("Reject Trigge!! Public ID: ", pId);
     let rData = { id: pId };
-    let urlRData = `http://localhost:8085/api/packages/package/update-reject`;
+    let urlRData = `${BASE_URL}/packages/package/update-reject`;
     await Axios.put(urlRData, rData)
       .then((res) => {
-        console.log("Reject Done!!", res.data);
-
         this.setState({ rejectActionStatus: res.data });
       })
       .catch((res) => {
@@ -141,15 +139,15 @@ class PackageUpdateApprovalPending extends Component {
                                 <td>{item.price != null ? item.price : "0"}</td>
 
                                 <td>
-                                  <a
-                                    href={`/packages/package/detail/${item.publicId}`}
+                                  <Link
+                                    to={`/packages/package/detail/${item.publicId}`}
                                     className="btn btn-info btn-icon-split"
                                   >
                                     <span className="icon text-white-50">
                                       <i className=" nav-icon fas fa-edit" />
                                     </span>
                                     <span className="text">Detail</span>
-                                  </a>
+                                  </Link>
                                 </td>
 
                                 <td>

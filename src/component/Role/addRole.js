@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import { FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Redirect } from "react-router-dom";
 
 const index = 0;
 const acItem = [{}];
@@ -67,6 +68,7 @@ class AddRole extends Component {
     accessTypeLoad: false,
     roleLoad: false,
     prepRole: {},
+    redirectStatus: false,
   };
 
   componentDidMount() {
@@ -76,7 +78,7 @@ class AddRole extends Component {
 
   /** Pref Role Load Start */
   loadPrepRole = async () => {
-    await Axios.get("http://localhost:8085/api/roles/access/add")
+    await Axios.get(`${BASE_URL}/roles/access/add`, { headers: REQUEST_HEADER })
       .then((res) => {
         roleData = {};
         roleData = {
@@ -132,9 +134,10 @@ class AddRole extends Component {
 
   /** Access Types Load Start */
   loadAllAccessTypes = async () => {
-    await Axios.get("http://localhost:8085/api/roles/access-tyeps")
+    await Axios.get(`${BASE_URL}/roles/access-tyeps`, {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Access Type: ", res.data);
         if (gAccessTypes.length > 0) {
           gAccessTypes = [];
         }
@@ -182,6 +185,7 @@ class AddRole extends Component {
     Axios.post(roleUpdateUrl, strinfiValue, { headers: REQUEST_HEADER })
       .then((res) => {
         console.log("Role Save Success, ", res.data);
+        this.setState({ redirectStatus: true });
       })
       .catch((res) => {
         console.log("Role Save Error ", res);
@@ -189,6 +193,10 @@ class AddRole extends Component {
   };
 
   render() {
+    if (this.state.redirectStatus) {
+      return <Redirect to="/roles" />;
+    }
+
     if (!this.state.roleLoad) {
       return (
         <React.Fragment>

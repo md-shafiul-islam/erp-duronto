@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Axios from "axios";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCategories } from "../../actions/categoryActions";
 import { PropTypes } from "prop-types";
+import CommonTableView from "../Layout/TableView/CommonTableView";
 
 class CategoriesView extends Component {
   async componentDidMount() {
@@ -58,30 +57,13 @@ class CategoriesView extends Component {
                           this.state.categories.map((item, ind) => {
                             return (
                               <React.Fragment>
-                                <tr key={ind}>
-                                  <td>{item.id}</td>
-                                  <td>
-                                    {" "}
-                                    {item.name !== "" ? item.name : "Anonymous"}
-                                  </td>
-                                  <td>
-                                    {item.description !== null
-                                      ? item.description
-                                      : ""}
-                                  </td>
-
-                                  <td>
-                                    <a
-                                      href="/categories/category/id"
-                                      class="btn btn-info btn-icon-split"
-                                    >
-                                      <span class="icon text-white-50">
-                                        <i class=" nav-icon fas fa-edit"></i>
-                                      </span>
-                                      <span class="text">Edit</span>
-                                    </a>
-                                  </td>
-                                </tr>
+                                <CommonTableView
+                                  item={item}
+                                  index={ind}
+                                  actionIconClass={`nav-icon fas fa-edit`}
+                                  actionLabel={`Edit`}
+                                  action={`/categories/category/edit/`}
+                                />
                               </React.Fragment>
                             );
                           })}

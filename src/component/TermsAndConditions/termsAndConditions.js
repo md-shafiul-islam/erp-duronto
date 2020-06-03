@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
 class TermsAndConditions extends Component {
   state = { terms: {}, termLoadStatus: true };
@@ -13,7 +15,7 @@ class TermsAndConditions extends Component {
 
   loadTermCnds = async () => {
     let termUrl = `${baseUrl}/terms`;
-    await Axios.get(termUrl)
+    await Axios.get(termUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         console.log("Response Data: ", res.data);
 
@@ -89,15 +91,15 @@ class TermsAndConditions extends Component {
                                   </td>
 
                                   <td>
-                                    <a
-                                      href={`/terms/term/details/${term.publicId}`}
+                                    <Link
+                                      to={`/terms/term/details/${term.publicId}`}
                                       className="btn btn-info btn-icon-split"
                                     >
                                       <span className="icon text-white-50">
                                         <i className=" nav-icon fas fa-task" />
                                       </span>
                                       <span className="text">Details</span>
-                                    </a>
+                                    </Link>
                                   </td>
                                 </tr>
                               );

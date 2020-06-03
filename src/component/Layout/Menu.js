@@ -1054,7 +1054,7 @@ class Menu extends Component {
                           <p>Tour packages</p>
                         </a>
                         <ul className="nav nav-treeview">
-                          {package_ac.add === 1 ? (
+                          {package_ac.add === 1 || package_ac.all == 1 ? (
                             <li className="nav-item">
                               <AddPackageButton />
                             </li>
@@ -1062,7 +1062,7 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.approve === 1 ? (
+                          {package_ac.approve === 1 || package_ac.all == 1 ? (
                             <li className="nav-item">
                               <AddPackApprovalPemdingButton />
                             </li>
@@ -1070,7 +1070,7 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.edit === 1 ? (
+                          {package_ac.edit === 1 || package_ac.all == 1 ? (
                             <li className="nav-item">
                               <UpdatePackageButton />
                             </li>
@@ -1078,7 +1078,8 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.updateApproval === 1 ? (
+                          {package_ac.updateApproval === 1 ||
+                          package_ac.all == 1 ? (
                             <li className="nav-item">
                               <PackageUpdateApprovalButton />
                             </li>
@@ -1086,7 +1087,12 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.view === 1 ? (
+                          {package_ac.view === 1 ||
+                          package_ac.add == 1 ||
+                          package_ac.all == 1 ||
+                          package_ac.edit == 1 ||
+                          package_ac.approval == 1 ||
+                          package_ac.updateApproval == 1 ? (
                             <li className="nav-item">
                               <PackageConfrimViewButton />
                             </li>
@@ -1094,7 +1100,7 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.add === 1 ? (
+                          {package_ac.add === 1 || package_ac.all == 1 ? (
                             <li className="nav-item">
                               <PackageRejectViewBuuton />
                             </li>

@@ -1,17 +1,29 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { BASE_URL, REQUEST_HEADER, EXT_BASE_URL } from "../../actions/types";
+import { Link } from "react-router-dom";
+import DataNotFound from "../Layout/dataNotFound";
 
 class UserDetails extends Component {
+  state = {
+    user: {},
+    userLoadStatus: true,
+    userId: "",
+  };
+
   constructor(props) {
     super(props);
 
     this.userId = props.match.params.id;
+    console.log("User Details ID: ", this.userId);
+    this.setState({ userId: props.match.params.id });
   }
 
   state = {
     user: {},
     userLoadStatus: true,
+    userId: "",
   };
 
   componentDidMount() {
@@ -19,23 +31,36 @@ class UserDetails extends Component {
   }
 
   loadUser = async () => {
-    let userUrl = `http://localhost:8085/api/users/user/${this.userId}`;
-    await Axios.get(userUrl)
+    let uId = "";
+    if (this.userId) {
+      uId = this.userId;
+    } else {
+      uId = this.state.userId;
+    }
+
+    console.log("User Details Befor Header: ", REQUEST_HEADER);
+    console.log("User Details URL Befor Send ", uId);
+
+    await Axios.get(`${BASE_URL}/users/user/${uId}`, {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
         this.setState({ user: res.data });
         this.setState({ userLoadStatus: false });
+        console.log("Received user :", res.data);
+        console.log("Received user State:", this.state.user);
       })
       .catch((res) => {
-        console.log("User Load Error: ", res);
+        console.log("User Details Load: ", res);
       });
   };
 
   render() {
-    if (this.state.userLoadStatus) {
-      return <LoadingData />;
-    }
-
     let { user } = this.state;
+
+    if (this.state.userLoadStatus && user) {
+      return <DataNotFound />;
+    }
 
     return (
       <React.Fragment>
@@ -80,12 +105,12 @@ class UserDetails extends Component {
                                   <h4>Personal Info</h4>
                                 </div>
                                 <div className="col-md-2">
-                                  <a
-                                    href={`/user/set-pass/id=${user.publicId}`}
+                                  <Link
+                                    to={`/user/set-pass/id=${user.publicId}`}
                                     className="btn btn-block btn-outline-primary btn-sm"
                                   >
                                     Change Password{" "}
-                                  </a>
+                                  </Link>
                                 </div>
                               </div>
                             </div>
@@ -560,7 +585,11 @@ class UserDetails extends Component {
                     <div className="mp-10 text-center mt-5 mb-3">
                       <div>
                         <img
-                          src={`${user.profileIimage}`}
+                          src={
+                            user.profileIimage !== undefined
+                              ? `${EXT_BASE_URL}${user.profileIimage}`
+                              : ""
+                          }
                           width={260}
                           height={260}
                         />

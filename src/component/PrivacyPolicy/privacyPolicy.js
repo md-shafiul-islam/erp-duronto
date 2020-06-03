@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { Link } from "react-router-dom";
 
 const baseUrl = "http://localhost:8085/api";
 class PrivacyPolicy extends Component {
@@ -86,15 +87,15 @@ class PrivacyPolicy extends Component {
                                   </td>
 
                                   <td>
-                                    <a
-                                      href={`/privacyPolicies/policy/details/${term.publicId}`}
+                                    <Link
+                                      to={`/privacyPolicies/policy/details/${term.publicId}`}
                                       className="btn btn-info btn-icon-split"
                                     >
                                       <span className="icon text-white-50">
                                         <i className=" nav-icon fas fa-task" />
                                       </span>
                                       <span className="text">Details</span>
-                                    </a>
+                                    </Link>
                                   </td>
                                 </tr>
                               );

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class AddDuration extends Component {
   state = {
@@ -25,7 +25,7 @@ class AddDuration extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/durations" />;
+      return <Link to="/durations" />;
     }
     return (
       <React.Fragment>

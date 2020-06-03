@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Link } from "react-router-dom";
 
 let userList = [];
 class UserApprovalPanding extends Component {
@@ -12,10 +14,8 @@ class UserApprovalPanding extends Component {
     rejectMsg: "",
   };
 
-  baseUrl = "http://localhost:8085/api";
-
   actionApprove = async (publicId) => {
-    let approveUrl = `${this.baseUrl}/users/user/approve/${publicId}`;
+    let approveUrl = `${BASE_URL}/users/user/approve/${publicId}`;
 
     console.log("Approve Requesed ID", publicId);
 
@@ -24,7 +24,7 @@ class UserApprovalPanding extends Component {
       return;
     }
 
-    await Axios.put(approveUrl)
+    await Axios.put(approveUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         if (res.data !== undefined) {
           this.setState({ approveStatus: true });
@@ -43,15 +43,14 @@ class UserApprovalPanding extends Component {
   };
 
   actionReject = async (publicId) => {
-    let rejectUrl = `${this.baseUrl}/users/user/reject/${publicId}`;
-    console.log("Approve Requesed ID", publicId);
+    let rejectUrl = `${BASE_URL}/users/user/reject/${publicId}`;
 
     if (publicId == null) {
       console.log("Reject Action User Id Is Null");
       return;
     }
 
-    await Axios.put(rejectUrl)
+    await Axios.put(rejectUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         if (res.data === true) {
           this.setState({ rjectStatus: true, rejectMsg: res.data });
@@ -81,7 +80,9 @@ class UserApprovalPanding extends Component {
   }
 
   loadAllUsers = async () => {
-    await Axios.get("http://localhost:8085/api/users/add-approvepanding")
+    await Axios.get(`${BASE_URL}/users/add-approvepanding`, {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
         if (userList.length > 0) {
           userList = [];
@@ -160,12 +161,12 @@ class UserApprovalPanding extends Component {
                                 </td>
 
                                 <td>
-                                  <a
-                                    href={`/users/user/${item.publicId}`}
+                                  <Link
+                                    to={`/users/user/${item.publicId}`}
                                     className="btn btn-block btn-outline-primary btn-sm"
                                   >
                                     Details{" "}
-                                  </a>
+                                  </Link>
                                 </td>
 
                                 <td>

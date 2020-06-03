@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { REQUEST_HEADER } from "../../actions/types";
 
 let headers = {
@@ -34,7 +34,7 @@ class AddDepartment extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/departments" />;
+      return <Link to="/departments" />;
     }
     return (
       <React.Fragment>
@@ -43,7 +43,7 @@ class AddDepartment extends Component {
             <div className="col-md-8" style={{ margin: "10px auto" }}>
               <div className="card card-primary">
                 <div className="card-header">
-                  <h3 className="card-title">Add Category</h3>
+                  <h3 className="card-title">Add Department</h3>
                 </div>
 
                 {/* form start */}

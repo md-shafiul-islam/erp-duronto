@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL } from "../../actions/types";
+import { Link } from "react-router-dom";
 
 const userList = [];
 
@@ -23,7 +25,7 @@ class EditableUsers extends Component {
   }
 
   loadAllUsers = async () => {
-    await Axios.get("http://localhost:8085/api/users/edit-users")
+    await Axios.get(`${BASE_URL}/users/edit-users`)
       .then((res) => {
         if (userList.length > 0) {
           userList = [];
@@ -126,16 +128,16 @@ class EditableUsers extends Component {
                                 {console.log("Public ID: ", item.publicId)}
                                 {console.log("User Status: ", item.status)}
                                 <td>
-                                  <a
-                                    href={`/users/user/${item.publicId}`}
+                                  <Link
+                                    to={`/users/user/${item.publicId}`}
                                     className="btn btn-block btn-outline-primary btn-sm"
                                   >
                                     Details{" "}
-                                  </a>
+                                  </Link>
                                 </td>
                                 <td>
-                                  <a
-                                    href={`/users/user/edit/${item.publicId}`}
+                                  <Link
+                                    to={`/users/user/edit/${item.publicId}`}
                                     className="btn btn-info btn-icon-split"
                                   >
                                     {" "}
@@ -144,7 +146,7 @@ class EditableUsers extends Component {
                                       <i className=" nav-icon fas fa-edit" />
                                     </span>{" "}
                                     <span className="text">Edit</span>
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

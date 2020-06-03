@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Link } from "react-router-dom";
 
 let userList = [];
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
 class RejectUsers extends Component {
   state = {
@@ -24,7 +26,7 @@ class RejectUsers extends Component {
   }
 
   loadAllUsers = async () => {
-    await Axios.get("http://localhost:8085/api/users/reject")
+    await Axios.get(`${BASE_URL}/users/reject`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (userList.length > 0) {
           userList = [];
@@ -102,12 +104,12 @@ class RejectUsers extends Component {
                                 </td>
 
                                 <td>
-                                  <a
-                                    href={`/users/user/${item.publicId}`}
+                                  <Link
+                                    to={`/users/user/${item.publicId}`}
                                     className="btn btn-block btn-outline-primary btn-sm"
                                   >
                                     Details{" "}
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

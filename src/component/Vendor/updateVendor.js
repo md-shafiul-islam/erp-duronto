@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import VendorView from "./vendorView";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-const headers = {
-  "Content-Type": "application/json",
-};
+const headers = REQUEST_HEADER;
 
 class UpdateVendor extends Component {
   state = {
@@ -24,7 +23,7 @@ class UpdateVendor extends Component {
   loadPandingVendors = async () => {
     let vendorsUrl = `${baseUrl}/vendors/list`;
 
-    Axios.get(vendorsUrl)
+    Axios.get(vendorsUrl, { headers: headers })
       .then((res) => {
         this.setState({ vendors: [] });
         this.setState({ vendors: res.data, getVendorStatus: false });

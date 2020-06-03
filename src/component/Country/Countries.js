@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 let countryList = [];
 
@@ -26,7 +27,7 @@ class Countries extends Component {
         });
       })
       .catch((res) => {
-        console.log("Error Categories: ", res);
+        console.log("Error Countries: ", res);
       });
 
     this.setState({ counties: countryList });
@@ -93,15 +94,15 @@ class Countries extends Component {
                                 </td>
 
                                 <td>
-                                  <a
-                                    href="/categories/category/id"
+                                  <Link
+                                    to={`/countries/country/edit/${item.id}`}
                                     class="btn btn-info btn-icon-split"
                                   >
                                     <span class="icon text-white-50">
                                       <i class=" nav-icon fas fa-edit"></i>
                                     </span>
                                     <span class="text">Edit</span>
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

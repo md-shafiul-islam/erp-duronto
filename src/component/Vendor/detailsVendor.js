@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import VendorInfLabelValue from "./vendorInfLabelValue";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Link } from "react-router-dom";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-const headers = {
-  "Content-Type": "application/json",
-};
+const headers = REQUEST_HEADER;
 
 class DetailsVendor extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class DetailsVendor extends Component {
     console.log("ID: ", this.paramVendorId);
 
     let vendorUrl = `${baseUrl}/vendors/vendor/details/${this.paramVendorId}`;
-    Axios.get(vendorUrl)
+    Axios.get(vendorUrl, { headers: headers })
       .then((res) => {
         res.data && this.setState({ vendor: res.data, vendorStatus: false });
         console.log("Vendor Details, ", res.data);
@@ -262,6 +262,19 @@ class DetailsVendor extends Component {
                                       </div>
                                     );
                                   })}
+                              </div>
+                            </div>
+
+                            <div className="col-md-12">
+                              <div className="row">
+                                <div className="offset-md-5 col-md-4">
+                                  <Link
+                                    to={`/vendors`}
+                                    className="btn btn-block btn-outline-primary btn-sm"
+                                  >
+                                    Bank to Vendors{" "}
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </div>

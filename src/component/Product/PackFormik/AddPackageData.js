@@ -6,6 +6,8 @@ import { ProgressBar } from "react-bootstrap";
 import Axios from "axios";
 
 import UsoitCKEditor from "../../UsoitCKEditor";
+import { REQUEST_HEADER } from "../../../actions/types";
+import { Redirect } from "react-router-dom";
 
 const dropzoneRef = createRef();
 const openDialog = () => {
@@ -24,13 +26,9 @@ let durationGlobal = [{ value: 0, Lebel: "None" }];
 
 let dataLoad = false;
 
-let headers = {
-  "Content-Type": "application/json",
-};
-/*"Access-Control-Allow-Origin": "*",*/
-
 class AddPackageData extends Component {
   state = {
+    redirectStatus: false,
     loadingAllData: true,
     countryesList: [{ value: 0, label: "None" }],
     packList: [{ value: 0, label: "None" }],
@@ -50,42 +48,29 @@ class AddPackageData extends Component {
   };
   async componentDidMount() {
     //Load Countries Start
-    await Axios.get("http://localhost:8085/api/countries")
+    await Axios.get("http://localhost:8085/api/countries", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Countries !! Axios Add Pack");
         console.log(res.data);
         res.data.map((count) => {
-          console.log("From Axios: id. " + count.id + " Name: " + count.name);
-
           countries.push({ value: count.id, label: count.name });
 
           console.log(countries.length);
         });
       })
       .catch((response) => {
-        console.log("Error: Loadin Countries !!");
         console.log(response);
       });
     //Load Countries End
 
     //Load Vendor Start
-    await Axios.get("http://localhost:8085/api/vendors")
+    await Axios.get("http://localhost:8085/api/vendors", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Vendors Axios Add Pack");
-
-        console.log(res.data);
-        console.log("All Inf: ");
-
         this.setState({ allVendor: res.data });
         res.data.map((vendor) => {
-          console.log(
-            "Pack Category ID: " +
-              vendor.id +
-              " C Name: " +
-              vendor.companyName +
-              " Person Name: " +
-              vendor.name
-          );
           vendorsGlobal.push({
             value: vendor.id,
             label: `${vendor.vGenId} Person Name: ${vendor.companyName}`,
@@ -93,70 +78,51 @@ class AddPackageData extends Component {
         });
       })
       .catch((res) => {
-        console.log("Error Get All Vendor!!");
-        console.log(res.data);
+        console.log(res);
       });
     //Load Vendor End
 
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/package-categories")
+    await Axios.get("http://localhost:8085/api/package-categories", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Package Categories!! Axios Add Pack");
         res.data.map((pack) => {
-          console.log("Pack Category ID: " + pack.id + " Name: " + pack.name);
           packCats.push({ value: pack.id, label: pack.name });
         });
       })
       .catch((res) => {
-        console.log("Error Get All Package Categories!!");
-        console.log(res.data);
+        console.log(res);
       });
     //Load Packages-categories Start
 
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/categories")
+    await Axios.get("http://localhost:8085/api/categories", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Categories!! Axios Add Pack");
         res.data.map((cat) => {
-          console.log("Pack Category ID: " + cat.id + " Name: " + cat.name);
           categories.push({ value: cat.id, label: cat.name });
         });
       })
       .catch((res) => {
-        console.log("Error Get All Categories!!");
-        console.log(res.data);
+        console.log(res);
       });
     //Load Packages-categories Start
 
     //Load Countries Start
-    await Axios.get("http://localhost:8085/api/durations")
+    await Axios.get("http://localhost:8085/api/durations", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Countries !! Axios Add Pack");
-        console.log(res.data);
         res.data.map((duration) => {
-          console.log(
-            "From Axios Duration: id. " +
-              duration.id +
-              " Name: " +
-              duration.name
-          );
-
           durationGlobal.push({ value: duration.id, label: duration.name });
-
-          console.log(durationGlobal.length);
         });
       })
       .catch((response) => {
-        console.log("Error: Loadin Countries !!");
         console.log(response);
       });
     //Load Countries End
-
-    console.log("After All data Load: ");
-
-    console.log("Country Size: " + countries.length);
-    console.log("Categories Size: " + categories.length);
-    console.log("Pack Cats Size: " + packCats.length);
 
     this.setState({ catList: categories });
     this.setState({ countryesList: countries });
@@ -164,8 +130,6 @@ class AddPackageData extends Component {
     this.setState({ vendorList: vendorsGlobal });
     this.setState({ durationList: durationGlobal });
     this.setState({ loadingAllData: false });
-
-    console.log("Cat Size: " + this.state.catList.length);
   }
 
   submitAction = (values) => {
@@ -187,10 +151,9 @@ class AddPackageData extends Component {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        console.log(" Befor");
-        console.log(percentCompleted + "%");
         this.setState({ uploadProgressScOne: percentCompleted });
       },
+      headers: REQUEST_HEADER,
     };
 
     const imgUploadconfigTwo = {
@@ -199,10 +162,9 @@ class AddPackageData extends Component {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        console.log(" Befor");
-        console.log(percentCompleted + "%");
         this.setState({ uploadProgressScTwo: percentCompleted });
       },
+      headers: REQUEST_HEADER,
     };
 
     const imgUploadconfigGallery = {
@@ -211,17 +173,12 @@ class AddPackageData extends Component {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        console.log(" Befor");
-        console.log(percentCompleted + "%");
         this.setState({ uploadProgressGallery: percentCompleted });
       },
+      headers: REQUEST_HEADER,
     };
 
-    console.log("itarnarys");
     await values.itarnarys.map(async (item) => {
-      console.log(item.file[0]);
-      console.log(item.fil2[0]);
-
       const srcFileOne = new FormData();
       srcFileOne.append("scFileOne", item.file[0]);
 
@@ -235,14 +192,11 @@ class AddPackageData extends Component {
         imgUploadconfigOne
       )
         .then((res) => {
-          console.log("Success !! File One");
-          console.log(res.data);
           imgOneUrl = res.data;
           return;
         })
         .catch((res) => {
-          console.log("Error !! File One");
-          console.log(res.data);
+          console.log(res);
           return;
         });
 
@@ -252,27 +206,21 @@ class AddPackageData extends Component {
         imgUploadconfigTwo
       )
         .then((res) => {
-          console.log("Success !! File Two");
-          console.log(res.data);
           imgTwoUrl = res.data;
           return;
         })
         .catch((res) => {
-          console.log("Error !! File Two");
-          console.log(res.data);
+          console.log(res);
           return;
         });
 
       item.file = null;
       item.fil2 = null;
-      console.log("Image Urls: One: " + imgOneUrl + " Two: " + imgTwoUrl);
+
       item.sourceUrl = imgOneUrl;
       item.sourceUrl2 = imgTwoUrl;
       this.setState({ imagesSet: true });
-      console.log("Status Image URL imagesSet: " + this.state.imagesSet);
     });
-
-    console.log("Befor Gallery Image Upload!!");
 
     let imageSize = values.imageGalleries.length;
     this.setState({ totalGaleryImage: imageSize });
@@ -282,12 +230,9 @@ class AddPackageData extends Component {
       const imageFile = new FormData();
       imageFile.append("imageFile", image.img_file[0]);
       if (imageSize == idx + 1) {
-        console.log("Last Image");
         this.setState({ uploadProgressGallery: 100 });
       } else {
-        console.log("Image Have");
         this.setState({ uploadProgressGallery: 0 });
-        console.log("Current Status: " + this.state.uploadProgressGallery);
       }
 
       let imgUrlGallery = "";
@@ -297,85 +242,53 @@ class AddPackageData extends Component {
         imgUploadconfigGallery
       )
         .then((res) => {
-          console.log("Success !! Image");
           console.log(res.data);
           imgUrlGallery = res.data;
         })
         .catch((res) => {
-          console.log("Error !! Image");
-          console.log(res.data);
+          console.log(res);
         });
       image.img_file = null;
-      console.log("imgUrlGallery :" + imgUrlGallery);
+
       image.srcUrl = imgUrlGallery;
 
       this.setState({ uploadImageG: true });
-
-      console.log("Status Image URL G: " + this.state.uploadImageG);
     });
-
-    console.log("Afetr All Work");
   };
 
   submitData(values) {
-    console.log("befor send IF Set Image");
-
     if (this.state.imagesSet && this.state.uploadImageG) {
-      console.log("befor send IF Pass!!");
       let dataVal = JSON.stringify(values, null, 2);
-      console.log("befor send Data: " + dataVal);
 
       Axios.post(
         "http://localhost:8085/api/packages/package",
         JSON.stringify(values, null, 2),
-        {
-          headers: headers,
-        }
+        { headers: REQUEST_HEADER }
       )
         .then((res) => {
-          console.log("Send Success!! Package Add");
+          this.setState({ redirectStatus: true });
           console.log(res.data);
         })
         .catch((res) => {
-          console.log("Error send Pckage!!");
-          console.log(res.data);
+          console.log(res);
         });
     }
   }
 
-  handleCountryChange(e) {
-    console.log("Country Chanege Fire");
+  handleCountryChange(e) {}
 
-    console.log(e);
-  }
+  handleChangeImage = (e) => {};
 
-  handleChangeImage = (e) => {
-    console.log("Run Handeler Change Image");
-    console.log(e);
-  };
+  handleState(opt) {}
 
-  handleState(opt) {
-    console.log("handel State: ");
-    console.log(opt);
-  }
+  onFocusHandeller(props) {}
 
-  onFocusHandeller(props) {
-    console.log("on Focus Run");
-    console.log(props);
-  }
-
-  imageHandeller = (param, filedName, e) => {
-    console.log(param);
-
-    console.log("Field Name: ");
-    console.log(filedName);
-
-    console.log("Event ");
-
-    console.log(e);
-  };
+  imageHandeller = (param, filedName, e) => {};
 
   render() {
+    if (this.state.redirectStatus) {
+      return <Redirect to="/packages" />;
+    }
     return (
       <React.Fragment>
         {this.state.loadingAllData ? (

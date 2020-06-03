@@ -3,7 +3,7 @@ import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Formik, Form, Field } from "formik";
 import UsoitCKEditor from "../UsoitCKEditor";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 const baseUrl = "http://localhost:8085/api";
 let headers = {

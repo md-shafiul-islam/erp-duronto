@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { REQUEST_HEADER } from "../../actions/types";
 import { connect } from "react-redux";
 

@@ -7,6 +7,8 @@ import Axios from "axios";
 
 import UsoitCKEditor from "../../UsoitCKEditor";
 import { TextField } from "@material-ui/core";
+import { EXT_BASE_URL, REQUEST_HEADER } from "../../../actions/types";
+import { Redirect } from "react-router-dom";
 
 const dropzoneRef = createRef();
 const openDialog = () => {
@@ -37,6 +39,7 @@ class EditPackage extends Component {
     this.paramPackId = props.match.params.id;
 
     this.state = {
+      redirectStatus: false,
       loadingAllData: true,
       countryesList: [{ value: 0, label: "None" }],
       packList: [{ value: 0, label: "None" }],
@@ -93,23 +96,12 @@ class EditPackage extends Component {
 
   loadVendorsAxios = async () => {
     //Load Vendor Start
-    await Axios.get("http://localhost:8085/api/vendors")
+    await Axios.get("http://localhost:8085/api/vendors", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Vendors Axios Add Pack");
-
-        console.log(res.data);
-        console.log("All Inf: ");
-
         this.setState({ allVendor: res.data });
         res.data.map((vendor) => {
-          console.log(
-            "Pack Category ID: " +
-              vendor.id +
-              " C Name: " +
-              vendor.companyName +
-              " Person Name: " +
-              vendor.name
-          );
           vendorsGlobal.push({
             value: vendor.publicId,
             label: `${vendor.vGenId} Person Name: ${vendor.companyName}`,
@@ -117,8 +109,7 @@ class EditPackage extends Component {
         });
       })
       .catch((res) => {
-        console.log("Error Get All Vendor!!");
-        console.log(res.data);
+        console.log(res);
       });
 
     this.setState({ vendorList: vendorsGlobal });
@@ -134,19 +125,17 @@ class EditPackage extends Component {
 
   loadPackageCategories = async () => {
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/package-categories")
+    await Axios.get("http://localhost:8085/api/package-categories", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Package Categories!! Axios Add Pack");
         res.data.map((pack) => {
-          console.log("Pack Category ID: " + pack.id + " Name: " + pack.name);
           packCats.push({ value: pack.id, label: pack.name });
         });
       })
       .catch((res) => {
-        console.log("Error Get All Package Categories!!");
-        console.log(res.data);
+        console.log(res);
       });
-    console.log("Pack Cats Size: " + packCats.length);
 
     this.setState({ packList: packCats });
 
@@ -161,22 +150,20 @@ class EditPackage extends Component {
 
   loadCategory = async () => {
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/categories")
+    await Axios.get("http://localhost:8085/api/categories", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Categories!! Axios Add Pack");
         res.data.map((cat) => {
           this.setState({ catList: [] });
-          console.log("Pack Category ID: " + cat.id + " Name: " + cat.name);
+
           categories.push({ value: cat.id, label: cat.name });
           this.setState({ catList: categories });
         });
       })
       .catch((res) => {
-        console.log("Error Get All Categories!!");
-        console.log(res.data);
+        console.log(res);
       });
-    console.log("Categories G Value Size: " + categories.length);
-    console.log("Cat Size State: " + this.state.catList.length);
 
     if (1 >= this.state.catList.length || this.state.catList == undefined) {
       this.setState({ catStatus: true });
@@ -189,25 +176,15 @@ class EditPackage extends Component {
 
   loadDurations = async () => {
     //Load durations Start
-    await Axios.get("http://localhost:8085/api/durations")
+    await Axios.get("http://localhost:8085/api/durations", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Countries !! Axios Add Pack");
-        console.log(res.data);
         res.data.map((duration) => {
-          console.log(
-            "From Axios Duration: id. " +
-              duration.id +
-              " Name: " +
-              duration.name
-          );
-
           durationGlobal.push({ value: duration.id, label: duration.name });
-
-          console.log(durationGlobal.length);
         });
       })
       .catch((response) => {
-        console.log("Error: Loadin Countries !!");
         console.log(response);
       });
 
@@ -228,24 +205,18 @@ class EditPackage extends Component {
 
   loadCountries = async () => {
     //Load Countries Start
-    await Axios.get("http://localhost:8085/api/countries")
+    await Axios.get("http://localhost:8085/api/countries", {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Success Get All Countries !! Axios Add Pack");
-        console.log(res.data);
         res.data.map((count) => {
-          console.log("From Axios: id. " + count.id + " Name: " + count.name);
-
           countries.push({ value: count.id, label: count.name });
-
-          console.log(countries.length);
         });
       })
       .catch((response) => {
-        console.log("Error: Loadin Countries !!");
         console.log(response);
       });
 
-    console.log("Country Size: " + countries.length);
     this.setState({ countryesList: countries });
 
     if (1 < countries.length && 1 >= this.state.countryesList.length) {
@@ -270,13 +241,14 @@ class EditPackage extends Component {
     }
 
     //Load Countries Start
-    await Axios.get(packUrl)
+    await Axios.get(packUrl, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Packa Edit Populated: ", res.data);
         this.setState({ populatePack: res.data });
       })
 
-      .catch((response) => {});
+      .catch((response) => {
+        console.log(response);
+      });
 
     this.state.populatePack &&
     this.state.populatePack.publicId &&
@@ -284,9 +256,6 @@ class EditPackage extends Component {
       ? this.setState({ editPackStatus: false })
       : this.setState({ editPackStatus: true });
 
-    console.log("Current Pack Status: ", this.state.editPackStatus);
-
-    console.log("Load Populate Pack State: ", this.state.populatePack);
     //Load Countries End
   };
 
@@ -296,7 +265,6 @@ class EditPackage extends Component {
 
       if (aData.value == index) {
         slData = aData;
-        console.log(`Selected ID: ${slData.value} Name: ${slData.label}`);
       }
 
       return slData;
@@ -322,10 +290,9 @@ class EditPackage extends Component {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        console.log(" Befor");
-        console.log(percentCompleted + "%");
         this.setState({ uploadProgressScOne: percentCompleted });
       },
+      headers: REQUEST_HEADER,
     };
 
     const imgUploadconfigTwo = {
@@ -334,10 +301,9 @@ class EditPackage extends Component {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        console.log(" Befor");
-        console.log(percentCompleted + "%");
         this.setState({ uploadProgressScTwo: percentCompleted });
       },
+      headers: REQUEST_HEADER,
     };
 
     const imgUploadconfigGallery = {
@@ -346,10 +312,9 @@ class EditPackage extends Component {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        console.log(" Befor");
-        console.log(percentCompleted + "%");
         this.setState({ uploadProgressGallery: percentCompleted });
       },
+      headers: REQUEST_HEADER,
     };
 
     console.log("itarnarys");
@@ -491,12 +456,13 @@ class EditPackage extends Component {
         "http://localhost:8085/api/packages/package",
         JSON.stringify(values, null, 2),
         {
-          headers: headers,
+          headers: REQUEST_HEADER,
         }
       )
         .then((res) => {
           console.log("Send Success!! Package Add");
           console.log(res.data);
+          this.setState({ redirectStatus: true });
         })
         .catch((res) => {
           console.log("Error send Pckage!!");
@@ -538,6 +504,10 @@ class EditPackage extends Component {
   };
 
   render() {
+    if (this.state.redirectStatus) {
+      return <Redirect to="/packages/update-approval-pending" />;
+    }
+
     return (
       <React.Fragment>
         {this.state.catStatus ||
@@ -1818,7 +1788,7 @@ class EditPackage extends Component {
                                               >
                                                 <Col xs={3} md={2}>
                                                   <Image
-                                                    src={`http://localhost:8085${cImage.srcUrl}`}
+                                                    src={`${EXT_BASE_URL}${cImage.srcUrl}`}
                                                     thumbnail
                                                     height="200"
                                                     width="180"

@@ -48,23 +48,17 @@ class Login extends Component {
     }
     const { errors } = this.state;
     return (
-      <div className="content-wrapper" style={{ backgroundColor: "#FFFFFF" }}>
+      <div className="content-wrapper">
         <section className="content">
           <div className="container-fluid">
-            <div className="row pading-35">
+            <div className="row pading-35 bg-image">
               {/* left column */}
-              <div className="col-md-8">
-                <img
-                  src="\uimage\84113967_195974658465936_3399543017957228544_o.png"
-                  alt=""
-                  title="login image"
-                />
-              </div>
-              <div className="col-md-4">
+
+              <div className="offset-md-8 col-md-4 cont-pos">
                 <div className="row">
                   <div className="col-md-11">
                     {/* jquery validation */}
-                    <div className="card card-primary ">
+                    <div className="card card-primary login-area">
                       {/* /.card-header */}
                       {/* form start */}
                       <Formik

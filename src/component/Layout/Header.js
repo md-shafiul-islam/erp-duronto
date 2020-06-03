@@ -19,11 +19,20 @@ class Header extends Component {
   render() {
     let { user, validToken } = this.props.security;
 
+    let clasnameHeader = "";
+    if (validToken) {
+      clasnameHeader =
+        "main-header navbar navbar-expand navbar-white navbar-light visibale-active";
+    } else {
+      clasnameHeader =
+        "main-header navbar navbar-expand navbar-white navbar-light visibale-inactive";
+    }
+
     return (
       <div>
         {/* navbar */}
 
-        <nav className="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav className={clasnameHeader}>
           {/* Left navbar links */}
           <ul className="navbar-nav">
             <li className="nav-item">

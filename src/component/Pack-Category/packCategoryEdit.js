@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 

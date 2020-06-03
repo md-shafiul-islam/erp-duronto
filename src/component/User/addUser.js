@@ -11,10 +11,9 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@material-ui/core";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
-let headers = {
-  "Content-Type": "application/json",
-};
+let headers = REQUEST_HEADER;
 
 const genderList = [{ value: 0, label: "None" }];
 const departmentList = [{ value: 0, label: "None" }];
@@ -52,11 +51,9 @@ class AddUser extends Component {
   loadCountries = async () => {
     console.log("Run Country User");
 
-    await Axios.get("http://localhost:8085/api/countries")
+    await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Done Countryes User");
         res.data.map((country) => {
-          console.log("Countryes name: ", country.name);
           countryList.push({ value: country.id, label: country.name });
         });
       })
@@ -64,12 +61,7 @@ class AddUser extends Component {
         console.log("Load Faield Country User", res);
       });
 
-    console.log("After Load Countries Size", countryList.length);
     this.setState({ countries: countryList });
-    console.log(
-      "After Load Set State Countries Size",
-      this.state.countries.length
-    );
 
     if (countryList.length > 0 && 0 >= this.state.countries) {
       this.setState({ countries: countryList });
@@ -81,12 +73,9 @@ class AddUser extends Component {
   };
 
   loadDepartmets = async () => {
-    await Axios.get("http://localhost:8085/api/departments")
+    await Axios.get(`${BASE_URL}/departments`, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Done Department User");
-
         res.data.map((department) => {
-          console.log("Department Name: ", department.name);
           departmentList.push({ value: department.id, label: department.name });
         });
       })
@@ -94,16 +83,8 @@ class AddUser extends Component {
         console.log("Load Faield department User", res);
       });
 
-    console.log("After Load departments Size", departmentList.length);
     this.setState({ departments: departmentList });
-    console.log(
-      "After Load Set State departments Size",
-      this.state.departments.length
-    );
 
-    this.state.departments.map((item) => {
-      console.log("Department ID: " + item.value + " Name: " + item.label);
-    });
     if (departmentList.length > 0 && 0 >= this.state.departments.length) {
       this.setState({ departments: departmentList });
     }
@@ -114,11 +95,8 @@ class AddUser extends Component {
   };
 
   loadDesignations = async () => {
-    console.log("Run Country User");
-
-    await Axios.get("http://localhost:8085/api/designations")
+    await Axios.get(`${BASE_URL}/designations`, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Done Designation User");
         res.data.map((designation) => {
           designationList.push({
             value: designation.id,
@@ -130,12 +108,7 @@ class AddUser extends Component {
         console.log("Load Faield designation User", res);
       });
 
-    console.log("After Load designations Size", designationList.length);
     this.setState({ designations: designationList });
-    console.log(
-      "After Load Set State designations Size",
-      this.state.designations.length
-    );
 
     if (designationList.length > 0 && 0 >= this.state.designations.length) {
       this.setState({ designations: designationList });
@@ -147,13 +120,9 @@ class AddUser extends Component {
   };
 
   loadGender = async () => {
-    console.log("Run Gender User");
-
-    await Axios.get("http://localhost:8085/api/genders")
+    await Axios.get(`${BASE_URL}/genders`, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Done Gender User");
         res.data.map((gender) => {
-          console.log("Gender Name: ", gender.name);
           genderList.push({
             value: gender.id,
             label: gender.name,
@@ -164,11 +133,8 @@ class AddUser extends Component {
         console.log("Load Faield gender User", res);
       });
 
-    console.log("After Load genders Size", genderList.length);
     this.setState({ genders: genderList });
-    console.log("After Load Set State genders Size", this.state.genders.length);
 
-    console.log("gender Lenght: ", this.state.genders.length);
     if (genderList.length > 0 && 0 >= this.state.genders.length) {
       this.setState({ genders: genderList });
     }
@@ -179,13 +145,9 @@ class AddUser extends Component {
   };
 
   loadMaritalStatuses = async () => {
-    console.log("Run MS User");
-
-    await Axios.get("http://localhost:8085/api/marital-status")
+    await Axios.get(`${BASE_URL}/marital-status`, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Done Maritals User");
         res.data.map((maritalStatus) => {
-          console.log("M S Name: ", maritalStatus.name);
           maritalStatusList.push({
             value: maritalStatus.id,
             label: maritalStatus.name,
@@ -196,12 +158,7 @@ class AddUser extends Component {
         console.log("Load Faield MS  User", res);
       });
 
-    console.log("After Load maritalStatuses Size", maritalStatusList.length);
     this.setState({ maritalStatuses: maritalStatusList });
-    console.log(
-      "After Load Set State maritalStatuses Size",
-      this.state.maritalStatuses.length
-    );
 
     if (
       maritalStatusList.length > 0 &&
@@ -216,13 +173,9 @@ class AddUser extends Component {
   };
 
   loadRoles = async () => {
-    console.log("Run Roles User");
-
-    await Axios.get("http://localhost:8085/api/roles")
+    await Axios.get(`${BASE_URL}/roles`, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Done Role User");
         res.data.map((role) => {
-          console.log("Role Name: ", role.name);
           roleList.push({
             value: role.id,
             label: role.name,
@@ -233,9 +186,7 @@ class AddUser extends Component {
         console.log("Load Faield Roles User", res);
       });
 
-    console.log("After Load roles Size", roleList.length);
     this.setState({ roles: roleList });
-    console.log("After Load Set State roles Size", this.state.roles.length);
 
     if (roleList.length > 0 && 0 >= this.state.roles) {
       this.setState({ roles: roleList });
@@ -252,19 +203,18 @@ class AddUser extends Component {
         (progressEvent.loaded * 100) / progressEvent.total
       );
 
-      console.log(" Befor");
       count++;
       this.setState({
         uploadProgress: percentCompleted,
       });
       console.log(percentCompleted + "%" + "File No: " + count);
     },
-    headers: headers,
+    headers: REQUEST_HEADER,
   };
 
   uploadAllfile = async (values) => {
     count = 0;
-    const bUrl = "http://localhost:8085/api/uploadfile/user-file/";
+    const bUrl = `${BASE_URL}/uploadfile/user-file/`;
 
     if (values.fieldVerificationFile !== null) {
       /** fieldVerificationFile Start */
@@ -809,7 +759,7 @@ class AddUser extends Component {
 
     console.log("Befor Submit Data to Save", sendData);
 
-    Axios.post("http://localhost:8085/api/users/user", sendData, {
+    Axios.post(`${BASE_URL}/users/user`, sendData, {
       headers: headers,
     })
       .then((res) => {

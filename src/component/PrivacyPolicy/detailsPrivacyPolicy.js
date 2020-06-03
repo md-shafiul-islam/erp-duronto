@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { Link } from "react-router-dom";
 
 const baseUrl = "http://localhost:8085/api";
 let headers = {
@@ -121,12 +122,12 @@ class DetailsPrivacyPolicy extends Component {
                       {() => {
                         console.log(this.state.term.publicId);
                       }}
-                      <a
-                        href={`/privacyPolicies/policy/edit/${this.state.policy.publicId}`}
+                      <Link
+                        to={`/privacyPolicies/policy/edit/${this.state.policy.publicId}`}
                         className="btn btn-block btn-outline-success btn-sm"
                       >
                         Edit Or Update
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

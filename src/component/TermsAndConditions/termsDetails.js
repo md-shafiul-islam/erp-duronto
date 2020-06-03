@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { Link } from "react-router-dom";
 
 const baseUrl = "http://localhost:8085/api";
 
@@ -103,23 +104,23 @@ class TermsDetails extends Component {
                 <div className="card-footer">
                   <div className="row">
                     <div className="offset-md-6 col-md-2">
-                      <a
-                        href={`/terms`}
+                      <Link
+                        to={`/terms`}
                         className="btn btn-block btn-outline-primary btn-sm"
                       >
                         Back
-                      </a>
+                      </Link>
                     </div>
                     <div className="col-md-2">
                       {() => {
                         console.log(this.state.term.publicId);
                       }}
-                      <a
-                        href={`/terms/term/edit/${this.state.term.publicId}`}
+                      <Link
+                        to={`/terms/term/edit/${this.state.term.publicId}`}
                         className="btn btn-block btn-outline-success btn-sm"
                       >
                         Edit Or Update
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
