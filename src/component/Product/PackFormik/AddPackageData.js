@@ -6,7 +6,7 @@ import { ProgressBar } from "react-bootstrap";
 import Axios from "axios";
 
 import UsoitCKEditor from "../../UsoitCKEditor";
-import { REQUEST_HEADER } from "../../../actions/types";
+import { REQUEST_HEADER, BASE_URL } from "../../../actions/types";
 import { Redirect } from "react-router-dom";
 
 const dropzoneRef = createRef();
@@ -48,7 +48,7 @@ class AddPackageData extends Component {
   };
   async componentDidMount() {
     //Load Countries Start
-    await Axios.get("http://localhost:8085/api/countries", {
+    await Axios.get(`${BASE_URL}/countries`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -65,7 +65,7 @@ class AddPackageData extends Component {
     //Load Countries End
 
     //Load Vendor Start
-    await Axios.get("http://localhost:8085/api/vendors", {
+    await Axios.get(`${BASE_URL}/vendors`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -83,7 +83,7 @@ class AddPackageData extends Component {
     //Load Vendor End
 
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/package-categories", {
+    await Axios.get(`${BASE_URL}/package-categories`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -97,7 +97,7 @@ class AddPackageData extends Component {
     //Load Packages-categories Start
 
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/categories", {
+    await Axios.get(`${BASE_URL}/categories`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -111,7 +111,7 @@ class AddPackageData extends Component {
     //Load Packages-categories Start
 
     //Load Countries Start
-    await Axios.get("http://localhost:8085/api/durations", {
+    await Axios.get(`${BASE_URL}/durations`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -187,7 +187,7 @@ class AddPackageData extends Component {
       let imgOneUrl = "";
       let imgTwoUrl = "";
       await Axios.put(
-        "http://localhost:8085/api/uploadfile/source-one",
+        `${BASE_URL}/uploadfile/source-one`,
         srcFileOne,
         imgUploadconfigOne
       )
@@ -201,7 +201,7 @@ class AddPackageData extends Component {
         });
 
       await Axios.put(
-        "http://localhost:8085/api/uploadfile/source-two",
+        `${BASE_URL}/uploadfile/source-two`,
         srcFileTwo,
         imgUploadconfigTwo
       )
@@ -237,7 +237,7 @@ class AddPackageData extends Component {
 
       let imgUrlGallery = "";
       await Axios.put(
-        "http://localhost:8085/api/uploadfile/image-gallery",
+        `${BASE_URL}/uploadfile/image-gallery`,
         imageFile,
         imgUploadconfigGallery
       )
@@ -261,7 +261,7 @@ class AddPackageData extends Component {
       let dataVal = JSON.stringify(values, null, 2);
 
       Axios.post(
-        "http://localhost:8085/api/packages/package",
+        `${BASE_URL}/packages/package`,
         JSON.stringify(values, null, 2),
         { headers: REQUEST_HEADER }
       )

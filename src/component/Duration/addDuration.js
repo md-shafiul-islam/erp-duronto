@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
 import { Redirect, Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 class AddDuration extends Component {
   state = {
@@ -12,7 +13,9 @@ class AddDuration extends Component {
     if (values != null) {
       let durations = JSON.stringify(values, null, 2);
 
-      Axios.post("http://localhost:8085/api/durations/duration", durations)
+      Axios.post(`${BASE_URL}/durations/duration`, durations, {
+        headers: REQUEST_HEADER,
+      })
         .then((res) => {
           console.log("Done Category Add: ", res.data);
           this.setState({ redirect: true });

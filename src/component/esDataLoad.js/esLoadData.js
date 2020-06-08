@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 class EsLoadData extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class EsLoadData extends Component {
   getCountries = async () => {
     //Load Countries Start
     let countries = [];
-    await Axios.get("http://localhost:8085/api/countries")
+    await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
 
       .then((res) => {
         console.log("Success Get All Countries !! Axios Add Pack");

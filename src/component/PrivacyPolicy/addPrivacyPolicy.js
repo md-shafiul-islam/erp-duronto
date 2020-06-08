@@ -4,11 +4,10 @@ import UsoitCKEditor from "../UsoitCKEditor";
 import Axios from "axios";
 import { Formik, Form, Field } from "formik";
 import { Redirect, Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
-let headers = {
-  "Content-Type": "application/json",
-};
+const baseUrl = BASE_URL;
+let headers = REQUEST_HEADER;
 
 class AddPrivacyPolicy extends Component {
   state = {

@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 class PrivacyPolicy extends Component {
   state = { terms: {}, termLoadStatus: true };
 
@@ -13,7 +14,7 @@ class PrivacyPolicy extends Component {
 
   loadTermCnds = async () => {
     let termUrl = `${baseUrl}/privacy-policies`;
-    await Axios.get(termUrl)
+    await Axios.get(termUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         console.log("Response Data: ", res.data);
 

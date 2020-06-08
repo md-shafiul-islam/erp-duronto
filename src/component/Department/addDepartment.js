@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
 import { Redirect, Link } from "react-router-dom";
-import { REQUEST_HEADER } from "../../actions/types";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
 let headers = {
   "Content-Type": "application/json",
@@ -17,11 +17,9 @@ class AddDepartment extends Component {
     if (values != null) {
       let department = JSON.stringify(values, null, 2);
 
-      Axios.post(
-        "http://localhost:8085/api/departments/department",
-        department,
-        { headers: REQUEST_HEADER }
-      )
+      Axios.post(`${BASE_URL}/departments/department`, department, {
+        headers: REQUEST_HEADER,
+      })
         .then((res) => {
           console.log("Done Category Add: ", res.data);
           this.setState({ redirect: true });

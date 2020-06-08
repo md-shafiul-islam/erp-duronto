@@ -7,7 +7,7 @@ import Axios from "axios";
 
 import UsoitCKEditor from "../../UsoitCKEditor";
 import { TextField } from "@material-ui/core";
-import { EXT_BASE_URL, REQUEST_HEADER } from "../../../actions/types";
+import { EXT_BASE_URL, REQUEST_HEADER, BASE_URL } from "../../../actions/types";
 import { Redirect } from "react-router-dom";
 
 const dropzoneRef = createRef();
@@ -27,10 +27,7 @@ let durationGlobal = [{ value: 0, label: "None" }];
 
 let dataLoad = false;
 
-let headers = {
-  "Content-Type": "application/json",
-};
-/*"Access-Control-Allow-Origin": "*",*/
+let headers = REQUEST_HEADER; /*"Access-Control-Allow-Origin": "*",*/
 
 class EditPackage extends Component {
   constructor(props) {
@@ -96,7 +93,7 @@ class EditPackage extends Component {
 
   loadVendorsAxios = async () => {
     //Load Vendor Start
-    await Axios.get("http://localhost:8085/api/vendors", {
+    await Axios.get(`${BASE_URL}/vendors`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -125,7 +122,7 @@ class EditPackage extends Component {
 
   loadPackageCategories = async () => {
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/package-categories", {
+    await Axios.get(`${BASE_URL}/package-categories`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -150,7 +147,7 @@ class EditPackage extends Component {
 
   loadCategory = async () => {
     //Load Packages-categories Start
-    await Axios.get("http://localhost:8085/api/categories", {
+    await Axios.get(`${BASE_URL}/categories`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -176,7 +173,7 @@ class EditPackage extends Component {
 
   loadDurations = async () => {
     //Load durations Start
-    await Axios.get("http://localhost:8085/api/durations", {
+    await Axios.get(`${BASE_URL}/durations`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -205,7 +202,7 @@ class EditPackage extends Component {
 
   loadCountries = async () => {
     //Load Countries Start
-    await Axios.get("http://localhost:8085/api/countries", {
+    await Axios.get(`${BASE_URL}/countries`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
@@ -235,9 +232,9 @@ class EditPackage extends Component {
   loadEditPack = async () => {
     let packUrl = "";
     if (this.paramPackId != null) {
-      packUrl = `http://localhost:8085/api/packages/package/edit/${this.paramPackId}`;
+      packUrl = `${BASE_URL}/packages/package/edit/${this.paramPackId}`;
     } else {
-      packUrl = `http://localhost:8085/api/packages/package/edit/${this.state.packCuId}`;
+      packUrl = `${BASE_URL}/packages/package/edit/${this.state.packCuId}`;
     }
 
     //Load Countries Start
@@ -329,7 +326,7 @@ class EditPackage extends Component {
         srcFileOne.append("scFileOne", item.file[0]);
 
         await Axios.put(
-          "http://localhost:8085/api/uploadfile/source-one",
+          `${BASE_URL}/uploadfile/source-one`,
           srcFileOne,
           imgUploadconfigOne
         )
@@ -351,7 +348,7 @@ class EditPackage extends Component {
         srcFileTwo.append("scFileTwo", item.file[0]);
         console.log(item.fil2[0]);
         await Axios.put(
-          "http://localhost:8085/api/uploadfile/source-two",
+          `${BASE_URL}/uploadfile/source-two`,
           srcFileTwo,
           imgUploadconfigTwo
         )
@@ -408,7 +405,7 @@ class EditPackage extends Component {
 
         let imgUrlGallery = "";
         await Axios.put(
-          "http://localhost:8085/api/uploadfile/image-gallery",
+          `${BASE_URL}/uploadfile/image-gallery`,
           imageFile,
           imgUploadconfigGallery
         )
@@ -453,7 +450,7 @@ class EditPackage extends Component {
       console.log("befor send Data: " + dataVal);
 
       Axios.put(
-        "http://localhost:8085/api/packages/package",
+        `${BASE_URL}/packages/package`,
         JSON.stringify(values, null, 2),
         {
           headers: REQUEST_HEADER,

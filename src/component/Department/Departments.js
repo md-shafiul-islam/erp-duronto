@@ -4,6 +4,7 @@ import CommonTableView from "../Layout/TableView/CommonTableView";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import { getAccess } from "../../actions/appStoreAction";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
 const departmentList = [];
 
@@ -24,7 +25,7 @@ class Departments extends Component {
   }
 
   loadDepartmentList = async () => {
-    await Axios.get("http://localhost:8085/api/departments")
+    await Axios.get(`${BASE_URL}/departments`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (departmentList.length > 0) {
           departmentList = [];

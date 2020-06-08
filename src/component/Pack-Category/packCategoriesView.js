@@ -5,6 +5,7 @@ import CommonTableView from "../Layout/TableView/CommonTableView";
 import { getAccess } from "../../actions/appStoreAction";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 const catList = [];
 class PackCategoriesView extends Component {
@@ -25,7 +26,9 @@ class PackCategoriesView extends Component {
   }
 
   loadPackCategoriesList = async () => {
-    await Axios.get("http://localhost:8085/api/package-categories")
+    await Axios.get(`${BASE_URL}/package-categories`, {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
         if (catList.length > 0) {
           catList = [];

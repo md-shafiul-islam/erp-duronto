@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 let countryList = [];
 
@@ -16,7 +17,7 @@ class Countries extends Component {
   }
 
   getAllCountries = async () => {
-    await Axios.get("http://localhost:8085/api/countries")
+    await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (countryList.length > 0) {
           countryList = [];

@@ -40,11 +40,9 @@ class DepartmentEdit extends Component {
     if (values != null) {
       let department = JSON.stringify(values, null, 2);
 
-      Axios.put(
-        "http://localhost:8085/api/departments/department",
-        department,
-        { headers: REQUEST_HEADER }
-      )
+      Axios.put(`${BASE_URL}/departments/department`, department, {
+        headers: REQUEST_HEADER,
+      })
         .then((res) => {
           console.log("Done Category Add: ", res.data);
           this.setState({ redirect: true });

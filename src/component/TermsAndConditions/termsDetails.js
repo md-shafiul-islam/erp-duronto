@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
 class TermsDetails extends Component {
   constructor(props) {
@@ -53,10 +54,10 @@ class TermsDetails extends Component {
                 <div className="col-sm-6">
                   <ol className="breadcrumb float-sm-right">
                     <li className="breadcrumb-item">
-                      <a href="/">Home</a>
+                      <Link href="/">Home</Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a href="/terms/">Terms</a>
+                      <Link href="/terms/">Terms</Link>
                     </li>
                     <li className="breadcrumb-item active">term/details</li>
                   </ol>

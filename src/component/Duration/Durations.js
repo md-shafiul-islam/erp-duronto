@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import CommonTableView from "../Layout/TableView/CommonTableView";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
 const durationsList = [];
 
@@ -10,7 +11,7 @@ class Durations extends Component {
   }
 
   loadDesignationList = async () => {
-    await Axios.get("http://localhost:8085/api/durations")
+    await Axios.get(`${BASE_URL}/durations`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (durationsList.length > 0) {
           durationsList = [];

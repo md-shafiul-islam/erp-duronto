@@ -27,7 +27,7 @@ class PackageDetailsView extends Component {
   rejectPackAction = async (e) => {
     console.log("Reject Trigge!!");
     let rData = { id: this.paramPackId };
-    let urlRData = `http://localhost:8085/api/packages/package/reject`;
+    let urlRData = `${BASE_URL}/packages/package/reject`;
     await Axios.put(urlRData, rData, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ rejectActionStatus: res.data });
@@ -38,7 +38,7 @@ class PackageDetailsView extends Component {
   };
 
   approvePackAction = async (e) => {
-    let urlData = `http://localhost:8085/api/packages/package/approve`;
+    let urlData = `${BASE_URL}/packages/package/approve`;
     let apData = { id: this.paramPackId };
     await Axios.put(urlData, apData)
       .then((res) => {
