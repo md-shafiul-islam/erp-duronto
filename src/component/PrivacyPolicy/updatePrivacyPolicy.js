@@ -3,12 +3,11 @@ import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Formik, Form, Field } from "formik";
 import UsoitCKEditor from "../UsoitCKEditor";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
-let headers = {
-  "Content-Type": "application/json",
-};
+const baseUrl = BASE_URL;
+let headers = REQUEST_HEADER;
 
 class UpdatePrivacyPolicy extends Component {
   constructor(props) {
@@ -34,7 +33,7 @@ class UpdatePrivacyPolicy extends Component {
 
     let policyUrl = `${baseUrl}/privacy-policies/policy/${this.pubId}`;
 
-    Axios.get(policyUrl).then((res) => {
+    Axios.get(policyUrl, { headers: REQUEST_HEADER }).then((res) => {
       if (res.data !== undefined) {
         if (res.data.name !== undefined) {
           this.setState({ policy: res.data, getPolicyStatus: false });

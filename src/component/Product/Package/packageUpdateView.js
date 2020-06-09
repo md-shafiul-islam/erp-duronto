@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
-let url = "http://localhost:8085/api/packages/confrim";
+import { BASE_URL, REQUEST_HEADER } from "../../../actions/types";
+import { Link } from "react-router-dom";
+let url = `${BASE_URL}/packages/confrim`;
 
 class PackageUpdateView extends Component {
   state = {
@@ -14,12 +16,11 @@ class PackageUpdateView extends Component {
   loadAllPandingPackages = async () => {
     let packas = [];
 
-    await Axios.get(url)
+    await Axios.get(url, { headers: REQUEST_HEADER })
       .then((res) => {
         packas = res.data;
 
         this.setState({ pandinPacks: [] });
-        console.log("Data Packages Load: ", packas);
 
         this.setState({ pandinPacks: packas });
         this.setState({ packLoad: false });
@@ -104,27 +105,27 @@ class PackageUpdateView extends Component {
                                 <td>{item.price != null ? item.price : "0"}</td>
 
                                 <td>
-                                  <a
-                                    href={`/packages/package/detail/${item.publicId}`}
+                                  <Link
+                                    to={`/packages/package/detail/${item.publicId}`}
                                     className="btn btn-info btn-icon-split"
                                   >
                                     <span className="icon text-white-50">
                                       <i className=" nav-icon fas fa-edit" />
                                     </span>
                                     <span className="text">Detail</span>
-                                  </a>
+                                  </Link>
                                 </td>
 
                                 <td>
-                                  <a
-                                    href={`/packages/package/edit/${item.publicId}`}
+                                  <Link
+                                    to={`/packages/package/edit/${item.publicId}`}
                                     className="btn btn-info btn-icon-split"
                                   >
                                     <span className="icon text-white-50">
                                       <i className=" nav-icon fas fa-edit" />
                                     </span>
                                     <span className="text">Edit Or Update</span>
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

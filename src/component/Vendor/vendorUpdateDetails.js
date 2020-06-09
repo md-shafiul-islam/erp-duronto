@@ -5,19 +5,18 @@ import VendorTrComponent from "./vendorTrComponent";
 import ApproveButton from "../Layout/es-buttons/approveButton";
 import RejectButton from "../Layout/es-buttons/rejectButton";
 import BackButton from "../Layout/es-buttons/backButton";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-const headers = {
-  "Content-Type": "application/json",
-};
+const headers = REQUEST_HEADER;
 
 const countryList = [{ label: `None`, value: 0 }];
 class VendorUpdateDetails extends Component {
   constructor(props) {
     super(props);
     this.paramVendorId = props.match.params.id;
-    console.log("Vendor Details Id : ", this.paramVendorId);
+
     this.isDefine = this.isDefine.bind(this);
     this.isValid = this.isValid.bind(this);
     this.approveAction = this.approveAction.bind(this);
@@ -61,7 +60,7 @@ class VendorUpdateDetails extends Component {
   rejectAction = async () => {
     let rejectUrl = `${baseUrl}/vendors/update/reject/${this.paramVendorId}`;
 
-    await Axios.put(rejectUrl)
+    await Axios.put(rejectUrl, { headers: headers })
       .then((res) => {
         this.setState({
           rejectMsg: "Update Request Rejected Success ",
@@ -81,7 +80,7 @@ class VendorUpdateDetails extends Component {
   approveAction = async () => {
     let approvetUrl = `${baseUrl}/vendors/update/approve/${this.paramVendorId}`;
 
-    await Axios.put(approvetUrl)
+    await Axios.put(approvetUrl, { headers: headers })
       .then((res) => {
         this.setState({
           approeMSg: "Update Request Approve Success ",
@@ -105,16 +104,14 @@ class VendorUpdateDetails extends Component {
   getVendorByIdAndTemVendor = async () => {
     let vendorUrl = `${baseUrl}/vendors/vendor/${this.paramVendorId}`;
 
-    Axios.get(vendorUrl)
+    Axios.get(vendorUrl, { headers: headers })
       .then((res) => {
         if (res.data !== undefined) {
           this.setState({ vendor: res.data });
           this.setState({ getVendoStatus: false });
         }
-        console.log("Data Loaded Success!! Vendor ", this.state.vendor);
       })
       .catch((res) => {
-        console.log("Error, ", res);
         this.setState({
           getVendoStatus: true,
           vendorMsg:
@@ -126,17 +123,12 @@ class VendorUpdateDetails extends Component {
 
     let vendorTempUrl = `${baseUrl}/vendors/vendor/temp/${this.paramVendorId}`;
 
-    await Axios.get(vendorTempUrl)
+    await Axios.get(vendorTempUrl, { headers: headers })
       .then((res) => {
         if (res.data !== undefined) {
           this.setState({ tempVendor: res.data });
           this.setState({ getTempVendorStatus: false });
         }
-
-        console.log(
-          "Data Loaded Success!! Temp Vendor, ",
-          this.state.tempVendor
-        );
       })
       .catch((res) => {
         console.log("Error, ", res);
@@ -145,12 +137,11 @@ class VendorUpdateDetails extends Component {
           tempVendoeMsg:
             "Connection Error, Please, check your connection and  try again",
         });
-        console.log("Data Loaded Error Temp Vendor!! ");
       });
 
     this.setState({ bothLoadStatus: false });
 
-    await Axios.get(`${baseUrl}/countries`)
+    await Axios.get(`${baseUrl}/countries`, { headers: headers })
       .then((res) => {
         res.data &&
           res.data.map((item, idx) => {

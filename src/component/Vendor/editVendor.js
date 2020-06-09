@@ -5,17 +5,16 @@ import Select from "react-select";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Redirect } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
 let countries = [];
 let countryOprions = [{ label: `None`, value: 0 }];
 let countryPhoneCode = [{ label: `None`, value: 0 }];
 let vendorOptions = [{ label: `None`, value: 0 }];
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-const headers = {
-  "Content-Type": "application/json",
-};
+const headers = REQUEST_HEADER;
 
 class EditVendor extends Component {
   constructor(props) {
@@ -43,7 +42,7 @@ class EditVendor extends Component {
     let vendorUrl = `${baseUrl}/vendors/vendor/${this.paramVendorId}`;
 
     if (this.paramVendorId !== undefined) {
-      await Axios.get(vendorUrl)
+      await Axios.get(vendorUrl, { headers: headers })
         .then((res) => {
           this.setState({ curVandor: res.data, vendorLoadStatus: false });
         })
@@ -55,40 +54,37 @@ class EditVendor extends Component {
   };
 
   loadVendorCats = async () => {
-    await Axios.get(`${baseUrl}/vendor-cats`).then((res) => {
-      res.data &&
-        res.data.map((item, inx) => {
-          if (item.name !== undefined) {
-            vendorOptions.push({ label: `${item.name}`, value: item.id });
-          }
-        });
-      this.state.venCatLis = [];
-      this.setState({ venCatLis: vendorOptions });
-    });
+    await Axios.get(`${baseUrl}/vendor-cats`, { headers: headers }).then(
+      (res) => {
+        res.data &&
+          res.data.map((item, inx) => {
+            if (item.name !== undefined) {
+              vendorOptions.push({ label: `${item.name}`, value: item.id });
+            }
+          });
+        this.state.venCatLis = [];
+        this.setState({ venCatLis: vendorOptions });
+      }
+    );
 
     this.setState({ vendorCatStatus: false });
   };
 
   loadCountry = async () => {
-    await Axios.get(`${baseUrl}/countries`)
+    await Axios.get(`${baseUrl}/countries`, { headers: headers })
 
       .then((res) => {
-        console.log("Success Get All Countries !! Axios Add Pack");
-        console.log(res.data);
         res.data.map((count) => {
           countries.push(count);
         });
       })
       .catch((response) => {
-        console.log("Error: Loadin Countries !!");
         console.log(response);
       });
     //Load Countries End
 
     if (countries !== undefined) {
-      console.log("Countries Not undefined");
       if (countries.length !== undefined) {
-        console.log("Countries lenght", countries.length);
         countries.map((countOp, ind) => {
           if (countOp.name !== undefined) {
             countryOprions.push({
@@ -113,12 +109,6 @@ class EditVendor extends Component {
           console.log("Country Code L: ", countryPhoneCode.length);
           this.setState({ optionStatus: false });
         }
-
-        if (this.state.countryesList.length > 0) {
-          console.log("Country State Size: ", this.state.countryesList.length);
-        } else {
-          console.log("Country State List Not Set !!");
-        }
       }
     }
   };
@@ -127,7 +117,6 @@ class EditVendor extends Component {
     let fData = JSON.stringify(values, null, 2);
     await Axios.put(`${baseUrl}/vendors/vendor`, fData, { headers: headers })
       .then((res) => {
-        console.log("Success: ", res);
         this.setState({ redirecStatus: true });
       })
       .catch((res) => {

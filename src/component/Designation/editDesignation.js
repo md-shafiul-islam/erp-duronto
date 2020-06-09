@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import Axios from "axios";
+
 import CommonTableView from "../Layout/TableView/CommonTableView";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";

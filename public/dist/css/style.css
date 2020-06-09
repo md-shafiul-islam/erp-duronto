@@ -169,3 +169,42 @@
   display: block;
   margin: 0 auto;
 }
+
+.visibale-inactive {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.visibale-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.bg-image {
+  background-image: url("../../uimage/background.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  width: auto;
+  height: auto;
+}
+
+.cont-pos {
+  position: relative;
+  top: 100px;
+  right: 20px;
+}
+
+.login-area {
+  box-sizing: border-box;
+  border: #fff solid 5px;
+  box-shadow: 2em rgba(0, 0, 0, 0.35);
+  background-color: transparent;
+}

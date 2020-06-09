@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const VendorView = (props) => {
   return (
@@ -21,31 +22,31 @@ const VendorView = (props) => {
 
                 {props.userStatus && (
                   <td>
-                    <a href={`${props.userActin}${item.userPublicId}`}>
+                    <Link to={`${props.userActin}${item.userPublicId}`}>
                       {item.userId}
-                    </a>
+                    </Link>
                   </td>
                 )}
 
                 {props.detailStatus && (
                   <td>
-                    <a
-                      href={`${props.detailActin}${item.publicId}`}
+                    <Link
+                      to={`${props.detailActin}${item.publicId}`}
                       className="btn btn-block btn-outline-primary btn-sm"
                     >
                       Details{" "}
-                    </a>
+                    </Link>
                   </td>
                 )}
 
                 {props.editStatus && (
                   <td>
-                    <a
-                      href={`${props.editActin}${item.publicId}`}
+                    <Link
+                      to={`${props.editActin}${item.publicId}`}
                       className="btn btn-block btn-outline-info btn-sm"
                     >
                       Edit
-                    </a>
+                    </Link>
                   </td>
                 )}
 

@@ -9,11 +9,36 @@ export const DELET_CATEGORY = "DELET_CATEGORY";
 
 export const REQUEST_HEADER = {
   "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
+  Authorization:
+    localStorage.jwtToken !== undefined ? localStorage.jwtToken : "",
+};
+
+export const REQUEST_HEADER_GET = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
+  Authorization:
+    localStorage.jwtToken !== undefined ? localStorage.jwtToken : "",
 };
 
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
+export const GET_ACCESSES = "GET_ACCESSES";
+export const GET_ACCESS = "GET_ACCESS";
+
 //Type for backlog Actions
 export const GET_BACKLOG = "GET_BACKLOG";
+export const SET_TOKEN = "SET_TOKEN";
 
-export const BASE_URL = "http://localhost:8085/api";
+console.log(process.env.REACT_APP_API_URL);
+
+export const EXT_BASE_URL = process.env.REACT_APP_API_URL; //`http://localhost:8085`; //`http://dto.durontotour.com`;
+export const BASE_URL = `${EXT_BASE_URL}/api`;
+
+export const GET_PACK_CATEGORIES = "GET_PACK_CATEGORIES";
+export const GET_PACK_CATEGORY = "GET_PACK_CATEGORY";
+export const PACK_CAT_DELETE = "GET_PACK_DELETE";
+
+export const GET_DESIGNATIONS = "GET_DESIGNATIONS";
+export const GET_DESIGNATION = "GET_DESIGNATION";

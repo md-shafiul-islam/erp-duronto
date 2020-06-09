@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { Link } from "react-router-dom";
+import { BASE_URL } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
 class TermsDetails extends Component {
   constructor(props) {
@@ -52,10 +54,10 @@ class TermsDetails extends Component {
                 <div className="col-sm-6">
                   <ol className="breadcrumb float-sm-right">
                     <li className="breadcrumb-item">
-                      <a href="/">Home</a>
+                      <Link href="/">Home</Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a href="/terms/">Terms</a>
+                      <Link href="/terms/">Terms</Link>
                     </li>
                     <li className="breadcrumb-item active">term/details</li>
                   </ol>
@@ -103,23 +105,23 @@ class TermsDetails extends Component {
                 <div className="card-footer">
                   <div className="row">
                     <div className="offset-md-6 col-md-2">
-                      <a
-                        href={`/terms`}
+                      <Link
+                        to={`/terms`}
                         className="btn btn-block btn-outline-primary btn-sm"
                       >
                         Back
-                      </a>
+                      </Link>
                     </div>
                     <div className="col-md-2">
                       {() => {
                         console.log(this.state.term.publicId);
                       }}
-                      <a
-                        href={`/terms/term/edit/${this.state.term.publicId}`}
+                      <Link
+                        to={`/terms/term/edit/${this.state.term.publicId}`}
                         className="btn btn-block btn-outline-success btn-sm"
                       >
                         Edit Or Update
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

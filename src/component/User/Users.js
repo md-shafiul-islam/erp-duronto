@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Link } from "react-router-dom";
 
 let userList = [];
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
 class Users extends Component {
   state = {
@@ -25,9 +27,8 @@ class Users extends Component {
 
   userInActive = async (pubId) => {
     let inActiveUrl = `${baseUrl}/users/user/inactive/${pubId}`;
-    console.log(" User InActive Action !!");
-    console.log(" User InActive Action URL ", inActiveUrl);
-    await Axios.put(inActiveUrl)
+
+    await Axios.put(inActiveUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ inactiveMsg: res.data });
         this.loadAllUsers();
@@ -52,12 +53,10 @@ class Users extends Component {
   userActiveAction = async (pubId) => {
     let activeUrl = `${baseUrl}/users/user/active/${pubId}`;
 
-    console.log(" User Active Action !!");
-    console.log(" User Active Action URL ", activeUrl);
-    await Axios.put(activeUrl)
+    await Axios.put(activeUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ activeMsg: res.data });
-        console.log(" User Active Action Done!! MSG ", this.state.activeMsg);
+
         this.loadAllUsers();
       })
       .catch((res) => {
@@ -72,7 +71,7 @@ class Users extends Component {
   };
 
   loadAllUsers = async () => {
-    await Axios.get("http://localhost:8085/api/users")
+    await Axios.get(`${BASE_URL}/users`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (userList.length > 0) {
           userList = [];
@@ -185,15 +184,13 @@ class Users extends Component {
                                   <br />
                                 </td>
 
-                                {console.log("Public ID: ", item.publicId)}
-                                {console.log("User Status: ", item.status)}
                                 <td>
-                                  <a
-                                    href={`/users/user/${item.publicId}`}
+                                  <Link
+                                    to={`/users/user/${item.publicId}`}
                                     className="btn btn-block btn-outline-primary btn-sm"
                                   >
                                     Details{" "}
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

@@ -62,8 +62,37 @@ import VendorUpdateDetails from "./component/Vendor/vendorUpdateDetails";
 import RejectedVendors from "./component/Vendor/rejectedVendors";
 
 import Login from "./component/Layout/User/Login";
-import { Provider } from "react-redux";
+import { Provider, connect } from "react-redux";
 import store from "./store";
+import setJWTToken from "./SecurityUtils/setJWTToken";
+import jwt_decode from "jwt-decode";
+import { SET_CURRENT_USER } from "./actions/types";
+import { logOut } from "./actions/securityActions";
+import { PropTypes } from "prop-types";
+import { getAccess } from "./actions/appStoreAction";
+import SecuredRoute from "./SecurityUtils/securedRoute";
+import packCategoryEdit from "./component/Pack-Category/packCategoryEdit";
+import DepartmentEdit from "./component/Department/DepartmentEdit";
+import editDesignation from "./component/Designation/editDesignation";
+import EditCatrgory from "./component/Category/editCatrgory";
+import editCountry from "./component/Country/editCountry";
+require("dotenv").config();
+const jwtToken = localStorage.jwtToken;
+
+if (jwtToken) {
+  setJWTToken(jwtToken);
+  const decoded_jwtToken = jwt_decode(jwtToken);
+  store.dispatch({
+    type: SET_CURRENT_USER,
+    payload: decoded_jwtToken,
+  });
+
+  const currentTime = Date.now() / 1000;
+  if (decoded_jwtToken.exp < currentTime) {
+    store.dispatch(logOut());
+    window.location.href = "/";
+  }
+}
 
 class App extends Component {
   render() {
@@ -78,163 +107,262 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             {/** Public Route End */}
 
-            {/** Private  Route Start*/}
-            <Route exact path="/" component={Dashboard} />
+            <Switch>
+              {/** Private  Route Start*/}
+              <SecuredRoute exact path="/" component={Dashboard} />
 
-            <Route exact path="/addPackageData" component={AddPackageData} />
-            <Route exact path="/category/add" component={AddCategory} />
-            <Route exact path="/testFormik" component={TestForm} />
-            <Route exact path="/categories" component={CategoriesView} />
-            <Route exact path="/countries" component={Countries} />
-            <Route exact path="/countries/country" component={AddCountry} />
-            <Route exact path="/departments" component={Departments} />
-            <Route
-              exact
-              path="/departments/department"
-              component={AddDepartment}
-            />
+              <SecuredRoute
+                exact
+                path="/addPackageData"
+                component={AddPackageData}
+              />
+              <SecuredRoute
+                exact
+                path="/category/add"
+                component={AddCategory}
+              />
+              <SecuredRoute exact path="/testFormik" component={TestForm} />
+              <SecuredRoute
+                exact
+                path="/categories"
+                component={CategoriesView}
+              />
 
-            <Route exact path="/designations" component={Designations} />
-            <Route
-              exact
-              path="/designations/designation"
-              component={AddDesignation}
-            />
+              <SecuredRoute
+                exact
+                path="/categories/category/edit/:id"
+                component={EditCatrgory}
+              />
+              <SecuredRoute exact path="/countries" component={Countries} />
+              <SecuredRoute
+                exact
+                path="/countries/country/edit/:id"
+                component={editCountry}
+              />
+              <SecuredRoute
+                exact
+                path="/countries/country"
+                component={AddCountry}
+              />
+              <SecuredRoute exact path="/departments" component={Departments} />
+              <SecuredRoute
+                exact
+                path="/departments/department"
+                component={AddDepartment}
+              />
 
-            <Route exact path="/durations" component={Durations} />
-            <Route exact path="/durations/duration" component={AddDuration} />
+              <SecuredRoute
+                exact
+                path="/departments/department/edit/:id"
+                component={DepartmentEdit}
+              />
 
-            <Route
-              exact
-              path="/package-categories"
-              component={PackCategoriesView}
-            />
-            <Route
-              exact
-              path="/package-categories/package-category"
-              component={AddPackCategory}
-            />
+              <SecuredRoute
+                exact
+                path="/designations"
+                component={Designations}
+              />
+              <SecuredRoute
+                exact
+                path="/designations/designation"
+                component={AddDesignation}
+              />
 
-            <Route exact path="/users" component={Users} />
-            <Route exact path="/users/user" component={AddUser} />
-            <Route exact path="/users/user/edit/:id" component={EditUser} />
-            <Route exact path="/users/user/:id" component={UserDetails} />
-            <Route exact path="/update/users" component={UpdatePandingUsers} />
-            <Route
-              exact
-              path="/users/update/user/:id"
-              component={UpdateDetailsView}
-            />
+              <SecuredRoute
+                exact
+                path="/designations/designation/edit/:id"
+                component={editDesignation}
+              />
 
-            <Route exact path="/users/upgrade" component={EditableUsers} />
+              <SecuredRoute exact path="/durations" component={Durations} />
+              <SecuredRoute
+                exact
+                path="/durations/duration"
+                component={AddDuration}
+              />
 
-            <Route exact path="/users/reject" component={RejectUsers} />
+              <SecuredRoute
+                exact
+                path="/package-categories"
+                component={PackCategoriesView}
+              />
+              <SecuredRoute
+                exact
+                path="/package-categories/package-category"
+                component={AddPackCategory}
+              />
 
-            <Route exact path="/roles" component={Roles} />
-            <Route exact path="/roles/role" component={AddRole} />
+              <SecuredRoute
+                exact
+                path="/package-categories/package-category/edit/:id"
+                component={packCategoryEdit}
+              />
 
-            <Route path="/roles/role/edit/:id" component={EditRole} />
+              <SecuredRoute exact path="/users" component={Users} />
+              <SecuredRoute exact path="/users/user" component={AddUser} />
+              <SecuredRoute
+                exact
+                path="/users/user/edit/:id"
+                component={EditUser}
+              />
+              <SecuredRoute
+                exact
+                path="/users/user/:id"
+                component={UserDetails}
+              />
+              <SecuredRoute
+                exact
+                path="/update/users"
+                component={UpdatePandingUsers}
+              />
+              <SecuredRoute
+                exact
+                path="/users/update/user/:id"
+                component={UpdateDetailsView}
+              />
 
-            <Route exact path="/packages" component={PackagesView} />
+              <SecuredRoute
+                exact
+                path="/users/upgrade"
+                component={EditableUsers}
+              />
 
-            <Route
-              exact
-              path="/users/approval"
-              component={UserApprovalPanding}
-            />
-            <Route
-              exact
-              path="/packages/package/edit/:id"
-              component={EditPackage}
-            />
+              <SecuredRoute
+                exact
+                path="/users/reject"
+                component={RejectUsers}
+              />
 
-            <Route
-              exact
-              path="/packages/update-packages"
-              component={PackageUpdateView}
-            />
+              <SecuredRoute exact path="/roles" component={Roles} />
+              <SecuredRoute exact path="/roles/role" component={AddRole} />
 
-            <Route
-              exact
-              path="/packages/package/detail/:id"
-              component={PackageDetailsView}
-            />
+              <SecuredRoute path="/roles/role/edit/:id" component={EditRole} />
 
-            <Route
-              exact
-              path="/packages/confirmed"
-              component={PackageConfrimedView}
-            />
-            <Route
-              exact
-              path="/packages/rejected"
-              component={PackageRejectView}
-            />
-            <Route
-              exact
-              path="/packages/update-approval-pending"
-              component={PackageUpdateApprovalPending}
-            />
+              <SecuredRoute exact path="/packages" component={PackagesView} />
 
-            <Route exact path="/terms" component={TermsAndConditions} />
-            <Route exact path="/terms/add" component={AddTermsAndConditions} />
-            <Route
-              exact
-              path="/terms/term/details/:id"
-              component={TermsDetails}
-            />
-            <Route
-              exact
-              path="/terms/term/edit/:id"
-              component={UpdateTermsAndConds}
-            />
+              <SecuredRoute
+                exact
+                path="/users/approval"
+                component={UserApprovalPanding}
+              />
+              <SecuredRoute
+                exact
+                path="/packages/package/edit/:id"
+                component={EditPackage}
+              />
 
-            <Route exact path="/privacyPolicies" component={PrivacyPolicy} />
-            <Route
-              exact
-              path="/privacyPolicies/add"
-              component={AddPrivacyPolicy}
-            />
-            <Route
-              exact
-              path="/privacyPolicies/policy/details/:id"
-              component={DetailsPrivacyPolicy}
-            />
-            <Route
-              exact
-              path="/privacyPolicies/policy/edit/:id"
-              component={UpdatePrivacyPolicy}
-            />
+              <SecuredRoute
+                exact
+                path="/packages/update-packages"
+                component={PackageUpdateView}
+              />
 
-            <Route exact path="/vendors" component={Vendors} />
-            <Route exact path="/vendors/add" component={AddVendor} />
-            <Route exact path="/vendors/approval" component={ApprovalVendor} />
-            <Route exact path="/vendors/update" component={UpdateVendor} />
+              <SecuredRoute
+                exact
+                path="/packages/package/detail/:id"
+                component={PackageDetailsView}
+              />
 
-            <Route
-              exact
-              path="/vendors/vendor/details/:id"
-              component={DetailsVendor}
-            />
-            <Route
-              exact
-              path="/vendors/vendor/edit/:id"
-              component={EditVendor}
-            />
-            <Route
-              exact
-              path="/vendors/update-approval"
-              component={UpdateApprovalVendor}
-            />
+              <SecuredRoute
+                exact
+                path="/packages/confirmed"
+                component={PackageConfrimedView}
+              />
+              <SecuredRoute
+                exact
+                path="/packages/rejected"
+                component={PackageRejectView}
+              />
+              <SecuredRoute
+                exact
+                path="/packages/update-approval-pending"
+                component={PackageUpdateApprovalPending}
+              />
 
-            <Route
-              exact
-              path="/vendors/update/details/:id"
-              component={VendorUpdateDetails}
-            />
+              <SecuredRoute
+                exact
+                path="/terms"
+                component={TermsAndConditions}
+              />
+              <SecuredRoute
+                exact
+                path="/terms/add"
+                component={AddTermsAndConditions}
+              />
+              <SecuredRoute
+                exact
+                path="/terms/term/details/:id"
+                component={TermsDetails}
+              />
+              <SecuredRoute
+                exact
+                path="/terms/term/edit/:id"
+                component={UpdateTermsAndConds}
+              />
 
-            <Route exact path="/vendors/reject" component={RejectedVendors} />
-            {/** Private  Route End*/}
+              <SecuredRoute
+                exact
+                path="/privacyPolicies"
+                component={PrivacyPolicy}
+              />
+              <SecuredRoute
+                exact
+                path="/privacyPolicies/add"
+                component={AddPrivacyPolicy}
+              />
+              <SecuredRoute
+                exact
+                path="/privacyPolicies/policy/details/:id"
+                component={DetailsPrivacyPolicy}
+              />
+              <SecuredRoute
+                exact
+                path="/privacyPolicies/policy/edit/:id"
+                component={UpdatePrivacyPolicy}
+              />
+
+              <SecuredRoute exact path="/vendors" component={Vendors} />
+              <SecuredRoute exact path="/vendors/add" component={AddVendor} />
+              <SecuredRoute
+                exact
+                path="/vendors/approval"
+                component={ApprovalVendor}
+              />
+              <SecuredRoute
+                exact
+                path="/vendors/update"
+                component={UpdateVendor}
+              />
+
+              <SecuredRoute
+                exact
+                path="/vendors/vendor/details/:id"
+                component={DetailsVendor}
+              />
+              <SecuredRoute
+                exact
+                path="/vendors/vendor/edit/:id"
+                component={EditVendor}
+              />
+              <SecuredRoute
+                exact
+                path="/vendors/update-approval"
+                component={UpdateApprovalVendor}
+              />
+
+              <SecuredRoute
+                exact
+                path="/vendors/update/details/:id"
+                component={VendorUpdateDetails}
+              />
+
+              <SecuredRoute
+                exact
+                path="/vendors/reject"
+                component={RejectedVendors}
+              />
+              {/** Private  Route End*/}
+            </Switch>
             <Footer />
           </React.Fragment>
         </Router>
@@ -244,3 +372,5 @@ class App extends Component {
 }
 
 export default App;
+
+//export default App; //connect(mapStateToProps, { getAccess })(App);

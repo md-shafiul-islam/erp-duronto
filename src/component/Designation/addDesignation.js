@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
 class AddDesignation extends Component {
   state = {
@@ -12,10 +13,9 @@ class AddDesignation extends Component {
     if (values != null) {
       let designation = JSON.stringify(values, null, 2);
 
-      Axios.post(
-        "http://localhost:8085/api/designations/designation",
-        designation
-      )
+      Axios.post(`${BASE_URL}/designations/designation`, designation, {
+        headers: REQUEST_HEADER,
+      })
         .then((res) => {
           console.log("Done Category Add: ", res.data);
           this.setState({ redirect: true });
@@ -28,7 +28,7 @@ class AddDesignation extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/designations" />;
+      return <Link to="/designations" />;
     }
     return (
       <React.Fragment>

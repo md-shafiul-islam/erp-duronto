@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Link } from "react-router-dom";
 
 const userList = [];
 
@@ -23,7 +25,7 @@ class UpdatePandingUsers extends Component {
   }
 
   loadAllUsers = async () => {
-    await Axios.get("http://localhost:8085/api/users/update")
+    await Axios.get(`${BASE_URL}/users/update`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (userList.length > 0) {
           userList = [];
@@ -125,12 +127,12 @@ class UpdatePandingUsers extends Component {
                                 {console.log("Public ID: ", item.publicId)}
                                 {console.log("User Status: ", item.status)}
                                 <td>
-                                  <a
-                                    href={`/users/update/user/${item.publicId}`}
+                                  <Link
+                                    to={`/users/update/user/${item.publicId}`}
                                     className="btn btn-block btn-outline-primary btn-sm"
                                   >
                                     Details{" "}
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

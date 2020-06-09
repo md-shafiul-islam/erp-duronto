@@ -7,11 +7,10 @@ import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import LoadingData from "../Layout/LoadingData";
 import { TextField } from "@material-ui/core";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-let baseUrl = "http://localhost:8085";
-let headers = {
-  "Content-Type": "application/json",
-};
+let baseUrl = BASE_URL;
+let headers = REQUEST_HEADER;
 
 const genderList = [{ value: 0, label: "None" }];
 const departmentList = [{ value: 0, label: "None" }];
@@ -80,11 +79,9 @@ class EditUser extends Component {
   loadRoles = async () => {
     console.log("Run Roles User");
 
-    await Axios.get("http://localhost:8085/api/roles")
+    await Axios.get(`${baseUrl}/roles`)
       .then((res) => {
-        console.log("Done Role User");
         res.data.map((role) => {
-          console.log("Role Name: ", role.name);
           roleList.push({
             value: role.id,
             label: role.name,
@@ -95,9 +92,7 @@ class EditUser extends Component {
         console.log("Load Faield Roles User", res);
       });
 
-    console.log("After Load roles Size", roleList.length);
     this.setState({ roles: roleList });
-    console.log("After Load Set State roles Size", this.state.roles.length);
 
     if (roleList.length > 0 && 0 >= this.state.roles) {
       this.setState({ roles: roleList });
@@ -113,9 +108,9 @@ class EditUser extends Component {
   };
 
   loadUser = async () => {
-    let userUrl = `http://localhost:8085/api/users/user/edit/${this.userId}`;
+    let userUrl = `${baseUrl}/users/user/edit/${this.userId}`;
 
-    await Axios.get(userUrl)
+    await Axios.get(userUrl, { headers: headers })
       .then((res) => {
         this.state.currentUser = res.data;
         this.setState({ userStatus: false });
@@ -128,11 +123,9 @@ class EditUser extends Component {
   loadCountries = async () => {
     console.log("Run Country User");
 
-    await Axios.get("http://localhost:8085/api/countries")
+    await Axios.get(`${baseUrl}/countries`, { headers: headers })
       .then((res) => {
-        console.log("Done Countryes User");
         res.data.map((country) => {
-          console.log("Countryes name: ", country.name);
           countryList.push({ value: country.id, label: country.name });
         });
       })
@@ -140,12 +133,7 @@ class EditUser extends Component {
         console.log("Load Faield Country User", res);
       });
 
-    console.log("After Load Countries Size", countryList.length);
     this.setState({ countries: countryList });
-    console.log(
-      "After Load Set State Countries Size",
-      this.state.countries.length
-    );
 
     if (countryList.length > 0 && 0 >= this.state.countries) {
       this.setState({ countries: countryList });
@@ -167,12 +155,9 @@ class EditUser extends Component {
   };
 
   loadDepartmets = async () => {
-    await Axios.get("http://localhost:8085/api/departments")
+    await Axios.get(`${baseUrl}/departments`, { headers: headers })
       .then((res) => {
-        console.log("Done Department User");
-
         res.data.map((department) => {
-          console.log("Department Name: ", department.name);
           departmentList.push({ value: department.id, label: department.name });
         });
       })
@@ -180,16 +165,8 @@ class EditUser extends Component {
         console.log("Load Faield department User", res);
       });
 
-    console.log("After Load departments Size", departmentList.length);
     this.setState({ departments: departmentList });
-    console.log(
-      "After Load Set State departments Size",
-      this.state.departments.length
-    );
 
-    this.state.departments.map((item) => {
-      console.log("Department ID: " + item.value + " Name: " + item.label);
-    });
     if (departmentList.length > 0 && 0 >= this.state.departments.length) {
       this.setState({ departments: departmentList });
     }
@@ -204,11 +181,8 @@ class EditUser extends Component {
   };
 
   loadDesignations = async () => {
-    console.log("Run Designation User");
-
-    await Axios.get("http://localhost:8085/api/designations")
+    await Axios.get(`${baseUrl}/designations`, { headers: headers })
       .then((res) => {
-        console.log("Done Designation User");
         res.data.map((designation) => {
           designationList.push({
             value: designation.id,
@@ -220,12 +194,7 @@ class EditUser extends Component {
         console.log("Load Faield designation User", res);
       });
 
-    console.log("After Load designations Size", designationList.length);
     this.setState({ designations: designationList });
-    console.log(
-      "After Load Set State designations Size",
-      this.state.designations.length
-    );
 
     if (designationList.length > 0 && 0 >= this.state.designations.length) {
       this.setState({ designations: designationList });
@@ -243,9 +212,7 @@ class EditUser extends Component {
   };
 
   loadGender = async () => {
-    console.log("Run Gender User");
-
-    await Axios.get("http://localhost:8085/api/genders")
+    await Axios.get(`${baseUrl}/genders`, { headers: headers })
       .then((res) => {
         console.log("Done Gender User");
         res.data.map((gender) => {
@@ -260,7 +227,6 @@ class EditUser extends Component {
       });
 
     this.setState({ genders: genderList });
-    console.log("After Load Set State genders Size", this.state.genders.length);
 
     if (genderList.length > 0 && 0 >= this.state.genders.length) {
       this.setState({ genders: genderList });
@@ -276,7 +242,7 @@ class EditUser extends Component {
   };
 
   loadMaritalStatuses = async () => {
-    await Axios.get("http://localhost:8085/api/marital-status")
+    await Axios.get(`${baseUrl}/marital-status`, { headers: headers })
       .then((res) => {
         res.data.map((maritalStatus) => {
           maritalStatusList.push({
@@ -289,12 +255,7 @@ class EditUser extends Component {
         console.log("Load Faield MS  User", res);
       });
 
-    console.log("After Load maritalStatuses Size", maritalStatusList.length);
     this.setState({ maritalStatuses: maritalStatusList });
-    console.log(
-      "After Load Set State maritalStatuses Size",
-      this.state.maritalStatuses.length
-    );
 
     if (
       maritalStatusList.length > 0 &&
@@ -318,7 +279,6 @@ class EditUser extends Component {
         (progressEvent.loaded * 100) / progressEvent.total
       );
 
-      console.log(" Befor");
       count++;
       this.setState({
         uploadProgress: percentCompleted,
@@ -330,7 +290,7 @@ class EditUser extends Component {
 
   uploadAllfile = async (values) => {
     count = 0;
-    const bUrl = "http://localhost:8085/api/uploadfile/user-file/";
+    const bUrl = `${baseUrl}/uploadfile/user-file/`;
 
     if (values.fieldVerificationFile !== null) {
       /** fieldVerificationFile Start */
@@ -875,7 +835,7 @@ class EditUser extends Component {
 
     console.log("Befor Submit Data to Save", sendData);
 
-    Axios.put("http://localhost:8085/api/users/user", sendData, {
+    Axios.put(`${baseUrl}/users/user`, sendData, {
       headers: headers,
     })
       .then((res) => {
@@ -887,10 +847,10 @@ class EditUser extends Component {
   };
 
   render() {
-    /*if (this.state.redirect) {
+    if (this.state.redirect) {
       return <Redirect to="/users" />;
     }
-    */
+
     if (
       this.state.countryStatus ||
       this.state.genderStatus ||

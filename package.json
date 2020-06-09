@@ -1,5 +1,6 @@
 {
   "name": "erp-duronto",
+  "homepage": "http://localhost",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +14,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "dotenv": "^8.2.0",
     "draft-js": "^0.11.5",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",

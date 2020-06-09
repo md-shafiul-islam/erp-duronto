@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
+import { REQUEST_HEADER, EXT_BASE_URL, BASE_URL } from "../../../actions/types";
 
 class PackageDetailsView extends Component {
   constructor(props) {
@@ -26,11 +27,9 @@ class PackageDetailsView extends Component {
   rejectPackAction = async (e) => {
     console.log("Reject Trigge!!");
     let rData = { id: this.paramPackId };
-    let urlRData = `http://localhost:8085/api/packages/package/reject`;
-    await Axios.put(urlRData, rData)
+    let urlRData = `${BASE_URL}/packages/package/reject`;
+    await Axios.put(urlRData, rData, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Reject Done!!", res.data);
-
         this.setState({ rejectActionStatus: res.data });
       })
       .catch((res) => {
@@ -39,12 +38,10 @@ class PackageDetailsView extends Component {
   };
 
   approvePackAction = async (e) => {
-    console.log("Approve Trigge!!");
-    let urlData = `http://localhost:8085/api/packages/package/approve`;
+    let urlData = `${BASE_URL}/packages/package/approve`;
     let apData = { id: this.paramPackId };
     await Axios.put(urlData, apData)
       .then((res) => {
-        console.log("Approve Done!!", res.data);
         this.setState({ approveActionStatus: res.data });
       })
       .catch((res) => {
@@ -58,18 +55,13 @@ class PackageDetailsView extends Component {
 
   getPackageDetails = async () => {
     //Load Vendor Start
-    let packUrl = `http://localhost:8085/api/packages/package/${this.paramPackId}`;
-    await Axios.get(packUrl)
+    let packUrl = `${BASE_URL}/packages/package/${this.paramPackId}`;
+    await Axios.get(packUrl, { headers: REQUEST_HEADER })
       .then((res) => {
-        console.log("Success Get All Vendors Axios Add Pack");
-
-        console.log("Done !!", res.data);
-
         this.setState({ package: res.data });
       })
       .catch((res) => {
-        console.log("Error Get All Vendor!!");
-        console.log(res.data);
+        console.log(res);
       });
 
     if (this.state.package && this.state.package.publicId) {
@@ -230,7 +222,7 @@ class PackageDetailsView extends Component {
                                   <div className="row">
                                     <Col xs={3} md={2}>
                                       <Image
-                                        src={`http://localhost:8085${item.sourceUrl}`}
+                                        src={`${EXT_BASE_URL}${item.sourceUrl}`}
                                         thumbnail
                                         height="200"
                                         width="180"
@@ -241,7 +233,7 @@ class PackageDetailsView extends Component {
 
                                     <Col xs={3} md={2}>
                                       <Image
-                                        src={`http://localhost:8085${item.sourceUrl2}`}
+                                        src={`${EXT_BASE_URL}${item.sourceUrl2}`}
                                         thumbnail
                                         height="200"
                                         width="180"
@@ -408,7 +400,7 @@ class PackageDetailsView extends Component {
                             <React.Fragment key={`img-gallery-${cImInd}`}>
                               <Col xs={12} md={12}>
                                 <Image
-                                  src={`http://localhost:8085${cImage.srcUrl}`}
+                                  src={`${EXT_BASE_URL}${cImage.srcUrl}`}
                                   thumbnail
                                   height="360"
                                   width="260"

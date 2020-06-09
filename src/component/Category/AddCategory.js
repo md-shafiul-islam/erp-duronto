@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Axios from "axios";
+
 import { Field, Formik, Form } from "formik";
 
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { addCategoryAction } from "../../actions/categoryActions";
 import { PropTypes } from "prop-types";
@@ -17,22 +17,12 @@ class AddCategory extends Component {
       let category = JSON.stringify(values, null, 2);
 
       this.props.addCategoryAction(category, this.props.history);
-      /*
-      Axios.post("http://localhost:8085/api/categories/category", category)
-        .then((res) => {
-          console.log("Done Category Add: ", res.data);
-          this.setState({ redirect: true });
-        })
-        .catch((res) => {
-          console.log("Error: ", res);
-        });
-        */
     }
   };
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/categores" />;
+      return <Link to="/categores" />;
     }
     return (
       <React.Fragment>

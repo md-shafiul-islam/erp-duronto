@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+import { REQUEST_HEADER } from "../../actions/types";
+import { connect } from "react-redux";
+
+import { addPackCategoryAction } from "../../actions/packCatAction";
 
 class AddPackCategory extends Component {
   state = {
@@ -11,18 +15,7 @@ class AddPackCategory extends Component {
   addCategoryAction = (values) => {
     if (values != null) {
       let category = JSON.stringify(values, null, 2);
-
-      Axios.post(
-        "http://localhost:8085/api/package-categories/package-category",
-        category
-      )
-        .then((res) => {
-          console.log("Done Category Add: ", res.data);
-          this.setState({ redirect: true });
-        })
-        .catch((res) => {
-          console.log("Error: ", res);
-        });
+      this.props.addPackCategoryAction(category, this.props.history);
     }
   };
 
@@ -99,4 +92,4 @@ class AddPackCategory extends Component {
   }
 }
 
-export default AddPackCategory;
+export default connect(null, { addPackCategoryAction })(AddPackCategory);

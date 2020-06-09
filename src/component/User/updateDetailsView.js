@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import DataNotFound from "../Layout/dataNotFound";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Redirect } from "react-router-dom";
 
 class UpdateDetailsView extends Component {
   userId = "";
@@ -47,9 +49,9 @@ class UpdateDetailsView extends Component {
   };
 
   userApprovePackAction = async () => {
-    let approveUrl = `http://localhost:8085/api/users/update/approve/${this.userId}`;
+    let approveUrl = `${BASE_URL}/users/update/approve/${this.userId}`;
 
-    await Axios.put(approveUrl)
+    await Axios.put(approveUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ aproveRedirect: true });
       })
@@ -60,12 +62,11 @@ class UpdateDetailsView extends Component {
   };
 
   userRejectPackAction = async () => {
-    let approveUrl = `http://localhost:8085/api/users/update/reject/${this.userId}`;
+    let approveUrl = `${BASE_URL}/users/update/reject/${this.userId}`;
 
-    await Axios.put(approveUrl)
+    await Axios.put(approveUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ rejectRedirect: true });
-        console.log("User Update Success ", res);
       })
       .catch((res) => {
         this.setState({ rejectErrorStatus: res.data });
@@ -75,8 +76,8 @@ class UpdateDetailsView extends Component {
   };
 
   loadUser = async () => {
-    let userUrl = `http://localhost:8085/api/users/user/${this.userId}`;
-    await Axios.get(userUrl)
+    let userUrl = `${BASE_URL}/users/user/${this.userId}`;
+    await Axios.get(userUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         if (res.data !== undefined) {
           this.setState({ user: res.data });
@@ -93,8 +94,8 @@ class UpdateDetailsView extends Component {
   };
 
   loadUserTemp = async () => {
-    let userUrl = `http://localhost:8085/api/users/usertemp/${this.userId}`;
-    await Axios.get(userUrl)
+    let userUrl = `${BASE_URL}/users/usertemp/${this.userId}`;
+    await Axios.get(userUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         if (res.data !== undefined) {
           this.setState({ userTemp: res.data });
@@ -106,7 +107,6 @@ class UpdateDetailsView extends Component {
         }
       })
       .catch((res) => {
-        console.log("User Load Error: Temp");
         this.setState({ responseMsg: "User Data Load unsuccessful !!!" });
       });
 
@@ -124,6 +124,10 @@ class UpdateDetailsView extends Component {
 
     if (user.publicId !== userTemp.publicId) {
       return <DataNotFound msg={this.state.responseMsg} />;
+    }
+
+    if (this.state.rejectRedirect || this.state.aproveRedirect) {
+      return <Redirect to="/users" />;
     }
 
     return (

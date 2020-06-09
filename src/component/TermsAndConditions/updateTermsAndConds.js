@@ -4,12 +4,11 @@ import Axios from "axios";
 import { Formik, Form, Field } from "formik";
 import UsoitCKEditor from "../UsoitCKEditor";
 import { Redirect } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-let headers = {
-  "Content-Type": "application/json",
-};
+let headers = REQUEST_HEADER;
 
 class UpdateTermsAndConds extends Component {
   constructor(props) {
@@ -35,7 +34,7 @@ class UpdateTermsAndConds extends Component {
     }
     let editTermUrl = `${baseUrl}/terms/term/${this.publicId}`;
 
-    await Axios.get(editTermUrl)
+    await Axios.get(editTermUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         if (res.data !== undefined) {
           this.setState({ cTerm: res.data, termLoadStatus: false });

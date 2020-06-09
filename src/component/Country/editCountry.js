@@ -2,39 +2,39 @@ import React, { Component } from "react";
 
 import { Field, Formik, Form } from "formik";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { getCategory, updateCategory } from "../../actions/categoryActions";
+import { getCountry, updateCountry } from "../../actions/countryActions";
 import { PropTypes } from "prop-types";
 
-class EditCategory extends Component {
+class EditCoutry extends Component {
   constructor(props) {
     super(props);
 
-    this.catId = props.match.params.id;
+    //this.countryId = props.match.params.id;
+    props.getCountry(props.match.params.id, this.props.history);
   }
   state = {
     redirect: false,
   };
 
   componentDidMount() {
-    this.props.getCategory(this.catId, this.props.history);
     console.log("After Category Run ", this.catId);
   }
 
   updateCatAction = (values) => {
     if (values != null) {
-      let category = JSON.stringify(values, null, 2);
+      let country = JSON.stringify(values, null, 2);
 
-      this.props.updateCategory(category, this.props.history);
+      this.props.updateCountry(country, this.props.history);
     }
   };
 
   render() {
-    let { category } = this.props.category;
+    let { country } = this.props.country;
 
     if (this.state.redirect) {
-      return <Link to="/categores" />;
+      return <Redirect to="/categores" />;
     }
     return (
       <React.Fragment>
@@ -43,17 +43,17 @@ class EditCategory extends Component {
             <div className="col-md-8" style={{ margin: "10px auto" }}>
               <div className="card card-primary">
                 <div className="card-header">
-                  <h3 className="card-title">Add Category</h3>
+                  <h3 className="card-title">Edit Or Update Country</h3>
                 </div>
 
                 {/* form start */}
 
                 <Formik
                   enableReinitialize={true}
-                  initialValues={category}
+                  initialValues={country}
                   onSubmit={(values, actions) => {
                     console.log(JSON.stringify(values, null, 2));
-                    this.updateCatAction(values);
+                    this.updateCountry(values);
                   }}
                 >
                   {(props) => (
@@ -103,10 +103,10 @@ class EditCategory extends Component {
   }
 }
 
-EditCategory.prototypes = {
-  getCategory: PropTypes.func.isRequired,
-  updateCategory: PropTypes.func.isRequired,
-  category: PropTypes.object.isRequired,
+EditCoutry.prototypes = {
+  getCountry: PropTypes.func.isRequired,
+  updateCountry: PropTypes.func.isRequired,
+  country: PropTypes.object.isRequired,
   access: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -114,8 +114,8 @@ const mapStateToProps = (state) => ({
   security: state.security,
   errors: state.errors,
   access: state.appStore,
-  category: state.category,
+  country: state.category,
 });
-export default connect(mapStateToProps, { getCategory, updateCategory })(
-  EditCategory
+export default connect(mapStateToProps, { getCountry, updateCountry })(
+  EditCoutry
 );

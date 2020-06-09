@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import CommonTableView from "../Layout/TableView/CommonTableView";
+import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
 const durationsList = [];
 
@@ -9,7 +11,7 @@ class Durations extends Component {
   }
 
   loadDesignationList = async () => {
-    await Axios.get("http://localhost:8085/api/durations")
+    await Axios.get(`${BASE_URL}/durations`, { headers: REQUEST_HEADER })
       .then((res) => {
         if (durationsList.length > 0) {
           durationsList = [];
@@ -83,28 +85,13 @@ class Durations extends Component {
                         {this.state.durations.map((item, ind) => {
                           return (
                             <React.Fragment>
-                              <tr key={ind}>
-                                <td>{item.id}</td>
-                                <td>
-                                  {" "}
-                                  {item.name !== "" ? item.name : "Anonymous"}
-                                </td>
-                                <td>{item.day !== null ? item.day : ""}</td>
-
-                                <td>{item.night !== null ? item.night : ""}</td>
-
-                                <td>
-                                  <a
-                                    href="/categories/category/id"
-                                    class="btn btn-info btn-icon-split"
-                                  >
-                                    <span class="icon text-white-50">
-                                      <i class=" nav-icon fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">Edit</span>
-                                  </a>
-                                </td>
-                              </tr>
+                              <CommonTableView
+                                item={item}
+                                index={ind}
+                                actionIconClass={`nav-icon fas fa-edit`}
+                                actionLabel={`Edit`}
+                                action={`/durations/duration/edit/`}
+                              />
                             </React.Fragment>
                           );
                         })}

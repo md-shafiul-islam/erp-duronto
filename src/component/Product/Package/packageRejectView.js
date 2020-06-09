@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
-let url = "http://localhost:8085/api/packages/reject";
+import { BASE_URL, REQUEST_HEADER } from "../../../actions/types";
+import { Link } from "react-router-dom";
+let url = `${BASE_URL}/packages/reject`;
 
 class PackageRejectView extends Component {
   state = {
@@ -14,12 +16,11 @@ class PackageRejectView extends Component {
   loadAllPandingPackages = async () => {
     let packas = [];
 
-    await Axios.get(url)
+    await Axios.get(url, { headers: REQUEST_HEADER })
       .then((res) => {
         packas = res.data;
 
         this.setState({ pandinPacks: [] });
-        console.log("Data Packages Load: ", packas);
 
         this.setState({ pandinPacks: packas });
         this.setState({ packLoad: false });
@@ -102,15 +103,15 @@ class PackageRejectView extends Component {
 
                                 <td>{item.modyfiyStatus}</td>
                                 <td>
-                                  <a
-                                    href={`/packages/package/detail/${item.publicId}`}
+                                  <Link
+                                    to={`/packages/package/detail/${item.publicId}`}
                                     className="btn btn-info btn-icon-split"
                                   >
                                     <span className="icon text-white-50">
                                       <i className=" nav-icon fas fa-edit" />
                                     </span>
                                     <span className="text">Detail</span>
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>

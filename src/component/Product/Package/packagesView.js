@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
-let url = "http://localhost:8085/api/packages/panding";
+import { BASE_URL, REQUEST_HEADER } from "../../../actions/types";
+import { Link } from "react-router-dom";
+let url = `${BASE_URL}/packages/panding`;
 
 class PackagesView extends Component {
   state = {
@@ -18,12 +20,11 @@ class PackagesView extends Component {
   loadAllPandingPackages = async () => {
     let packas = [];
 
-    await Axios.get(url)
+    await Axios.get(url, { headers: REQUEST_HEADER })
       .then((res) => {
         packas = res.data;
 
         this.setState({ pandinPacks: [] });
-        console.log("Data Packages Load: ", packas);
 
         this.setState({ pandinPacks: packas });
         this.setState({ packLoad: false });
@@ -36,7 +37,7 @@ class PackagesView extends Component {
   rejectPackAction = async (pubId) => {
     console.log("Reject Trigge!! Public ID: ", pubId);
     let rData = { id: pubId };
-    let urlRData = `http://localhost:8085/api/packages/package/reject`;
+    let urlRData = `${BASE_URL}/packages/package/reject`;
     await Axios.put(urlRData, rData)
       .then((res) => {
         console.log("Reject Done!!", res.data);
@@ -54,11 +55,10 @@ class PackagesView extends Component {
 
     console.log("This Public ID: ", pId);
 
-    let urlData = `http://localhost:8085/api/packages/package/approve`;
+    let urlData = `${BASE_URL}/packages/package/approve`;
     let apData = { id: pId };
     await Axios.put(urlData, apData)
       .then((res) => {
-        console.log("Approve Done!!", res.data);
         this.setState({ approveActionStatus: res.data });
       })
       .catch((res) => {
@@ -149,15 +149,15 @@ class PackagesView extends Component {
                                     {item.price != null ? item.price : "0"}
                                   </td>
                                   <td>
-                                    <a
-                                      href={`/packages/package/detail/${item.publicId}`}
+                                    <Link
+                                      to={`/packages/package/detail/${item.publicId}`}
                                       className="btn btn-info btn-icon-split"
                                     >
                                       <span className="icon text-white-50">
                                         <i className=" nav-icon fas fa-edit" />
                                       </span>
                                       <span className="text">Detail</span>
-                                    </a>
+                                    </Link>
                                   </td>
                                   <td>
                                     <a

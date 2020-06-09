@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import VendorView from "./vendorView";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
+const baseUrl = BASE_URL;
 
-const headers = {
-  "Content-Type": "application/json",
-};
+const headers = REQUEST_HEADER;
 
 class ApprovalVendor extends Component {
   state = {
@@ -24,12 +23,10 @@ class ApprovalVendor extends Component {
   loadPandingVendors = async () => {
     let vendorsUrl = `${baseUrl}/vendors/panding`;
 
-    Axios.get(vendorsUrl)
+    Axios.get(vendorsUrl, { headers: headers })
       .then((res) => {
         this.setState({ vendors: [] });
         this.setState({ vendors: res.data, getVendorStatus: false });
-
-        console.log("vendors State: ", this.state.vendors);
       })
       .catch((res) => {
         console.log("Vendor Error: ", res);
@@ -43,9 +40,9 @@ class ApprovalVendor extends Component {
   };
 
   vendorApproveAction = async (vendorId) => {
-    console.log("Approve vendor ID: ", vendorId);
-
-    Axios.get(`${baseUrl}/vendors/vendor/approval/${vendorId}`)
+    Axios.get(`${baseUrl}/vendors/vendor/approval/${vendorId}`, {
+      headers: headers,
+    })
       .then((res) => {
         if (res.data !== undefined) {
           this.loadPandingVendors();
@@ -59,9 +56,9 @@ class ApprovalVendor extends Component {
   };
 
   vendorRejectAction = async (vendorId) => {
-    console.log("Reject vendor ID: ", vendorId);
-
-    Axios.get(`${baseUrl}/vendors/vendor/reject/${vendorId}`)
+    Axios.get(`${baseUrl}/vendors/vendor/reject/${vendorId}`, {
+      headers: headers,
+    })
       .then((res) => {
         if (res.data !== undefined) {
           this.loadPandingVendors();

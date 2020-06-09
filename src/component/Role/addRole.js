@@ -3,6 +3,8 @@ import { Formik, Field, FieldArray, Form } from "formik";
 import Axios from "axios";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 import { FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Redirect } from "react-router-dom";
 
 const index = 0;
 const acItem = [{}];
@@ -66,6 +68,7 @@ class AddRole extends Component {
     accessTypeLoad: false,
     roleLoad: false,
     prepRole: {},
+    redirectStatus: false,
   };
 
   componentDidMount() {
@@ -75,15 +78,16 @@ class AddRole extends Component {
 
   /** Pref Role Load Start */
   loadPrepRole = async () => {
-    await Axios.get("http://localhost:8085/api/roles/access/add")
+    await Axios.get(`${BASE_URL}/roles/access/add`, { headers: REQUEST_HEADER })
       .then((res) => {
         roleData = {};
         roleData = {
           id: res.data.id,
           name: res.data.name,
           description: res.data.description,
-          authStatus: res.data.authStatus,
+
           accesses: [],
+          authStatus: res.data.authStatus === 1 ? true : false,
         };
 
         res.data.accesses.map((acs, ind) => {
@@ -130,9 +134,10 @@ class AddRole extends Component {
 
   /** Access Types Load Start */
   loadAllAccessTypes = async () => {
-    await Axios.get("http://localhost:8085/api/roles/access-tyeps")
+    await Axios.get(`${BASE_URL}/roles/access-tyeps`, {
+      headers: REQUEST_HEADER,
+    })
       .then((res) => {
-        console.log("Access Type: ", res.data);
         if (gAccessTypes.length > 0) {
           gAccessTypes = [];
         }
@@ -165,9 +170,33 @@ class AddRole extends Component {
       this.setState({ accessTypeLoad: true });
     }
   };
+
+  isValid = (valueOne, valueTwo) => {
+    if (valueOne === valueTwo) {
+      return true;
+    }
+    return false;
+  };
   /** Access Types Load End */
 
+  submitAction = (values) => {
+    let strinfiValue = JSON.stringify(values, null, 2);
+    let roleUpdateUrl = `${BASE_URL}/roles/role`;
+    Axios.post(roleUpdateUrl, strinfiValue, { headers: REQUEST_HEADER })
+      .then((res) => {
+        console.log("Role Save Success, ", res.data);
+        this.setState({ redirectStatus: true });
+      })
+      .catch((res) => {
+        console.log("Role Save Error ", res);
+      });
+  };
+
   render() {
+    if (this.state.redirectStatus) {
+      return <Redirect to="/roles" />;
+    }
+
     if (!this.state.roleLoad) {
       return (
         <React.Fragment>
@@ -193,17 +222,8 @@ class AddRole extends Component {
                     initialValues={this.state.prepRole}
                     onSubmit={(values, actions) => {
                       console.log("Role Submit!!");
-                      /*if (values.isSecondButton) {
-                        console.log("2nd Button");
 
-                        //values.isSecondButton = false;
-                      } else {
-                        console.log("Main Submit Button");
-
-                        this.submitAction(values);
-                        console.log("After submitAction Main Submit Button");
-                      }*/
-
+                      this.submitAction(values);
                       setTimeout(() => {
                         //this.submitData(values);
                         alert(JSON.stringify(values, null, 2));
@@ -293,467 +313,875 @@ class AddRole extends Component {
                                               {props.values.accesses.map(
                                                 (accessData, ind) => {
                                                   return (
-                                                    <React.Fragment
-                                                      key={`${accessData.accessType.id}-${ind}`}
-                                                    >
-                                                      <Tab.Pane
-                                                        eventKey={`${accessData.accessType.value}-${accessData.accessType.id}`}
-                                                      >
-                                                        <h5>
-                                                          {accessData.accessType !=
-                                                          null
-                                                            ? "Set Access for: " +
-                                                              accessData
-                                                                .accessType.name
-                                                            : "Set Access for:"}
-                                                        </h5>
-                                                        {/* No Access Row Start */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Deny Or No
-                                                                  Access
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>No Access </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                <Field
-                                                                  id={`accesses[${ind}].noAccessOn`}
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  value="1"
-                                                                  name={`accesses[${ind}].noAccess`}
-                                                                />
+                                                    <React.Fragment>
+                                                      {this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "category"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "pack_category"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "department"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "designation"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "duration"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "countries"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "rules_and_regulation"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "terms_tandc"
+                                                      ) ||
+                                                      this.isValid(
+                                                        accessData.accessType
+                                                          .value,
+                                                        "privacy_policy"
+                                                      ) ? (
+                                                        <React.Fragment
+                                                          key={`${accessData.accessType.id}-${ind}`}
+                                                        >
+                                                          <Tab.Pane
+                                                            eventKey={`${accessData.accessType.value}-${accessData.accessType.id}`}
+                                                          >
+                                                            <h5>
+                                                              {accessData.accessType !=
+                                                              null
+                                                                ? "Set Access for: " +
+                                                                  accessData
+                                                                    .accessType
+                                                                    .name
+                                                                : "Set Access for:"}
+                                                            </h5>
+                                                            {/* No Access Row Start */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Deny Or No
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    No Access{" "}
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    <Field
+                                                                      id={`accesses[${ind}].noAccessOn`}
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      value="1"
+                                                                      name={`accesses[${ind}].noAccess`}
+                                                                    />
 
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].noAccessOn`}
-                                                                >
-                                                                  On
-                                                                </label>
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].noAccessOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].noAccess`}
+                                                                      value="0"
+                                                                      id={`accesses[${ind}].noAccessOff`}
+                                                                    />
+                                                                    <label
+                                                                      htmlFor={`accesses[${ind}].noAccessOff`}
+                                                                      className="custom-control-label"
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                <Field
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].noAccess`}
-                                                                  value="0"
-                                                                  id={`accesses[${ind}].noAccessOff`}
-                                                                />
-                                                                <label
-                                                                  htmlFor={`accesses[${ind}].noAccessOff`}
-                                                                  className="custom-control-label"
-                                                                >
-                                                                  Off
-                                                                </label>
+                                                            {/* No Access Row End */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>View</b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Details,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    <Field
+                                                                      value="1"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].view`}
+                                                                      id={`accesses[${ind}].viewOn`}
+                                                                    />
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].viewOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].view'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].view`}
+                                                                      id={`accesses[${ind}].viewOff`}
+                                                                    />
+                                                                    {/**  th:attr="for='accesses['+${acTypeState.index}+'].view'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].viewOff`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* No Access Row End */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>View</b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Details, Confirm
-                                                                View
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                <Field
-                                                                  value="1"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].view`}
-                                                                  id={`accesses[${ind}].viewOn`}
-                                                                />
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].viewOn`}
-                                                                >
-                                                                  On
-                                                                </label>
+                                                            {/* 2nd Row */}
+                                                            {/* 3nd Row */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Add &amp;
+                                                                      View
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Add, Pending
+                                                                    View,
+                                                                    Details,
+                                                                    Confirm
+                                                                    View, Reject
+                                                                    View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].add1'" */}
+                                                                    <Field
+                                                                      value="1"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].add`}
+                                                                      id={`accesses[${ind}].add1`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].add1'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].add1`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].add'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].add`}
+                                                                      id={`accesses[${ind}].add0`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].add'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].add0`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].view'" */}
-                                                                <Field
-                                                                  value="0"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].view`}
-                                                                  id={`accesses[${ind}].viewOff`}
-                                                                />
-                                                                {/**  th:attr="for='accesses['+${acTypeState.index}+'].view'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].viewOff`}
-                                                                >
-                                                                  Off
-                                                                </label>
+                                                            {/* 3rd Row  */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Edit Or
+                                                                      Update
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    {" "}
+                                                                    Edit Or
+                                                                    Update,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].update1'" */}
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].edit`}
+                                                                      id={`accesses[${ind}].editOn`}
+                                                                      value="1"
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].update1'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].editOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].update'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].edit`}
+                                                                      id={`accesses[${ind}].editOff`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].update'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].editOff`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* 2nd Row */}
-                                                        {/* 3nd Row */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Add &amp; View
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Add, Pending
-                                                                View, Details,
-                                                                Confirm View,
-                                                                Reject View
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].add1'" */}
-                                                                <Field
-                                                                  value="1"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].add`}
-                                                                  id={`accesses[${ind}].add1`}
-                                                                />
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].add1'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].add1`}
-                                                                >
-                                                                  On
-                                                                </label>
+                                                            {/* 3rd Row  End */}
+
+                                                            {/* 6th Row */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Full
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    All Kind Of
+                                                                    Approve,
+                                                                    Add, Update,
+                                                                    Reject, View
+                                                                    Or Full
+                                                                    control this
+                                                                    system.
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].all2'" */}
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      value="1"
+                                                                      name={`accesses[${ind}].all`}
+                                                                      id={`accesses[${ind}].allOn`}
+                                                                    />
+                                                                    {/**  th:attr="for='accesses['+${acTypeState.index}+'].all2'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].allOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/* th:attr="data-itemId=${itemState.index}"  */}
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].all'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].all`}
+                                                                      id={`accesses[${ind}].allInactive`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].all'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].allInactive`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].add'" */}
-                                                                <Field
-                                                                  value="0"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].add`}
-                                                                  id={`accesses[${ind}].add0`}
-                                                                />
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].add'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].add0`}
-                                                                >
-                                                                  Off
-                                                                </label>
+                                                            {/* 6th Row */}
+                                                          </Tab.Pane>
+                                                        </React.Fragment>
+                                                      ) : (
+                                                        <React.Fragment
+                                                          key={`${accessData.accessType.id}-${ind}`}
+                                                        >
+                                                          <Tab.Pane
+                                                            eventKey={`${accessData.accessType.value}-${accessData.accessType.id}`}
+                                                          >
+                                                            <h5>
+                                                              {accessData.accessType !=
+                                                              null
+                                                                ? "Set Access for: " +
+                                                                  accessData
+                                                                    .accessType
+                                                                    .name
+                                                                : "Set Access for:"}
+                                                            </h5>
+                                                            {/* No Access Row Start */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Deny Or No
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    No Access{" "}
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    <Field
+                                                                      id={`accesses[${ind}].noAccessOn`}
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      value="1"
+                                                                      name={`accesses[${ind}].noAccess`}
+                                                                    />
+
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].noAccessOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].noAccess`}
+                                                                      value="0"
+                                                                      id={`accesses[${ind}].noAccessOff`}
+                                                                    />
+                                                                    <label
+                                                                      htmlFor={`accesses[${ind}].noAccessOff`}
+                                                                      className="custom-control-label"
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* 3rd Row  */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Edit Or Update
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                {" "}
-                                                                Edit Or Update,
-                                                                Details View,
-                                                                Confirm View
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].update1'" */}
-                                                                <Field
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].edit`}
-                                                                  id={`accesses[${ind}].editOn`}
-                                                                  value="1"
-                                                                />
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].update1'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].editOn`}
-                                                                >
-                                                                  On
-                                                                </label>
+                                                            {/* No Access Row End */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>View</b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Details,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    <Field
+                                                                      value="1"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].view`}
+                                                                      id={`accesses[${ind}].viewOn`}
+                                                                    />
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].viewOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].view'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].view`}
+                                                                      id={`accesses[${ind}].viewOff`}
+                                                                    />
+                                                                    {/**  th:attr="for='accesses['+${acTypeState.index}+'].view'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].viewOff`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].update'" */}
-                                                                <Field
-                                                                  value="0"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].edit`}
-                                                                  id={`accesses[${ind}].editOff`}
-                                                                />
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].update'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].editOff`}
-                                                                >
-                                                                  Off
-                                                                </label>
+                                                            {/* 2nd Row */}
+                                                            {/* 3nd Row */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Add &amp;
+                                                                      View
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Add, Pending
+                                                                    View,
+                                                                    Details,
+                                                                    Confirm
+                                                                    View, Reject
+                                                                    View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].add1'" */}
+                                                                    <Field
+                                                                      value="1"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].add`}
+                                                                      id={`accesses[${ind}].add1`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].add1'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].add1`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].add'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].add`}
+                                                                      id={`accesses[${ind}].add0`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].add'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].add0`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* 3rd Row  End */}
-                                                        {/*  4th Row */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Add Approve
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Add Approval
-                                                                Pending View,
-                                                                Approve, Details
-                                                                View, Confirm
-                                                                View
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].addApproval1'" */}
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].addApproval1'" */}
-                                                                <Field
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  value="1"
-                                                                  name={`accesses[${ind}].addApprove`}
-                                                                  id={`accesses[${ind}].addApproval1`}
-                                                                />
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].addApproval1`}
-                                                                >
-                                                                  On
-                                                                </label>
+                                                            {/* 3rd Row  */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Edit Or
+                                                                      Update
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    {" "}
+                                                                    Edit Or
+                                                                    Update,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].update1'" */}
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].edit`}
+                                                                      id={`accesses[${ind}].editOn`}
+                                                                      value="1"
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].update1'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].editOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].update'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].edit`}
+                                                                      id={`accesses[${ind}].editOff`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].update'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].editOff`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/**  th:attr="id='accesses['+${acTypeState.index}+'].addApprove'" */}
-                                                                <Field
-                                                                  value="0"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].addApprove`}
-                                                                  id={`accesses[${ind}].addApprove0`}
-                                                                />
-                                                                {/** attr="for='accesses['+${acTypeState.index}+'].addApprove'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].addApprove0`}
-                                                                >
-                                                                  Off
-                                                                </label>
+                                                            {/* 3rd Row  End */}
+                                                            {/*  4th Row */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Add
+                                                                      Approve
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Add Approval
+                                                                    Pending
+                                                                    View,
+                                                                    Approve,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].addApproval1'" */}
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].addApproval1'" */}
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      value="1"
+                                                                      name={`accesses[${ind}].addApprove`}
+                                                                      id={`accesses[${ind}].addApproval1`}
+                                                                    />
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].addApproval1`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/**  th:attr="id='accesses['+${acTypeState.index}+'].addApprove'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].addApprove`}
+                                                                      id={`accesses[${ind}].addApprove0`}
+                                                                    />
+                                                                    {/** attr="for='accesses['+${acTypeState.index}+'].addApprove'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].addApprove0`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* 4th Row End */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Update
-                                                                  Approval
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                Update Or Edit
-                                                                Approval Pending
-                                                                View, Approve
-                                                                Update, Details
-                                                                View, Confirm
-                                                                View
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/**  th:attr="id='accesses['+${acTypeState.index}+'].updateApproval'" */}
-                                                                <Field
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  value="1"
-                                                                  name={`accesses[${ind}].updateApproval`}
-                                                                  id={`accesses[${ind}].updateApprovalOn`}
-                                                                />
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].updateApproval'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].updateApprovalOn`}
-                                                                >
-                                                                  On
-                                                                </label>
+                                                            {/* 4th Row End */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Update
+                                                                      Approval
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    Update Or
+                                                                    Edit
+                                                                    Approval
+                                                                    Pending
+                                                                    View,
+                                                                    Approve
+                                                                    Update,
+                                                                    Details
+                                                                    View,
+                                                                    Confirm View
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/**  th:attr="id='accesses['+${acTypeState.index}+'].updateApproval'" */}
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      value="1"
+                                                                      name={`accesses[${ind}].updateApproval`}
+                                                                      id={`accesses[${ind}].updateApprovalOn`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].updateApproval'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].updateApprovalOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].updateApproval1'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].updateApproval`}
+                                                                      id={`accesses[${ind}].updateApprovalOff`}
+                                                                    />
+                                                                    {/** attr="for='accesses['+${acTypeState.index}+'].updateApproval1'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].updateApprovalOff`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].updateApproval1'" */}
-                                                                <Field
-                                                                  value="0"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].updateApproval`}
-                                                                  id={`accesses[${ind}].updateApprovalOff`}
-                                                                />
-                                                                {/** attr="for='accesses['+${acTypeState.index}+'].updateApproval1'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].updateApprovalOff`}
-                                                                >
-                                                                  Off
-                                                                </label>
+                                                            {/* 5th Row End */}
+                                                            {/* 6th Row */}
+                                                            <div className="row">
+                                                              <div className="col-md-3">
+                                                                <div className="form-group">
+                                                                  <label>
+                                                                    <b>
+                                                                      Full
+                                                                      Access
+                                                                    </b>
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                  <p>
+                                                                    All Kind Of
+                                                                    Approve,
+                                                                    Add, Update,
+                                                                    Reject, View
+                                                                    Or Full
+                                                                    control this
+                                                                    system.
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].all2'" */}
+                                                                    <Field
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      value="1"
+                                                                      name={`accesses[${ind}].all`}
+                                                                      id={`accesses[${ind}].allOn`}
+                                                                    />
+                                                                    {/**  th:attr="for='accesses['+${acTypeState.index}+'].all2'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].allOn`}
+                                                                    >
+                                                                      On
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                              <div className="col-md-1">
+                                                                <div className="form-group">
+                                                                  <div className="custom-control custom-radio">
+                                                                    {/* th:attr="data-itemId=${itemState.index}"  */}
+                                                                    {/** th:attr="id='accesses['+${acTypeState.index}+'].all'" */}
+                                                                    <Field
+                                                                      value="0"
+                                                                      className="custom-control-input"
+                                                                      type="radio"
+                                                                      name={`accesses[${ind}].all`}
+                                                                      id={`accesses[${ind}].allInactive`}
+                                                                    />
+                                                                    {/** th:attr="for='accesses['+${acTypeState.index}+'].all'" */}
+                                                                    <label
+                                                                      className="custom-control-label"
+                                                                      htmlFor={`accesses[${ind}].allInactive`}
+                                                                    >
+                                                                      Off
+                                                                    </label>
+                                                                  </div>
+                                                                </div>
                                                               </div>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* 5th Row End */}
-                                                        {/* 6th Row */}
-                                                        <div className="row">
-                                                          <div className="col-md-3">
-                                                            <div className="form-group">
-                                                              <label>
-                                                                <b>
-                                                                  Full Access
-                                                                </b>
-                                                              </label>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-6">
-                                                            <div className="form-group">
-                                                              <p>
-                                                                All Kind Of
-                                                                Approve, Add,
-                                                                Update, Reject,
-                                                                View Or Full
-                                                                control this
-                                                                system.
-                                                              </p>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].all2'" */}
-                                                                <Field
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  value="1"
-                                                                  name={`accesses[${ind}].all`}
-                                                                  id={`accesses[${ind}].allOn`}
-                                                                />
-                                                                {/**  th:attr="for='accesses['+${acTypeState.index}+'].all2'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].allOn`}
-                                                                >
-                                                                  On
-                                                                </label>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                          <div className="col-md-1">
-                                                            <div className="form-group">
-                                                              <div className="custom-control custom-radio">
-                                                                {/* th:attr="data-itemId=${itemState.index}"  */}
-                                                                {/** th:attr="id='accesses['+${acTypeState.index}+'].all'" */}
-                                                                <Field
-                                                                  value="0"
-                                                                  className="custom-control-input"
-                                                                  type="radio"
-                                                                  name={`accesses[${ind}].all`}
-                                                                  id={`accesses[${ind}].allInactive`}
-                                                                />
-                                                                {/** th:attr="for='accesses['+${acTypeState.index}+'].all'" */}
-                                                                <label
-                                                                  className="custom-control-label"
-                                                                  htmlFor={`accesses[${ind}].allInactive`}
-                                                                >
-                                                                  Off
-                                                                </label>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                        {/* 6th Row */}
-                                                      </Tab.Pane>
+                                                            {/* 6th Row */}
+                                                          </Tab.Pane>
+                                                        </React.Fragment>
+                                                      )}
                                                     </React.Fragment>
                                                   );
                                                 }

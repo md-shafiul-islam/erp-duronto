@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
+import { Link } from "react-router-dom";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = "http://localhost:8085/api";
-let headers = {
-  "Content-Type": "application/json",
-};
+const baseUrl = BASE_URL;
+let headers = REQUEST_HEADER;
 
 class DetailsPrivacyPolicy extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class DetailsPrivacyPolicy extends Component {
   loadPolicyByPbId = async () => {
     let policyUrl = `${baseUrl}/privacy-policies/policy/${this.pubId}`;
 
-    await Axios.get(policyUrl).then((res) => {
+    await Axios.get(policyUrl, { headers: REQUEST_HEADER }).then((res) => {
       console.log("recive Data: ", res.data);
       this.setState({ policy: res.data });
 
@@ -57,10 +57,10 @@ class DetailsPrivacyPolicy extends Component {
                 <div className="col-sm-6">
                   <ol className="breadcrumb float-sm-right">
                     <li className="breadcrumb-item">
-                      <a href="/">Home</a>
+                      <Link href="/">Home</Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a href="/privacyPolicies/">Privacy Policies</a>
+                      <Link href="/privacyPolicies/">Privacy Policies</Link>
                     </li>
                     <li className="breadcrumb-item active">
                       Privacy Policy/details
@@ -121,12 +121,12 @@ class DetailsPrivacyPolicy extends Component {
                       {() => {
                         console.log(this.state.term.publicId);
                       }}
-                      <a
-                        href={`/privacyPolicies/policy/edit/${this.state.policy.publicId}`}
+                      <Link
+                        to={`/privacyPolicies/policy/edit/${this.state.policy.publicId}`}
                         className="btn btn-block btn-outline-success btn-sm"
                       >
                         Edit Or Update
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

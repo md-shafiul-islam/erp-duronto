@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
+import { Link } from "react-router-dom";
 
 let gRole = [];
 
@@ -17,13 +19,12 @@ class Roles extends Component {
   };
 
   async componentDidMount() {
-    await Axios.get("http://localhost:8085/api/roles")
+    await Axios.get(`${BASE_URL}/api/roles`, { headers: REQUEST_HEADER })
       .then((res) => {
         gRole = res.data;
         this.setState({ roles: [] });
 
         this.setState({ roles: gRole, loadRole: true });
-        console.log("Success Load All Roles", this.state.roles);
       })
       .catch((res) => {
         console.log("Error Load All Roles", res);
@@ -73,15 +74,15 @@ class Roles extends Component {
                                 </td>
 
                                 <td>
-                                  <a
-                                    href={`/roles/role/edit/${role.publicId}`}
+                                  <Link
+                                    to={`/roles/role/edit/${role.publicId}`}
                                     className="btn btn-info btn-icon-split"
                                   >
                                     <span className="icon text-white-50">
                                       <i className=" nav-icon fas fa-edit" />
                                     </span>
                                     <span className="text">Edit</span>
-                                  </a>
+                                  </Link>
                                 </td>
                               </tr>
                             </React.Fragment>
