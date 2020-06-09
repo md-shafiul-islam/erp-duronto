@@ -11,7 +11,7 @@ import designationReducer from "./designationReducer";
 export default combineReducers({
   errors: errorReducer,
   category: categoryReduucer,
-  backlog: backLogReducer,
+  country: backLogReducer,
   security: securityReducer,
   appStore: appReducer,
   tokenData: tokenReducer,

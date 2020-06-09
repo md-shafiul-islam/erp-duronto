@@ -17,7 +17,7 @@ export const addCountry = (country, history) => async (dispatch) => {
 export const updateCountry = (country, history) => async (dispatch) => {
   let url = `${BASE_URL}/countries/country`;
 
-  console.log("Current Url: ", url);
+  //console.log("Country Update Url: And Country ", url, country);
 
   await Axios.put(url, country, { headers: REQUEST_HEADER })
     .then((res) => {
@@ -38,7 +38,7 @@ export const getCountries = () => async (dispatch) => {
   const res = await Axios.get(url, { headers: REQUEST_HEADER });
   dispatch({
     type: GET_COUNTRIES,
-    payload: res.data.country,
+    payload: res.data,
   });
 };
 

@@ -25,7 +25,7 @@ class EditCoutry extends Component {
   updateCatAction = (values) => {
     if (values != null) {
       let country = JSON.stringify(values, null, 2);
-
+      console.log(country);
       this.props.updateCountry(country, this.props.history);
     }
   };
@@ -52,8 +52,7 @@ class EditCoutry extends Component {
                   enableReinitialize={true}
                   initialValues={country}
                   onSubmit={(values, actions) => {
-                    console.log(JSON.stringify(values, null, 2));
-                    this.updateCountry(values);
+                    this.updateCatAction(values);
                   }}
                 >
                   {(props) => (
@@ -69,13 +68,45 @@ class EditCoutry extends Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="description">Description:</label>
+                          <label htmlFor="niceName">ISO 3 Code:</label>
                           <Field
-                            component="textarea"
+                            type="text"
                             className="form-control"
                             id="description"
-                            name="description"
+                            name="iso3Code"
                             placeholder="Description"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="isoCode">ISO Code:</label>
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="isoCode"
+                            name="isoCode"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="numCode">Number Code:</label>
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="numCode"
+                            name="numCode"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="dialOrPhoneCode">
+                            Dial Or Phone Code:
+                          </label>
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="dialOrPhoneCode"
+                            name="dialOrPhoneCode"
                           />
                         </div>
                       </div>
@@ -86,7 +117,7 @@ class EditCoutry extends Component {
                             {" "}
                             <i className="fas fa-save" />
                           </span>{" "}
-                          <span className="text">Save</span>
+                          <span className="text">Update</span>
                         </button>
                       </div>
                     </Form>
@@ -114,7 +145,7 @@ const mapStateToProps = (state) => ({
   security: state.security,
   errors: state.errors,
   access: state.appStore,
-  country: state.category,
+  country: state.country,
 });
 export default connect(mapStateToProps, { getCountry, updateCountry })(
   EditCoutry
