@@ -75,7 +75,8 @@ import packCategoryEdit from "./component/Pack-Category/packCategoryEdit";
 import DepartmentEdit from "./component/Department/DepartmentEdit";
 import editDesignation from "./component/Designation/editDesignation";
 import EditCatrgory from "./component/Category/editCatrgory";
-
+import editCountry from "./component/Country/editCountry";
+require("dotenv").config();
 const jwtToken = localStorage.jwtToken;
 
 if (jwtToken) {
@@ -133,6 +134,11 @@ class App extends Component {
                 component={EditCatrgory}
               />
               <SecuredRoute exact path="/countries" component={Countries} />
+              <SecuredRoute
+                exact
+                path="/countries/country/edit/:id"
+                component={editCountry}
+              />
               <SecuredRoute
                 exact
                 path="/countries/country"
