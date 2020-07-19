@@ -33,7 +33,7 @@ export const SET_TOKEN = "SET_TOKEN";
 
 console.log(process.env.REACT_APP_API_URL);
 
-export const EXT_BASE_URL = `http://localhost:8085`; //; //`http://dto.durontotour.com`;
+export const EXT_BASE_URL = `http://dto.durontotour.com`; // `http://localhost:8085`;
 export const BASE_URL = `${EXT_BASE_URL}/api`;
 
 export const GET_PACK_CATEGORIES = "GET_PACK_CATEGORIES";
