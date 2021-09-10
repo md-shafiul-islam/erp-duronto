@@ -39,10 +39,11 @@ class Menu extends Component {
   };
 
   componentDidMount() {
-    console.log("Commponent Run Menu");
-    if (this.props && this.props.security.user) {
+    console.log("Commponent Run Menu, ", this.props.security);
+    if (this.props && this.props.security.validToken) {
       if (this.props.security.user.id) {
-        //this.props.getAccess(this.props.security.user.id);
+        // this.props.getAccess(this.props.security.user.id);
+        this.loadAccess(0);
       }
     }
   }
@@ -52,23 +53,27 @@ class Menu extends Component {
       console.log("This Props: ", this.props);
       console.log("Next Props: ", nextProps);
 
-      /*
-      if (nextProps.validToken) {
-        this.props.getAccess(
-          this.props.security.user.id,
-          nextProps.tokenData.token
-        );
-      }*/
+      // if (nextProps.validToken) {
+      //   this.props.getAccess(
+      //     this.props.security.user.id,
+      //     nextProps.tokenData.token
+      //   );
+      // }
     }
   }
 
-  loadAccess = () => {
+  loadAccess = (count) => {
+    console.log("Load Access Data, ", count);
     if (this.props.security.validToken) {
+      this.props.getAccess(
+        this.props.security.user.id,
+        this.props.tokenData.token
+      );
     }
 
     if (this.props.accesses !== undefined) {
       if (this.props.accesses.user === undefined) {
-        this.loadAccess();
+        this.loadAccess(count + 1);
       }
     }
   };
@@ -155,7 +160,116 @@ class Menu extends Component {
                     <p>Dashboard</p>
                   </a>
                 </li>
+                {/*  Accounts Start */}
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-landmark" />
+                    <p>
+                      Bank Accounts <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/view?page=0"
+                        btnIconClass="fas fa-list nav-icon"
+                        labelName="Bank Info View"
+                      />
+                    </li>
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/add"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Add"
+                      />
+                    </li>
 
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/pending"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Add Approval"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/edit/"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Edit / Update"
+                      />
+                    </li>
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/update/pending"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Edit / Update Approval"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/update/pending"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Edit / Update View"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/bank/reject"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Reject"
+                      />
+                    </li>
+                  </ul>
+                </li>
+                {/* Accounts End */}
+                {/*  Rechargae Start */}
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-coins" />
+                    <p>
+                      Rechargae <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/recharge/pending"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Approval Recharge"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/recharge/approve"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Confirmed Recharge"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/recharge/reject"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Reject Recharge"
+                      />
+                    </li>
+                  </ul>
+                </li>
+                {/* Recharge End */}
                 {/*  Sale */}
                 <li className="nav-item has-treeview">
                   <a
@@ -171,14 +285,14 @@ class Menu extends Component {
                   </a>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
-                      <a href="/category/view?page=0" className="nav-link">
-                        {" "}
-                        <i className="fas fa-list nav-icon" />
-                        <p>View</p>
-                      </a>
+                      <MenuLinkOrButton
+                        action="/sales"
+                        btnIconClass="fas fa-list nav-icon"
+                        labelName="View"
+                      />
                     </li>
                     <li className="nav-item">
-                      <a href="/category/add" className="nav-link">
+                      <a href="/sale/add" className="nav-link">
                         {" "}
                         <i className="fas fa-plus-square nav-icon" />
                         <p>Add</p>

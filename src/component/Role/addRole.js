@@ -79,8 +79,6 @@ class AddRole extends Component {
   /** Pref Role Load Start */
   loadPrepRole = async () => {
 
-    console.log("Header Role:", REQUEST_HEADER)
-
     await Axios.get(`${BASE_URL}/roles/access/add`, { headers: REQUEST_HEADER })
       .then((res) => {
         roleData = {};
@@ -174,6 +172,7 @@ class AddRole extends Component {
     }
   };
 
+  
   isValid = (valueOne, valueTwo) => {
     if (valueOne === valueTwo) {
       return true;
@@ -184,6 +183,7 @@ class AddRole extends Component {
 
   submitAction = (values) => {
     let strinfiValue = JSON.stringify(values, null, 2);
+    console.log("User Role ", strinfiValue);
     let roleUpdateUrl = `${BASE_URL}/roles/role`;
     Axios.post(roleUpdateUrl, strinfiValue, { headers: REQUEST_HEADER })
       .then((res) => {

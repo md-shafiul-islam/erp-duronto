@@ -76,6 +76,19 @@ import DepartmentEdit from "./component/Department/DepartmentEdit";
 import editDesignation from "./component/Designation/editDesignation";
 import EditCatrgory from "./component/Category/editCatrgory";
 import editCountry from "./component/Country/editCountry";
+import Account from "./component/Account/Account";
+import Banks from "./component/Account/Banks/Banks";
+import BankDetails from "./component/Account/Banks/BankDetails";
+import RechargePending from "./component/Account/Recharge/RechargePending";
+import RechargeApprove from "./component/Account/Recharge/RechargeApprove";
+import RechargeReject from "./component/Account/Recharge/RechargeReject";
+import RechargeRejectDetails from "./component/Account/Recharge/RechargeRejectDetails";
+import RechargeDetails from "./component/Account/Recharge/RechargeDetails";
+import BanksReject from "./component/Account/Banks/BanksReject";
+import Sales from "./component/Sale/Sales";
+import UpdateBankAccount from "./component/Account/Banks/UpdateBankAccount";
+import BankApprove from "./component/Account/Banks/BankApprove";
+import BanksUpdatePending from "./component/Account/Banks/BanksUpdatePending";
 require("dotenv").config();
 const jwtToken = localStorage.jwtToken;
 
@@ -111,6 +124,28 @@ class App extends Component {
               {/** Private  Route Start*/}
               <SecuredRoute exact path="/" component={Dashboard} />
 
+              <SecuredRoute exact path="/bank/add" component={Account} />              
+              <SecuredRoute exact path="/bank/edit/" component={UpdateBankAccount} />              
+              <SecuredRoute exact path="/bank/view" component={Banks} />
+              <SecuredRoute exact path="/banks/details/:id" component={BankDetails} />
+              <SecuredRoute exact path="/bank/reject" component={BanksReject} />
+              <SecuredRoute exact path="/banks/approve/:id" component={BankApprove} />
+              <SecuredRoute exact path="/bank/update/pending" component={BanksUpdatePending} />
+              
+              <SecuredRoute exact path="/recharge/pending" component={RechargePending} />
+              <SecuredRoute exact path="/recharge/approve" component={RechargeApprove} />
+              <SecuredRoute exact path="/recharge/reject" component={RechargeReject} />
+              <SecuredRoute exact path="/recharge/reject/:id" component={RechargeRejectDetails} />
+              <SecuredRoute exact path="/recharge/:id" component={RechargeDetails} />
+
+              {/*Sale */}
+              <SecuredRoute exact path="/sales" component={Sales} />
+              <SecuredRoute
+                exact
+                path="/recharge/approve/:id"
+                component={RechargeDetails}
+                //TODO:Create Approve Action Page
+              />
               <SecuredRoute
                 exact
                 path="/addPackageData"

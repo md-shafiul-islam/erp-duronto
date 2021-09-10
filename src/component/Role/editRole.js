@@ -165,9 +165,13 @@ class EditRole extends Component {
     }
   };
 
+  loadPrepRole = ()=>{
+    console.log("Load PrepRole ... ");
+  }
+
   // Access Types Load Start
   loadAllAccessTypes = async () => {
-    await Axios.get(`${BASE_URL}/api/roles/access-tyeps`, {
+    await Axios.get(`${BASE_URL}/roles/access-tyeps`, {
       headers: REQUEST_HEADER,
     })
       .then((res) => {

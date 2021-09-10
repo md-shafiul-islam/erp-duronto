@@ -19,7 +19,7 @@ class Roles extends Component {
   };
 
   async componentDidMount() {
-    await Axios.get(`${BASE_URL}/api/roles`, { headers: REQUEST_HEADER })
+    await Axios.get(`${BASE_URL}/roles`, { headers: REQUEST_HEADER })
       .then((res) => {
         gRole = res.data;
         this.setState({ roles: [] });

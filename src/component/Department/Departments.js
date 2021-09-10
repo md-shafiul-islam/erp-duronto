@@ -37,7 +37,7 @@ class Departments extends Component {
         });
       })
       .catch((res) => {
-        console.log("Error Categories Loading... ", res);
+        console.log("Error Department Loading... ", res);
       });
 
     console.log("Cat List After All work: ", departmentList);

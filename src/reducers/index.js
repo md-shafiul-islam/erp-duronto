@@ -7,6 +7,7 @@ import appReducer from "./appReducer";
 import tokenReducer from "./tokenReducer";
 import packCatReducer from "./packCatReducer";
 import designationReducer from "./designationReducer";
+import bankAccountReducer from "./bankAccountReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   tokenData: tokenReducer,
   packCats: packCatReducer,
   designation: designationReducer,
+  bankAccount: bankAccountReducer
 });

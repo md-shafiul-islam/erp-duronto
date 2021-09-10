@@ -14,6 +14,8 @@ import jwt_decode from "jwt-decode";
 export const loginAction = (LoginRequest) => async (dispatch) => {
   try {
     // post => Login Request
+
+    console.log("Befor Login Request Send ", LoginRequest);
     const res = await Axios.post(`${BASE_URL}/users/login`, LoginRequest, {
       headers: REQUEST_HEADER,
     });

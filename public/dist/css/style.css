@@ -1,3 +1,184 @@
+/** React Select option validet style Start */
+
+.vselect-item.is-invalid > div {
+  border-color: #dc3545;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.vselect-item.is-valid > div {
+  border-color: #198754;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.invalid-feedback.active{
+  display: block;
+}
+/** React Select option validet style End */
+
+/*Account Style Start */
+
+.bank-add-content .card-pay-row{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.bank-add-content .card-pay-row .add-bank-btn{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: 1em;
+}
+
+.aprove-bank-btn-area{
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: 1em;
+  align-items: center;
+}
+
+.aprove-bank-btn-area button{
+  width: 100%;
+}
+
+.bank-table{
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.recharge-table{
+  background-color: #fff;
+}
+
+.bank-account .bank-in-row{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.bank-account .bank-in-row .add-bank-btn{
+  width: 100%;
+}
+
+.bank-details-content .bank-title{
+  padding: 20px 10px;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.bank-details-content .bank-inf-area{
+  font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+.bank-details-content .form-label{
+  width: 40%;
+}
+.bank-details-content .bank-inf{
+  width: 60%;
+}
+
+.bank-table .updateinf-col{
+  min-width: 25vw;
+}
+
+.recharge-table .recharge-image-area {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+  font-size: 2em;
+}
+
+.recharge-table  .rechargeA-action{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.opening-balance-area {
+  margin: 10px 0px;
+
+  
+}
+
+.opening-balance-area >div{
+  padding: 0px !important;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.opening-balance-area .list-group-item {
+  width: 30vw;
+}
+
+.recharge-details .card-title{
+  padding: 20px;
+  margin-top: 10px;
+  font-weight: 800;
+  font-size: 1.25em;
+}
+
+.recharge-details .list-group-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.recharge-details .list-group-item .title{
+  width: 35%;
+}
+
+.recharge-details .list-group-item .text{
+  padding-left: 15px;
+}
+
+.recharge-details .list-group-item .title,
+.recharge-details .list-group-item .text {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.recharge-details .customer-inf .reject-note{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.recharge-details .customer-inf .reject-note .title,
+.recharge-details .customer-inf .reject-note .text {
+  padding: 5px;
+}
+
+.image-modal-container > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal-container > div > .modal-content {
+  width: 80vw !important;
+}
+.modal-image-area {
+  width: 1000px;
+  height: 600px;  
+}
+
+/*Account Style End */
+
 .top-padding {
   margin: 35px 5px 0px 5px;
   padding: 0 15px;
