@@ -21,13 +21,11 @@ const RechargeDetails = (params) => {
   const dispatch = useDispatch();
 
   const [displayApprove, setDisplayApprove] = useState(false);
-  console.log("Recharge Details Init Props, ", params);
 
   let { recharge } = params;
 
   useEffect(() => {
     let spliPath = params.location.pathname.split("/");
-    console.log("Recharge Details Init Props, Split path  ", spliPath);
 
     const id = params.match.params && params.match.params.id;
 
