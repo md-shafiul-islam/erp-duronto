@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { PropTypes } from "prop-types";
 import { Field, Form, Formik } from "formik";
 import { Button, Card, ListGroup } from "react-bootstrap";
 import { Row, Image, Col } from "react-bootstrap";
 import * as Yup from "yup";
+import {
+  getApproveAction,
+  getRecchargeDetails,
+} from "../../../actions/rechargeAction";
 import { isFieldError } from "../../../utils/helper/esFunc";
+import {
+  BASE_URL,
+  EXT_BASE_URL,
+  SET_RECHARGE_PENDINGG_APPROVE,
+} from "../../../actions/types";
+import MsgToast from "../../Layout/EsItem/MsgToast";
 
 const RechargeDetails = (params) => {
+  const dispatch = useDispatch();
+
   const [displayApprove, setDisplayApprove] = useState(false);
+  console.log("Recharge Details Init Props, ", params);
+
+  let { recharge } = params;
 
   useEffect(() => {
-    console.log("Recharge Details Init Props, ", params);
     let spliPath = params.location.pathname.split("/");
     console.log("Recharge Details Init Props, Split path  ", spliPath);
+
+    const id = params.match.params && params.match.params.id;
+
+    params.getRecchargeDetails(id);
 
     if (Array.isArray(spliPath)) {
       if (spliPath.includes("approve")) {
@@ -36,9 +56,26 @@ const RechargeDetails = (params) => {
       ),
     });
   };
+
+  const toastToggleAction = (type) => {
+    if (type !== undefined) {
+      dispatch({
+        type: SET_RECHARGE_PENDINGG_APPROVE,
+        payload: type,
+      });
+    }
+  };
   return (
     <React.Fragment>
       <div className="content-wrapper recharge-details">
+        <Row>
+          <MsgToast
+            headText="Recharge"
+            message="Recharge Approved"
+            show={params.approveStatus}
+            showAction={toastToggleAction}
+          />
+        </Row>
         <Card>
           <Card.Title>Recharge Details</Card.Title>
           <Card.Body>
@@ -48,24 +85,34 @@ const RechargeDetails = (params) => {
                   <ListGroup>
                     <ListGroup.Item>
                       <span className="title">Transection ID/Code:</span>
-                      <span className="text">DT_ADW_CA-9184981797</span>{" "}
+                      <span className="text">
+                        {recharge.customer && recharge.customer.genId}
+                      </span>{" "}
                       {/** DT_ADW_CA, CQ, MB, IB  */}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Client ID:</span>
-                      <span className="text">GU4848</span>
+                      <span className="text">
+                        {recharge.customer && recharge.customer.genId}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Client Name:</span>
-                      <span className="text">Md. Shafiul Islam</span>
+                      <span className="text">
+                        {recharge.customer && recharge.customer.firstName}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Client Email:</span>
-                      <span className="text">shafiul2014bd@gmail.com</span>
+                      <span className="text">
+                        {recharge.customer && recharge.customer.email}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Client Phone:</span>
-                      <span className="text">01725686029</span>
+                      <span className="text">
+                        {recharge.customer && recharge.customer.phone}
+                      </span>
                     </ListGroup.Item>
                   </ListGroup>
                 </div>
@@ -75,27 +122,46 @@ const RechargeDetails = (params) => {
                   <ListGroup>
                     <ListGroup.Item>
                       <span className="title">Acount Name:</span>
-                      <span className="text">Duronto Trip</span>
+                      <span className="text">
+                        {recharge.bankAccount &&
+                          recharge.bankAccount.accountName}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Bank Name:</span>
-                      <span className="text">Bank Aisa</span>
+                      <span className="text">
+                        {recharge.bankAccount && recharge.bankAccount.bankName}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Branch Name:</span>
-                      <span className="text">Bogura</span>
+                      <span className="text">
+                        {recharge.bankAccount &&
+                          recharge.bankAccount.branchName}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Country:</span>
-                      <span className="text">Bangladesh</span>
+                      <span className="text">
+                        {recharge.bankAccount &&
+                          recharge.bankAccount.country &&
+                          recharge.bankAccount.country.name}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Acount No:</span>
-                      <span className="text">8418418445</span>
+                      <span className="text">
+                        {recharge.bankAccount &&
+                          recharge.bankAccount.accountNumber}
+                      </span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <span className="title">Acount Type:</span>
-                      <span className="text">Genarel Banking</span>
+                      <span className="text">
+                        {recharge.bankAccount &&
+                          recharge.bankAccount.bankAccountType &&
+                          recharge.bankAccount.bankAccountType.name}
+                      </span>
                     </ListGroup.Item>
                   </ListGroup>
                 </div>
@@ -109,7 +175,9 @@ const RechargeDetails = (params) => {
               <Col md={12}>
                 <ListGroup.Item>
                   <span className="title">Opening Balance:</span>
-                  <span className="text">4848448484</span>
+                  <span className="text">
+                    {recharge.customer && recharge.customer.walletAmount}
+                  </span>
                 </ListGroup.Item>
               </Col>
             </Row>
@@ -131,28 +199,32 @@ const RechargeDetails = (params) => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>1.</td>
-                      <td>30-08-2021</td>
-                      <td>29-08-2021</td>
-                      <td>Genarel Banking</td>
-                      <td>4A84D84V4Z9X4</td>
+                      <td>{recharge.genId}</td>
+                      <td>{recharge.date}</td>
+                      <td>{recharge.transectionDate}</td>
                       <td>
-                        <p className="lead">
-                          The height CSS property specifies the height of an
-                          element. By default, the property defines the height
-                          of the
-                        </p>
+                        {recharge &&
+                          recharge.paymentStatus &&
+                          recharge.paymentStatus.name}
+                      </td>
+                      <td>{recharge.transectionId}</td>
+                      <td>
+                        <p className="lead">{recharge.refferenceNote}</p>
                       </td>
                       <td>
-                        <span className="badge bg-danger">35,000</span>
+                        <span className="badge bg-danger">
+                          {recharge.amount}
+                        </span>
                       </td>
                       <td>
                         <div className="recharge-image-area">
                           <Image
-                            src="/dist/img/photo1.png"
+                            src={`${EXT_BASE_URL}${recharge.attachUrl}`}
                             thumbnail
                             onMouseOver={() => {
-                              mouseOverAction("/uimage/slip.jpg");
+                              mouseOverAction(
+                                `${EXT_BASE_URL}${recharge.attachUrl}`
+                              );
                             }}
                           />
                         </div>
@@ -169,12 +241,12 @@ const RechargeDetails = (params) => {
                   chargeAmount: "",
                 }}
                 validationSchema={validationScema}
-                onSubmit={(values, actions) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
+                onSubmit={(values) => {
+                  values.publicId = recharge.publicId;
+                  values.status = 1;
+                  values.rejectStatus = 0;
 
-                    actions.setSubmitting(false);
-                  }, 1000);
+                  params.getApproveAction(values);
                 }}
               >
                 {(props) => (
@@ -258,4 +330,20 @@ const RechargeDetails = (params) => {
   );
 };
 
-export default RechargeDetails;
+RechargeDetails.prototypes = {
+  getApproveAction: PropTypes.func.isRequired,
+  recharge: PropTypes.object.isRequired,
+  approveStatus: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    recharge: state.recharge.recharge,
+    approveStatus: state.recharge.rechargeApproveState,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getApproveAction,
+  getRecchargeDetails,
+})(RechargeDetails);

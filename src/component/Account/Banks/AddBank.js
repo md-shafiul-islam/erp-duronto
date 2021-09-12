@@ -1,20 +1,21 @@
-import React, {useEffect,  useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import Select from "react-select";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { getCountryOptions } from "../../../actions/countryActions";
 import { getBankAccountTypeOptions } from "../../../actions/bankActions";
+import ImageField from "../../Layout/EsItem/ImageField";
 
 const AddBank = ({ title, validationScema, submitAction, isError }) => {
+  const [countries, setCountries] = useState([{ label: "", value: 0 }]);
+  const [bankAccountTypes, setBankAccountTypes] = useState([
+    { label: "", value: 0 },
+  ]);
 
-  const [countries, setCountries] = useState([{label: "", value: 0 }])
-  const [bankAccountTypes, setBankAccountTypes] = useState([{label: "", value: 0 }])
-  
   useEffect(() => {
     getCountryOptions(setCountries);
-    getBankAccountTypeOptions(setBankAccountTypes)
-    
-  }, [])
+    getBankAccountTypeOptions(setBankAccountTypes);
+  }, []);
 
   return (
     <React.Fragment>
@@ -260,16 +261,49 @@ const AddBank = ({ title, validationScema, submitAction, isError }) => {
                             onBlur={props.handleBlur}
                             id={`initialAmount`}
                             className={`form-control ${
-                              isError(props.errors, props.touched, "initialAmount")
-                                .cls
+                              isError(
+                                props.errors,
+                                props.touched,
+                                "initialAmount"
+                              ).cls
                             }`}
                           />
                           <div className="invalid-feedback">
                             {
-                              isError(props.errors, props.touched, "initialAmount")
-                                .msg
+                              isError(
+                                props.errors,
+                                props.touched,
+                                "initialAmount"
+                              ).msg
                             }
                           </div>
+                        </Col>
+
+                        <Col md={6}>
+                          <ImageField
+                            rowClazz="image-row"
+                            thumArea="tumb-area"
+                            name="attach"
+                            errorClazz={
+                              isError(
+                                props.errors,
+                                props.touched,
+                                "attachattach"
+                              ).cls
+                            }
+                            errorMsg={
+                              isError(
+                                props.errors,
+                                props.touched,
+                                "attach"
+                              ).msg
+                            }
+                            changeHandler={(e) => {
+                             
+                              props.setFieldValue(`attach`, e.currentTarget.files[0])
+                            }}
+                            label="Attach bank logo"
+                          />
                         </Col>
                       </Row>
                       <Row className="card-pay-row">

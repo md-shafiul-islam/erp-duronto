@@ -1,11 +1,21 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "react-bootstrap";
+import { connect } from "react-redux";
 import ActionLink from "../../../utils/ActionLink";
+import { PropTypes } from "prop-types";
 import ImageViewModal from "../../Modal/ImageViewModal";
+import { getApprovePendingRecharges } from "../../../actions/rechargeAction";
+import { EXT_BASE_URL } from "../../../actions/types";
 
 const RechargeApprove = (params) => {
   const [displayModal, setDisplayModal] = useState(false);
   const [imageLocation, setImageLocation] = useState("");
+
+  console.log("Recharge Approve page ", params);
+
+  useEffect(() => {
+    params.getApprovePendingRecharges();
+  }, []);
 
   const mouseOverAction = (location) => {
     if (location) {
@@ -46,74 +56,68 @@ const RechargeApprove = (params) => {
                   <th style={{ width: "16vw" }}>Account Number</th>
                   <th>Transection Id</th>
                   <th>Amount</th>
-                  <th>Image</th>                  
+                  <th>Image</th>
                   <th>Details</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>48451</td>
-                  <td>Md Shafiul Islam</td>
-                  <td>shafiul2014bd@gmail.com</td>
-                  <td>01725686029</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <Image
-                        src="/dist/img/photo1.png"
-                        thumbnail
-                        onMouseOver={() => {
-                          mouseOverAction("/uimage/slip.jpg");
-                        }}
-                      />
-                    </div>
-                  </td>
-                  
-                  <td>
-                    <ActionLink
-                      to={`/recharge/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
+                {params.recharges &&
+                  params.recharges.map((recharge, idx) => {
+                    return (
+                      <tr>
+                        <td>{idx + 1}.</td>
+                        <td>{recharge.date}</td>
+                        <td>{recharge.transectionDate}</td>
+                        <td>
+                          {recharge.customer && recharge.customer.publicId}
+                        </td>
+                        <td>
+                          {recharge.customer && recharge.customer.firstName}
+                        </td>
+                        <td>{recharge.customer && recharge.customer.email}</td>
+                        <td>{recharge.customer && recharge.customer.phone}</td>
+                        <td>
+                          {recharge.bankAccount &&
+                            recharge.bankAccount.bankName}
+                        </td>
+                        <td>
+                          {recharge.bankAccount &&
+                            recharge.bankAccount.branchName}
+                        </td>
+                        <td>
+                          {recharge.bankAccount &&
+                            recharge.bankAccount.accountName}
+                        </td>
+                        <td>
+                          {recharge.bankAccount &&
+                            recharge.bankAccount.accountNumber}
+                        </td>
+                        <td>{recharge.transectionId}</td>
+                        <td>{recharge.amount}</td>
+                        <td>
+                          <div className="recharge-image-area">
+                            <Image
+                              src={`${EXT_BASE_URL}/${recharge.attachUrl}`}
+                              thumbnail
+                              onMouseOver={() => {
+                                mouseOverAction(
+                                  `${EXT_BASE_URL}/${recharge.attachUrl}`
+                                );
+                              }}
+                            />
+                          </div>
+                        </td>
 
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>Client ID</td>
-                  <td>Client Name</td>
-                  <td>Email</td>
-                  <td>Phone No</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <i className="fas fa-image"></i>
-                    </div>
-                  </td>
-                  
-                  <td>
-                    <ActionLink
-                      to={`/recharge/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
+                        <td>
+                          <ActionLink
+                            to={`/recharge/${recharge.publicId}`}
+                            label="Details"
+                            clazz="btn btn-block btn-primary btn-sm"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
               <tfoot>
                 <tr>
@@ -159,4 +163,18 @@ const RechargeApprove = (params) => {
   );
 };
 
-export default RechargeApprove;
+RechargeApprove.prototypes = {
+  getApprovePendingRecharges: PropTypes.func.isRequired,
+  getApproveAction: PropTypes.func.isRequired,
+  recharges: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    recharges: state.recharge.pendingRecharges,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getApprovePendingRecharges,
+})(RechargeApprove);

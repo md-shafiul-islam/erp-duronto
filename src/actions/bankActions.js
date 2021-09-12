@@ -1,14 +1,18 @@
 import Axios from "axios";
+import { helperIsEmpty } from "../utils/helper/esFunc";
 import {
   ADD_BANK_ACCOUNT,
   ADD_BANK_ACCOUNT_ERROR,
+  BANK_LOGO_UPLOAD,
   BASE_URL,
   GET_BANK_ACCOUNT_OPTIONS,
   GET_BANK_ACCOUNT_OPTIONS_ERROR,
   GET_BANK_ACCOUNT_TYPES,
+  GET_BANK_ACCOUNT_UPDATE_APPRROVE,
   GET_BANK_ERROR,
   GET_BANK_UPDATE,
   REQUEST_HEADER,
+  UPLOAD_ERROR,
 } from "./types";
 
 export const getBankAccountTypeOptions = async (callBack) => {
@@ -65,24 +69,47 @@ export const getAllUpdatePendingBanks = (callBack, count = 1) => {
     });
 };
 
-export const getAddBankAccountAction = (bankAccount) => async (dispatch) => {
-  bankAccount = JSON.stringify(bankAccount, null, 2);
-  const res = await Axios.post(`${BASE_URL}/banks`, bankAccount, {
-    headers: REQUEST_HEADER,
-  });
+export const getAddBankAccountAction =
+  (bankAccount, fileData) => async (dispatch) => {
+    bankAccount.attach = "";
+    const fileResp = await Axios.put(
+      `${BASE_URL}/uploadfile/account/bank_logo`,
+      fileData,
+      { headers: REQUEST_HEADER }
+    );
 
-  try {
-    dispatch({
-      type: ADD_BANK_ACCOUNT,
-      payload: res.data,
+    console.log("File Upload response, ", fileResp);
+    try {
+      bankAccount.logoUrl = helperIsEmpty(fileResp.data) ? "" : fileResp.data;
+      dispatch({
+        type: BANK_LOGO_UPLOAD,
+        payload: { url: fileResp.data, status: true },
+      });
+    } catch (fileError) {
+      dispatch({
+        type: UPLOAD_ERROR,
+        payload: { msg: "Upload failed", status: true, error: fileError },
+      });
+    }
+
+    console.log("Before Send BankAccount -> Logo URL, ", bankAccount.logoUrl);
+    bankAccount = JSON.stringify(bankAccount, null, 2);
+    const res = await Axios.post(`${BASE_URL}/banks`, bankAccount, {
+      headers: REQUEST_HEADER,
     });
-  } catch (error) {
-    dispatch({
-      type: ADD_BANK_ACCOUNT_ERROR,
-      payload: error,
-    });
-  }
-};
+
+    try {
+      dispatch({
+        type: ADD_BANK_ACCOUNT,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ADD_BANK_ACCOUNT_ERROR,
+        payload: error,
+      });
+    }
+  };
 
 export const getAllConfrimedBanks = (callBack) => {
   Axios.get(`${BASE_URL}/banks`)
@@ -122,7 +149,10 @@ const getBankUpdateData = (resp) => {
 };
 export const getBankAcccountUpdate = (bankAccount) => async (dispatch) => {
   if (bankAccount) {
-    console.log("Bank Account Update ... ");
+    console.log(
+      "Bank Account Update ... ",
+      JSON.stringify(bankAccount, null, 2)
+    );
     const resp = await Axios.post(`${BASE_URL}/banks/update`, bankAccount, {
       headers: REQUEST_HEADER,
     });
@@ -153,6 +183,24 @@ export const getBankAccountTypes = () => async (dispatch) => {
     dispatch({
       type: GET_BANK_ERROR,
       payload: { msg: "Bank Account Types not found", status: false },
+    });
+  }
+};
+
+export const getUpdateApproveBankAccount = (bank) => async (dispatch) => {
+  const resp = await Axios.put(`${BASE_URL}/banks/update/approve`, bank, {
+    headers: REQUEST_HEADER,
+  });
+
+  try {
+    dispatch({
+      type: GET_BANK_ACCOUNT_UPDATE_APPRROVE,
+      payload: resp.data.status,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_BANK_ERROR,
+      payload: { msg: "Bank Account Update Approved faild", status: false },
     });
   }
 };

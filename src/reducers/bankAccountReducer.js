@@ -4,8 +4,10 @@ import {
   GET_BANK_ACCOUNT_OPTIONS,
   GET_BANK_ACCOUNT_OPTIONS_ERROR,
   GET_BANK_ACCOUNT_TYPES,
+  GET_BANK_ACCOUNT_UPDATE_APPRROVE,
   GET_BANK_ERROR,
   GET_BANK_UPDATE,
+  SET_BANK_CHANGE_STATUS,
   SET_COUNTRIY_OPTION,
   SET_COUNTRIY_OPTION_ERROR,
 } from "../actions/types";
@@ -20,7 +22,8 @@ const initialValues = {
   bankAccountTypesOptions: [],
   countryOptions: [],
   countryOptionsError: {},
-  bankAccountUpdateStatus:false,
+  bankAccountUpdateStatus: false,
+  bankAccountUpdateApproveStatus: false,
 };
 
 export default function (state = initialValues, action) {
@@ -74,6 +77,16 @@ export default function (state = initialValues, action) {
         ...state,
         bankError: action.payload,
       };
+    case GET_BANK_ACCOUNT_UPDATE_APPRROVE:
+      return {
+        ...state,
+        bankAccountUpdateApproveStatus: action.payload,
+      };
+      case SET_BANK_CHANGE_STATUS:
+        return {
+          ...state,
+          bankAccountUpdateApproveStatus: action.payload,
+        };  
     default:
       return state;
   }

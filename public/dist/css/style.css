@@ -93,6 +93,16 @@
   min-width: 25vw;
 }
 
+.add-image{
+  height: 85px;
+}
+
+.form-control.cst-fille {
+  padding: 0px !important;
+  line-height: 1.9em !important;
+  cursor: pointer;
+}
+
 .recharge-table .recharge-image-area {
   display: flex;
   width: 100%;

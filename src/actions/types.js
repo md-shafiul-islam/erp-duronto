@@ -5,7 +5,6 @@ export const DELET_COUNTRIY = "DELET_COUNTRIY";
 export const SET_COUNTRIY_OPTION = "SET_COUNTRIY_OPTION";
 export const SET_COUNTRIY_OPTION_ERROR = "SET_COUNTRIY_OPTION_ERROR";
 
-
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY = "GET_CATEGORY";
 export const DELET_CATEGORY = "DELET_CATEGORY";
@@ -36,7 +35,7 @@ export const SET_TOKEN = "SET_TOKEN";
 
 console.log(process.env.REACT_APP_API_URL);
 
-export const EXT_BASE_URL = `http://localhost:6060` //`http://dto.durontotour.com`; // `http://localhost:6060`;
+export const EXT_BASE_URL = `http://localhost:6060`; //`http://dto.durontotour.com`; // `http://localhost:6060`;
 export const BASE_URL = `${EXT_BASE_URL}/api`;
 
 export const GET_PACK_CATEGORIES = "GET_PACK_CATEGORIES";
@@ -53,3 +52,16 @@ export const GET_BANK_ACCOUNT_OPTIONS = "GET_BANK_ACCOUNT_OPTIONS";
 export const GET_BANK_ACCOUNT_OPTIONS_ERROR = "GET_BANK_ACCOUNT_OPTIONS_ERROR";
 export const GET_BANK_UPDATE = "GET_BANK_UPDATE";
 export const GET_BANK_ERROR = "GET_BANK_ERROR";
+export const GET_BANK_ACCOUNT_UPDATE_APPRROVE =
+  "GET_BANK_ACCOUNT_UPDATE_APPRROVE";
+export const SET_BANK_CHANGE_STATUS = "SET_BANK_CHANGE_STATUS";
+export const BANK_LOGO_UPLOAD = "BANK_LOGO_UPLOAD";
+export const UPLOAD_ERROR = "UPLOAD_ERROR";
+
+/* Recharge Action Tyep */
+export const SET_PENDINGG_RECHARGES = "SET_PENDINGG_RECHARGES";
+export const SET_RECHARGES_ERRROR = "SET_RECHARGES_ERRROR";
+export const SET_RECHARGE_PENDINGG_APPROVE = "SET_RECHARGE_PENDINGG_APPROVE";
+
+export const SET_APV_RECHAARGE = "SET_APV_RECHAARGE";
+export const SET_APV_RECHAARGE_ERROR = "SET_APV_RECHAARGE_ERROR";

@@ -1,15 +1,22 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "react-bootstrap";
+import { connect } from "react-redux";
 import ActionLink from "../../../utils/ActionLink";
+import { PropTypes } from "prop-types";
 import ImageViewModal from "../../Modal/ImageViewModal";
-
-
-
+import { getApprovePendingRecharges } from "../../../actions/rechargeAction";
+import { BASE_URL, EXT_BASE_URL } from "../../../actions/types";
+import RecharhgeItem from "./RecharhgeItem";
 
 const RechargePending = (params) => {
+  const [displayModal, setDisplayModal] = useState(false);
+  const [imageLocation, setImageLocation] = useState("");
 
-    const [displayModal, setDisplayModal] = useState(false);
-    const [imageLocation, setImageLocation] = useState("");
+  console.log("Recharge Approve page ", params);
+
+  useEffect(() => {
+    params.getApprovePendingRecharges();
+  }, []);
 
   const mouseOverAction = (location) => {
     if (location) {
@@ -19,19 +26,23 @@ const RechargePending = (params) => {
     }
   };
 
-  const hideAction = (status)=>{
-      setDisplayModal(status);
-  }
+  const hideAction = (status) => {
+    setDisplayModal(status);
+  };
   return (
     <React.Fragment>
-        <ImageViewModal showModal={displayModal} location={imageLocation} hideAction ={hideAction} />
+      <ImageViewModal
+        showModal={displayModal}
+        location={imageLocation}
+        hideAction={hideAction}
+      />
       <div className="content-wrapper">
         <div>
           {/* /.card-header */}
           <div className="recharge-table">
             <table className="table table-bordered">
               <thead>
-                <tr>
+                <tr key="recharge-pending-headre">
                   <th style={{ width: 10 }}>#</th>
                   <th>Date</th>
                   <th>Trans. Date</th>
@@ -52,95 +63,17 @@ const RechargePending = (params) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>48451</td>
-                  <td>Md Shafiul Islam</td>
-                  <td>shafiul2014bd@gmail.com</td>
-                  <td>01725686029</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <Image
-                        src="/dist/img/photo1.png"
-                        thumbnail
-                        onMouseOver={() => {
-                          mouseOverAction("/uimage/slip.jpg");
-                        }}
+                {params.recharges &&
+                  params.recharges.map((recharge, idx) => {
+                    return (
+                      <RecharhgeItem
+                        idx={idx}
+                        keyName="pen"
+                        recharge={recharge}
+                        mouseOverAction={mouseOverAction}
                       />
-                    </div>
-                  </td>
-                  <td>
-                    <div className="rechargeA-action">
-                      <ActionLink
-                        to={`/recharge/approve/${1}`}
-                        label="Approve"
-                        clazz="btn btn-block btn-success btn-sm"
-                      />
-                      <ActionLink
-                        to={`/recharge/reject/${1}`}
-                        label="Reject"
-                        clazz="btn btn-block btn-danger btn-sm"
-                      />
-                    </div>
-                  </td>
-                  <td>
-                    <ActionLink
-                      to={`/recharge/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>Client ID</td>
-                  <td>Client Name</td>
-                  <td>Email</td>
-                  <td>Phone No</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <i className="fas fa-image"></i>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="rechargeA-action">
-                      <ActionLink
-                        to={`/recharge/approve/${1}`}
-                        label="Approve"
-                        clazz="btn btn-block btn-success btn-sm"
-                      />
-                      <ActionLink
-                        to={`/recharge/reject/${1}`}
-                        label="Reject"
-                        clazz="btn btn-block btn-danger btn-sm"
-                      />
-                    </div>
-                  </td>
-                  <td>
-                    <ActionLink
-                      to={`/recharge/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
+                    );
+                  })}
               </tbody>
               <tfoot>
                 <tr>
@@ -186,4 +119,18 @@ const RechargePending = (params) => {
   );
 };
 
-export default RechargePending;
+RechargePending.prototypes = {
+  getApprovePendingRecharges: PropTypes.func.isRequired,
+  getApproveAction: PropTypes.func.isRequired,
+  recharges: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    recharges: state.recharge.pendingRecharges,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getApprovePendingRecharges,
+})(RechargePending);

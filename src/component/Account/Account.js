@@ -55,8 +55,13 @@ class Account extends Component {
 
   addBankAccountAction = (values) => {
     console.log("Bank Accounts Info, ", values);
+
     if (values) {      
-      this.props.getAddBankAccountAction(values);
+      const frData = new FormData();
+      frData.append("attachFile", values.attach);
+      values.logoUrl = "";
+      values.attach= "";
+      this.props.getAddBankAccountAction(values, frData);
     }
   };
 

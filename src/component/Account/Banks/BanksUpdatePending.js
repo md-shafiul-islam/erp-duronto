@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { connect, shallowEqual, useSelector } from "react-redux";
+import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
 import { PropTypes } from "prop-types";
 
 import ActionLink from "../../../utils/ActionLink";
 import {
   getAllUpdatePendingBanks,
   getBankAccountTypes,
+  getUpdateApproveBankAccount,
 } from "../../../actions/bankActions";
 import { getCountries } from "../../../actions/countryActions";
 import { helperIsEmpty } from "../../../utils/helper/esFunc";
+import { Button } from "react-bootstrap";
+import { SET_BANK_CHANGE_STATUS } from "../../../actions/types";
 
 const BanksUpdatePending = (params) => {
   const [banks, setBanks] = useState([]);
+  const [changeState, setChangeState] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getAllUpdatePendingBanks(setBanks);
@@ -24,15 +29,63 @@ const BanksUpdatePending = (params) => {
     }
   }, []);
 
+  useEffect(() => {
+    getAllUpdatePendingBanks(setBanks);
+    if(params.approveStatus){
+      dispatch({type:SET_BANK_CHANGE_STATUS, payload:false})
+    }
+  }, [params.approveStatus]);
+
+  const bankUpdateAction = (bank) => {
+    console.log("Befor Reinitialize Bank Account: ", bank);
+
+    let { country, bankAccountType } = bank;
+    bank.country = Number(country.id);
+    bank.bankAccountType = Number(bankAccountType.id);
+    bank[bank.restUpdateInf.fieldName] = bank.restUpdateInf.value;
+
+    console.log("Reinitialize Bank Account: ", JSON.stringify(bank, null, 2));
+    params.getUpdateApproveBankAccount(JSON.stringify(bank, null, 2));
+  };
+
+  const getCountryByID = (id) => {
+    let country = undefined;
+    params.countries.every((item) => {
+      if (Number(item.id) === Number(id)) {
+        country = item;
+        return false;
+      }
+      return true;
+    });
+
+    return country;
+  };
+  const getBankAccountTypeByID = (id) => {
+    id = Number(id);
+    let accountType = undefined;
+    params.bankAccountTypes.every((item, idx) => {
+      console.log("Bank account each ", item);
+      if (Number(item.id) === id) {
+        accountType = item;
+        return false;
+      }
+
+      return true;
+    });
+    console.log("Bank Type: ", accountType);
+    return accountType;
+  };
   const getFieldValue = (bank, type) => {
     if (bank.restUpdateInf && type === 1) {
       console.log(
         "bank.restUpdateInf.fieldName ",
-        bank.restUpdateInf.fieldName
+        bank.restUpdateInf.fieldName,
+        " Value, ",
+        bank.restUpdateInf.value
       );
       if (
         bank.restUpdateInf.fieldName === "country" ||
-        bank.restUpdateInf.fieldName === "bankingType"
+        bank.restUpdateInf.fieldName === "bankAccountType"
       ) {
         return bank[bank.restUpdateInf.fieldName].name;
       } else {
@@ -41,28 +94,15 @@ const BanksUpdatePending = (params) => {
     }
 
     if (bank.restUpdateInf && type === 2) {
-      console.log("Countries,  2 ", params.countries);
-      console.log("Banking Types, 2 ", params.bankAccountTypes);
-
       if (bank.restUpdateInf.fieldName === "country") {
-
-        if(Array.isArray(params.countries)){
-          let country = {name:""};
-          params.countries.every((item) => {
-            console.log("Country Filter, ", item, " Value ", bank.restUpdateInf.value);
-            if(Number(item.id) === Number(bank.restUpdateInf.value)){
-              country = item;
-              return false;
-            }
-            return true;
-            
-          });
+        if (Array.isArray(params.countries)) {
+          let country = getCountryByID(bank.restUpdateInf.value);
           console.log("Selected Country, ", country);
-          return country&&country.name;
+          return country && country.name;
         }
-
-      } else if (bank.restUpdateInf.fieldName === "bankingType") {
-        return params.bankAccountTypes[bank.restUpdateInf.value];
+      } else if (bank.restUpdateInf.fieldName === "bankAccountType") {
+        let bnakType = getBankAccountTypeByID(bank.restUpdateInf.value);
+        return bnakType && bnakType.name;
       } else {
         return bank.restUpdateInf.value;
       }
@@ -120,11 +160,14 @@ const BanksUpdatePending = (params) => {
                       </div>
                     </td>
                     <td>
-                      <ActionLink
-                        clazz="btn btn-block btn-success btn-sm"
-                        to={`/banks/update/approve/${bank.publicId}`}
-                        label="Approve"
-                      />
+                      <Button
+                        onClick={() => {
+                          bankUpdateAction(bank);
+                        }}
+                        class="btn btn-block btn-success btn-sm"
+                      >
+                        Approve
+                      </Button>
                     </td>
                     <td>
                       <ActionLink
@@ -179,6 +222,7 @@ BanksUpdatePending.prototype = {
   getBankAccountTypes: PropTypes.func.isRequired,
   countries: PropTypes.func.isRequired,
   bankAccountTypes: PropTypes.object.isRequired,
+  approveStatus: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -186,9 +230,12 @@ const mapStateToProps = (state) => {
   return {
     countries: state.country.countres,
     bankAccountTypes: state.bankAccount.bankAccountTypes,
+    approveStatus: state.bankAccount.bankAccountUpdateApproveStatus,
   };
 };
 
-export default connect(mapStateToProps, { getCountries, getBankAccountTypes })(
-  BanksUpdatePending
-);
+export default connect(mapStateToProps, {
+  getCountries,
+  getBankAccountTypes,
+  getUpdateApproveBankAccount,
+})(BanksUpdatePending);

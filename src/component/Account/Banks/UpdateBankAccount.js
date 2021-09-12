@@ -21,8 +21,8 @@ class UpdateBankAccount extends Component {
     bankNameStatus: false,
     branchNameStatus: false,
     countryStatus: false,
-    bankingTypeStatus: false,
-    initialAmountStatus: false,
+    bankAccountTypeStatus: false,
+    amountStatus: false,
     accountOptons: [],
     selectOption: [
       { label: "Account Name", value: "accountName" },
@@ -30,8 +30,8 @@ class UpdateBankAccount extends Component {
       { label: "Bank Name", value: "bankName" },
       { label: "Branch Name", value: "branchName" },
       { label: "Country", value: "country" },
-      { label: "Banking Type", value: "bankingType" },
-      { label: "Initial Amount", value: "initialAmount" },
+      { label: "Banking Type", value: "bankAccountType" },
+      { label: "Initial Amount", value: "amount" },
     ],
     bankAccounts: [],
     selectedAccount: {},
@@ -74,9 +74,9 @@ class UpdateBankAccount extends Component {
       accountNumber: Yup.string(),
       bankName: Yup.string(),
       branchName: Yup.string(),
-      bankingType: Yup.string(),
+      bankAccountType: Yup.string(),
       country: Yup.string(),
-      initialAmount: Yup.number()
+      amount: Yup.number()
         .typeError("Initial amount input must be number(s)")
         .min(0),
     });
@@ -89,8 +89,8 @@ class UpdateBankAccount extends Component {
       bankNameStatus: false,
       branchNameStatus: false,
       countryStatus: false,
-      bankingTypeStatus: false,
-      initialAmountStatus: false,
+      bankAccountTypeStatus: false,
+      amountStatus: false,
       selectedAccount: this.state.bankAccounts[account.value],
       selectedValue: "",
       sectedField: null,
@@ -105,8 +105,8 @@ class UpdateBankAccount extends Component {
       bankNameStatus: false,
       branchNameStatus: false,
       countryStatus: false,
-      bankingTypeStatus: false,
-      initialAmountStatus: false,
+      bankAccountTypeStatus: false,
+      amountStatus: false,
       sectedField: item,
     });
 
@@ -143,15 +143,15 @@ class UpdateBankAccount extends Component {
             selectedValue: this.state.selectedAccount.country.name,
           });
           break;
-        case "bankingType":
+        case "bankAccountType":
           this.setState({
-            bankingTypeStatus: true,
+            bankAccountTypeStatus: true,
             selectedValue: this.state.selectedAccount.bankAccountType.name,
           });
           break;
-        case "initialAmount":
+        case "amount":
           this.setState({
-            initialAmountStatus: true,
+            amountStatus: true,
             selectedValue: this.state.selectedAccount.amount,
           });
           break;
@@ -164,6 +164,7 @@ class UpdateBankAccount extends Component {
 
   render() {
     console.log("Update Bank Account, Props ", this.props);
+
     let {
       selectOption,
       accountNameStatus,
@@ -171,12 +172,13 @@ class UpdateBankAccount extends Component {
       bankNameStatus,
       branchNameStatus,
       countryStatus,
-      bankingTypeStatus,
-      initialAmountStatus,
+      bankAccountTypeStatus,
+      amountStatus,
       accountOptons,
     } = this.state;
     return (
       <React.Fragment>
+        
         <div className="content-wrapper">
           <Card.Body className="bank-account">
             <Row className="bank-in-row">
@@ -239,8 +241,8 @@ class UpdateBankAccount extends Component {
                 bankName: "",
                 branchName: "",
                 country: "",
-                bankingType: "",
-                initialAmount: "",
+                bankAccountType: "",
+                amount: "",
               }}
               validationSchema={this.validationScema}
               onSubmit={(values, actions) => {
@@ -252,27 +254,27 @@ class UpdateBankAccount extends Component {
             >
               {(props) => (
                 <Form>
-                  {bankingTypeStatus ? (
+                  {bankAccountTypeStatus ? (
                     <Row className="bank-in-row">
                       <Col md={3}>
-                        <label className="form-label" htmlFor="bankingType">
+                        <label className="form-label" htmlFor="bankAccountType">
                           Banking Category/Type
                         </label>
                       </Col>
                       <Col md={9}>
                         <Select
                           placeholder="Select One..."
-                          name={`bankingType`}
+                          name={`bankAccountType`}
                           onChange={(item) => {
                             props.setFieldValue(
-                              `bankingType`,
+                              `bankAccountType`,
                               item ? item.value : ""
                             );
                           }}
                           onBlur={() => {
-                            props.setFieldTouched(`bankingType`, true);
+                            props.setFieldTouched(`bankAccountType`, true);
                           }}
-                          id={`bankingType`}
+                          id={`bankAccountType`}
                           options={
                             this.props.bankAccountTypes
                               ? this.props.bankAccountTypes
@@ -282,7 +284,7 @@ class UpdateBankAccount extends Component {
                             isFieldError(
                               props.errors,
                               props.touched,
-                              "bankingType"
+                              "bankAccountType"
                             ).cls
                           }`}
                         />
@@ -292,7 +294,7 @@ class UpdateBankAccount extends Component {
                             isFieldError(
                               props.errors,
                               props.touched,
-                              "bankingType"
+                              "bankAccountType"
                             ).status
                               ? "active"
                               : ""
@@ -302,7 +304,7 @@ class UpdateBankAccount extends Component {
                             isFieldError(
                               props.errors,
                               props.touched,
-                              "bankingType"
+                              "bankAccountType"
                             ).msg
                           }
                         </div>
@@ -513,10 +515,10 @@ class UpdateBankAccount extends Component {
                     ""
                   )}
 
-                  {initialAmountStatus ? (
+                  {amountStatus ? (
                     <Row className="bank-in-row">
                       <Col md={3}>
-                        <label className="form-label" htmlFor="initialAmount">
+                        <label className="form-label" htmlFor="amount">
                           Initial Balance
                         </label>
                       </Col>
@@ -524,15 +526,15 @@ class UpdateBankAccount extends Component {
                       <Col md={9}>
                         <Field
                           placeholder="Balance"
-                          name={`initialAmount`}
+                          name={`amount`}
                           onChange={props.handleChange}
                           onBlur={props.handleBlur}
-                          id={`initialAmount`}
+                          id={`amount`}
                           className={`form-control ${
                             isFieldError(
                               props.errors,
                               props.touched,
-                              "initialAmount"
+                              "amount"
                             ).cls
                           }`}
                         />
@@ -541,7 +543,7 @@ class UpdateBankAccount extends Component {
                             isFieldError(
                               props.errors,
                               props.touched,
-                              "initialAmount"
+                              "amount"
                             ).msg
                           }
                         </div>
@@ -573,6 +575,7 @@ UpdateBankAccount.prototypes = {
   getBankAcccountUpdate: PropTypes.func.isRequired,
   countryOptions: PropTypes.object.isRequired,
   bankAccountTypes: PropTypes.object.isRequired,
+  approveStatus: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -580,6 +583,7 @@ const mapStateToProps = (state) => {
   return {
     bankAccountTypes: state.bankAccount.bankAccountTypesOptions,
     countryOptions: state.bankAccount.countryOptions,
+    approveStatus: state.bankAccount.bankAccountUpdateApproveStatus,
   };
 };
 
