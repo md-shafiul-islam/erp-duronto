@@ -125,7 +125,16 @@
   
 }
 
-.opening-balance-area >div{
+.approve-action-area {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+.action-title{
+  font-size: 1.15em;
+}
+.opening-balance-area > div{
   padding: 0px !important;
   display: flex;
   flex-direction: row-reverse;

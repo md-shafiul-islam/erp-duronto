@@ -7,52 +7,86 @@ import { Row, Image, Col } from "react-bootstrap";
 import * as Yup from "yup";
 import {
   getApproveAction,
-  getRecchargeDetails,
+  getRechargeDetails,
+  getRechargeRejectAction,
+  getRejectRecharges,
 } from "../../../actions/rechargeAction";
-import { isFieldError } from "../../../utils/helper/esFunc";
+import { helperIsEmpty, isFieldError } from "../../../utils/helper/esFunc";
 import {
   BASE_URL,
   EXT_BASE_URL,
   SET_RECHARGE_PENDINGG_APPROVE,
+  SET_REJECT_RECHARGES_STATUS,
 } from "../../../actions/types";
 import MsgToast from "../../Layout/EsItem/MsgToast";
+import ActionLink from "../../../utils/ActionLink";
+import ActionContentModal from "../../Modal/ActionContentModal";
+import ApproveAction from "./ActionItem/ApproveAction";
+import RejectAction from "./ActionItem/RejectAction";
 
 const RechargeDetails = (params) => {
   const dispatch = useDispatch();
-
-  const [displayApprove, setDisplayApprove] = useState(false);
+  const [approveModal, setApproveModal] = useState(false);
+  const [rejectModal, setRejectModal] = useState(false);
+  const [rechargeId, setRechargeId] = useState(null);
+  const [actionStatus, setActionStatus] = useState(false);
 
   let { recharge } = params;
+  console.log("RechargeDetails, ", params);
+
+  useEffect(() => {
+    if (!helperIsEmpty(recharge)) {
+      if (recharge.approveStatus > 0 || recharge.rejected) {
+        setActionStatus(false);
+        return;
+      } else {
+        setActionStatus(true);
+      }
+    } else {
+      setActionStatus(true);
+    }
+  }, [recharge && recharge.approveStatus]);
 
   useEffect(() => {
     let spliPath = params.location.pathname.split("/");
 
     const id = params.match.params && params.match.params.id;
-
-    params.getRecchargeDetails(id);
-
-    if (Array.isArray(spliPath)) {
-      if (spliPath.includes("approve")) {
-        setDisplayApprove(true);
-      }
-    }
+    setRechargeId(id);
+    params.getRechargeDetails(id);
+    setRejectModal(params.rejectStatus);
+    setApproveModal(params.rechargeApproveState);
   }, []);
+
+  useEffect(() => {
+    params.getRechargeDetails(rechargeId);
+    if (params.rejectStatus) {
+      setRejectModal(false);
+    }
+  }, [params.rejectStatus]);
+
+  useEffect(() => {
+    params.getRechargeDetails(rechargeId);
+    if (params.approveStatus) {
+      setApproveModal(false);
+    }
+  }, [params.approveStatus]);
+
+  useEffect(() => {
+    dispatch({
+      type: SET_RECHARGE_PENDINGG_APPROVE,
+      payload: false,
+    });
+  }, [approveModal]);
+
+  useEffect(() => {
+    dispatch({
+      type: SET_REJECT_RECHARGES_STATUS,
+      payload: false,
+    });
+  }, [rejectModal]);
 
   const mouseOverAction = () => {
     console.log("IImage Action !!");
-  };
-
-  const validationScema = () => {
-    return Yup.object().shape({
-      netAmount: Yup.number().required(
-        "Required. Please, Input Received amount."
-      ),
-      chargeAmount: Yup.number().min(
-        0,
-        0,
-        "Optional. Please, Input only number"
-      ),
-    });
   };
 
   const toastToggleAction = (type) => {
@@ -63,17 +97,30 @@ const RechargeDetails = (params) => {
       });
     }
   };
+
+  const getRejectWindow = () => {
+    setRejectModal(true);
+  };
+
+  const getApproveWindow = () => {
+    setApproveModal(true);
+  };
+
+  const approveAction = (values) => {
+    values.publicId = rechargeId;
+    console.log("Approve Action :) ", values);
+    params.getApproveAction(values);
+  };
+
+  const rejectActionHandler = (values) => {
+    values.publicId = rechargeId;
+    console.log("Reject Action :) ", values);
+    params.getRechargeRejectAction(values);
+  };
+
   return (
     <React.Fragment>
       <div className="content-wrapper recharge-details">
-        <Row>
-          <MsgToast
-            headText="Recharge"
-            message="Recharge Approved"
-            show={params.approveStatus}
-            showAction={toastToggleAction}
-          />
-        </Row>
         <Card>
           <Card.Title>Recharge Details</Card.Title>
           <Card.Body>
@@ -232,98 +279,66 @@ const RechargeDetails = (params) => {
                 </table>
               </Col>
             </Row>
-            {displayApprove ? (
-              <Formik
-                initialValues={{
-                  netAmount: "",
-                  chargeAmount: "",
-                }}
-                validationSchema={validationScema}
-                onSubmit={(values) => {
-                  values.publicId = recharge.publicId;
-                  values.status = 1;
-                  values.rejectStatus = 0;
-
-                  params.getApproveAction(values);
-                }}
-              >
-                {(props) => (
-                  <Form>
-                    <Row className="card-pay-row">
-                      <Col md={5}>
-                        <label className="form-label" htmlFor="netAmount">
-                          Receive Amount.{" "}
-                        </label>
-                        <Field
-                          placeholder="Receive Amount"
-                          name={`netAmount`}
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          id={`netAmount`}
-                          className={`form-control ${
-                            isFieldError(
-                              props.errors,
-                              props.touched,
-                              "netAmount"
-                            ).cls
-                          }`}
-                        />
-                        <div className="invalid-feedback">
-                          {
-                            isFieldError(
-                              props.errors,
-                              props.touched,
-                              "netAmount"
-                            ).msg
-                          }
-                        </div>
-                      </Col>
-                      <Col md={5}>
-                        <label className="form-label" htmlFor="chargeAmount">
-                          Charge.{" "}
-                        </label>
-                        <Field
-                          placeholder="Charge Amount If have"
-                          name={`chargeAmount`}
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          id={`chargeAmount`}
-                          className={`form-control ${
-                            isFieldError(
-                              props.errors,
-                              props.touched,
-                              "chargeAmount"
-                            ).cls
-                          }`}
-                        />
-                        <div className="invalid-feedback">
-                          {
-                            isFieldError(
-                              props.errors,
-                              props.touched,
-                              "chargeAmount"
-                            ).msg
-                          }
-                        </div>
-                      </Col>
-                      <Col md={2}>
-                        <label className="form-label" htmlFor="action-btn">
-                          &nbsp;{" "}
-                        </label>
-                        <Button className="form-control" type="submit">
-                          Approve
-                        </Button>{" "}
-                      </Col>
-                    </Row>
-                  </Form>
-                )}
-              </Formik>
+            {actionStatus ? (
+              <Row>
+                <Col md={{ span: 3, offset: 6 }}>
+                  <Button
+                    className="btn btn-block btn-danger btn-sm"
+                    onClick={getRejectWindow}
+                  >
+                    Reject
+                  </Button>
+                </Col>
+                <Col mmd={3}>
+                  <Button
+                    className="btn btn-block btn-success btn-sm"
+                    onClick={getApproveWindow}
+                  >
+                    Approve
+                  </Button>
+                </Col>
+              </Row>
             ) : (
               ""
             )}
           </Card.Body>
         </Card>
       </div>
+      <Row>
+        <ActionContentModal
+          title={"Do you want to approve this Recharge?"}
+          showModal={approveModal}
+          hideAction={(isClose) => {
+            setApproveModal(isClose);
+          }}
+        >
+          <ApproveAction
+            approveAction={approveAction}
+            cancelAction={(isClose) => {
+              setApproveModal(isClose);
+            }}
+          />
+        </ActionContentModal>
+      </Row>
+
+      <Row>
+        <ActionContentModal
+          title={"Do you want to Approve this Recharge?"}
+          showModal={rejectModal}
+          hideAction={(isClose) => {
+            setRejectModal(isClose);
+          }}
+        >
+          <RejectAction
+            action={rejectActionHandler}
+            cancelAction={(isClose) => {
+              setRejectModal(isClose);
+            }}
+          />
+        </ActionContentModal>
+      </Row>
+
+      {console.log("Recharge ActionStatus: ", actionStatus)}
     </React.Fragment>
   );
 };
@@ -332,16 +347,21 @@ RechargeDetails.prototypes = {
   getApproveAction: PropTypes.func.isRequired,
   recharge: PropTypes.object.isRequired,
   approveStatus: PropTypes.object.isRequired,
+  rejectStatus: PropTypes.object.isRequired,
+  getRejectRecharges: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     recharge: state.recharge.recharge,
     approveStatus: state.recharge.rechargeApproveState,
+    rejectStatus: state.recharge.rejectStatus,
   };
 };
 
 export default connect(mapStateToProps, {
   getApproveAction,
-  getRecchargeDetails,
+  getRechargeDetails,
+  getRejectRecharges,
+  getRechargeRejectAction,
 })(RechargeDetails);

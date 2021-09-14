@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, ListGroup } from "react-bootstrap";
 import { Row, Image, Col } from "react-bootstrap";
+import RechargeCustomerInf from "./ActionItem/RechargeCustomerInf";
 
 const RechargeRejectDetails = (params) => {
   const mouseOverAction = () => {
@@ -15,32 +16,7 @@ const RechargeRejectDetails = (params) => {
             <Row>
               <Col md={6}>
                 <div className="customer-inf">
-                  <ListGroup>
-                    <ListGroup.Item>
-                      <span className="title">Client ID:</span>
-                      <span className="text">GU4848</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <span className="title">Client Name:</span>
-                      <span className="text">Md. Shafiul Islam</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <span className="title">Client Email:</span>
-                      <span className="text">shafiul2014bd@gmail.com</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <span className="title">Client Phone:</span>
-                      <span className="text">01725686029</span>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="reject-note">
-                      <div className="title">Reject Note.</div>
-                      <div className="text">
-                        The height CSS property specifies the height of an
-                        element. By default, the property defines the height of
-                        the
-                      </div>
-                    </ListGroup.Item>
-                  </ListGroup>
+                  <RechargeCustomerInf />
                 </div>
               </Col>
               <Col md={6}>

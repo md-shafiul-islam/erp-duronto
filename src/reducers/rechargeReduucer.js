@@ -4,10 +4,13 @@ import {
   SET_PENDINGG_RECHARGES,
   SET_RECHARGES_ERRROR,
   SET_RECHARGE_PENDINGG_APPROVE,
+  SET_REJECT_RECHARGES,
+  SET_REJECT_RECHARGES_STATUS,
 } from "../actions/types";
 
 const initialState = {
   pendingRecharges: [],
+  rejectRecharges: [],
   recharge: {},
   rechargeApproveState: false,
   rejectStatus: false,
@@ -41,10 +44,23 @@ export default function (state = initialState, action) {
         status: action.payload.status,
       };
     case SET_RECHARGE_PENDINGG_APPROVE:
-      return{
+
+    console.log("Recharge Approve Action Status", action.payload)
+      return {
         ...state,
-        rechargeApproveState:action.payload,
-      }
+        rechargeApproveState: action.payload,
+      };
+    case SET_REJECT_RECHARGES:
+      return {
+        ...state,
+        rejectRecharges: action.payload,
+      };
+    
+      case SET_REJECT_RECHARGES_STATUS:
+      return {
+        ...state,
+        rejectStatus: action.payload,
+      };
 
     default:
       return state;

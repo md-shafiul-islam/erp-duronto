@@ -1,13 +1,19 @@
-import React, {useState, useEffect} from "react";
-import { Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import ActionLink from "../../../utils/ActionLink";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
 import ImageViewModal from "../../Modal/ImageViewModal";
+import RecharhgeItem from "./RecharhgeItem";
+import { getRejectRecharges } from "../../../actions/rechargeAction";
 
 const RechargeReject = (params) => {
+  const [displayModal, setDisplayModal] = useState(false);
+  const [imageLocation, setImageLocation] = useState("");
 
-    const [displayModal, setDisplayModal] = useState(false);
-    const [imageLocation, setImageLocation] = useState("");
+  const { recharges } = params;
+
+  useEffect(() => {
+    params.getRejectRecharges();
+  }, [])
 
   const mouseOverAction = (location) => {
     if (location) {
@@ -17,12 +23,16 @@ const RechargeReject = (params) => {
     }
   };
 
-  const hideAction = (status)=>{
-      setDisplayModal(status);
-  }
+  const hideAction = (status) => {
+    setDisplayModal(status);
+  };
   return (
     <React.Fragment>
-        <ImageViewModal showModal={displayModal} location={imageLocation} hideAction ={hideAction} />
+      <ImageViewModal
+        showModal={displayModal}
+        location={imageLocation}
+        hideAction={hideAction}
+      />
       <div className="content-wrapper">
         <div>
           {/* /.card-header */}
@@ -49,69 +59,18 @@ const RechargeReject = (params) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>48451</td>
-                  <td>Md Shafiul Islam</td>
-                  <td>shafiul2014bd@gmail.com</td>
-                  <td>01725686029</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <Image
-                        src="/dist/img/photo1.png"
-                        thumbnail
-                        onMouseOver={() => {
-                          mouseOverAction("/uimage/slip.jpg");
-                        }}
+                {recharges &&
+                  recharges.map((recharge, idx) => {
+                    return (
+                      <RecharhgeItem
+                        idx={idx}
+                        keyName="reject"
+                        recharge={recharge}
+                        mouseOverAction={mouseOverAction}
+                        action={false}
                       />
-                    </div>
-                  </td>
-                  
-                  <td>
-                    <ActionLink
-                      to={`/recharge/reject/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>Client ID</td>
-                  <td>Client Name</td>
-                  <td>Email</td>
-                  <td>Phone No</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <i className="fas fa-image"></i>
-                    </div>
-                  </td>
-                  
-                  <td>
-                    <ActionLink
-                      to={`/recharge/reject/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
+                    );
+                  })}
               </tbody>
               <tfoot>
                 <tr>
@@ -157,4 +116,17 @@ const RechargeReject = (params) => {
   );
 };
 
-export default RechargeReject;
+RechargeReject.prototypes = {
+  getRejectRecharges: PropTypes.func.isRequired,
+  recharges: PropTypes.object.isRequired,
+  rechargesStatus: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    recharges: state.recharge.rejectRecharges,
+    rechargesStatus: state.recharge.rejectRecharges,
+  };
+};
+
+export default connect(mapStateToProps, {getRejectRecharges})(RechargeReject);

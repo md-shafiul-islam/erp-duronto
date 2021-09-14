@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Image } from "react-bootstrap";
 import { connect } from "react-redux";
-import ActionLink from "../../../utils/ActionLink";
 import { PropTypes } from "prop-types";
 import ImageViewModal from "../../Modal/ImageViewModal";
 import { getApprovePendingRecharges } from "../../../actions/rechargeAction";
-import { BASE_URL, EXT_BASE_URL } from "../../../actions/types";
 import RecharhgeItem from "./RecharhgeItem";
 
 const RechargePending = (params) => {
@@ -50,7 +47,6 @@ const RechargePending = (params) => {
                   <th>Client Name</th>
                   <th>Email</th>
                   <th>Phone No</th>
-
                   <th>Bank Name</th>
                   <th>Brance Name</th>
                   <th>Account Name</th>
@@ -58,7 +54,6 @@ const RechargePending = (params) => {
                   <th>Transection Id</th>
                   <th>Amount</th>
                   <th>Image</th>
-                  <th>Action</th>
                   <th>Details</th>
                 </tr>
               </thead>
@@ -66,11 +61,12 @@ const RechargePending = (params) => {
                 {params.recharges &&
                   params.recharges.map((recharge, idx) => {
                     return (
-                      <RecharhgeItem
+                      <RecharhgeItem key={`rec-pen-${idx}`}
                         idx={idx}
                         keyName="pen"
                         recharge={recharge}
                         mouseOverAction={mouseOverAction}
+                        action={false}
                       />
                     );
                   })}

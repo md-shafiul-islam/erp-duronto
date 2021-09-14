@@ -7,6 +7,8 @@ import {
   SET_PENDINGG_RECHARGES,
   SET_RECHARGES_ERRROR,
   SET_RECHARGE_PENDINGG_APPROVE,
+  SET_REJECT_RECHARGES,
+  SET_REJECT_RECHARGES_STATUS,
 } from "./types";
 
 export const getApprovePendingRecharges = () => async (dispatch) => {
@@ -33,9 +35,11 @@ export const getApproveAction = (recharge) => async (dispatch) => {
     headers: REQUEST_HEADER,
   });
 
+
+  console.log("After Approve Action !!")
   try {
     dispatch({
-      type: SET_RECHARGE_PENDINGG_APPROVE,
+      type: SET_RECHARGE_PENDINGG_APPROVE, //SET_RECHARGE_PENDINGG_APPROVE
       payload: resp.data.status,
     });
   } catch (err) {
@@ -50,7 +54,7 @@ export const getApproveAction = (recharge) => async (dispatch) => {
   }
 };
 
-export const getRecchargeDetails = (id) => async (dispatch) => {
+export const getRechargeDetails = (id) => async (dispatch) => {
   const resp = await Axios.get(`${BASE_URL}/recharges/${id}`);
 
   console.log("Selected Recharge ", resp);
@@ -71,3 +75,43 @@ export const getRecchargeDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+export const getRejectRecharges = () => async (dispatch) => {
+
+  const resp = await Axios.get(`${BASE_URL}/recharges/reject`);
+
+  // dispatch({
+  //   type: SET_REJECT_RECHARGES_STATUS,
+  //   payload: true,
+  // });
+
+  try {
+    dispatch({
+      type: SET_REJECT_RECHARGES,
+      payload: resp.data.data,
+    });
+    
+  } catch (error) {
+    dispatch({
+      type: SET_RECHARGES_ERRROR,
+      payload: error,
+    });
+  }
+};
+
+export const getRechargeRejectAction = (rechargeRej) => async (dispatch)=>{
+
+  const resp  = await Axios.put(`${BASE_URL}/recharges/reject`, JSON.stringify(rechargeRej), {headers:REQUEST_HEADER});
+  try {
+    dispatch({
+      type: SET_REJECT_RECHARGES_STATUS,
+      payload: resp.data.status,
+    });
+  } catch (error) {
+    dispatch({
+      type: SET_RECHARGES_ERRROR,
+      payload: error,
+    });
+  }
+
+}

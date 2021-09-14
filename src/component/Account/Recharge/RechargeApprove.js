@@ -6,6 +6,7 @@ import { PropTypes } from "prop-types";
 import ImageViewModal from "../../Modal/ImageViewModal";
 import { getApprovePendingRecharges } from "../../../actions/rechargeAction";
 import { EXT_BASE_URL } from "../../../actions/types";
+import RecharhgeItem from "./RecharhgeItem";
 
 const RechargeApprove = (params) => {
   const [displayModal, setDisplayModal] = useState(false);
@@ -64,58 +65,13 @@ const RechargeApprove = (params) => {
                 {params.recharges &&
                   params.recharges.map((recharge, idx) => {
                     return (
-                      <tr>
-                        <td>{idx + 1}.</td>
-                        <td>{recharge.date}</td>
-                        <td>{recharge.transectionDate}</td>
-                        <td>
-                          {recharge.customer && recharge.customer.publicId}
-                        </td>
-                        <td>
-                          {recharge.customer && recharge.customer.firstName}
-                        </td>
-                        <td>{recharge.customer && recharge.customer.email}</td>
-                        <td>{recharge.customer && recharge.customer.phone}</td>
-                        <td>
-                          {recharge.bankAccount &&
-                            recharge.bankAccount.bankName}
-                        </td>
-                        <td>
-                          {recharge.bankAccount &&
-                            recharge.bankAccount.branchName}
-                        </td>
-                        <td>
-                          {recharge.bankAccount &&
-                            recharge.bankAccount.accountName}
-                        </td>
-                        <td>
-                          {recharge.bankAccount &&
-                            recharge.bankAccount.accountNumber}
-                        </td>
-                        <td>{recharge.transectionId}</td>
-                        <td>{recharge.amount}</td>
-                        <td>
-                          <div className="recharge-image-area">
-                            <Image
-                              src={`${EXT_BASE_URL}/${recharge.attachUrl}`}
-                              thumbnail
-                              onMouseOver={() => {
-                                mouseOverAction(
-                                  `${EXT_BASE_URL}/${recharge.attachUrl}`
-                                );
-                              }}
-                            />
-                          </div>
-                        </td>
-
-                        <td>
-                          <ActionLink
-                            to={`/recharge/${recharge.publicId}`}
-                            label="Details"
-                            clazz="btn btn-block btn-primary btn-sm"
-                          />
-                        </td>
-                      </tr>
+                      <RecharhgeItem
+                        idx={idx}
+                        keyName="pen"
+                        recharge={recharge}
+                        mouseOverAction={mouseOverAction}
+                        action={true}
+                      />
                     );
                   })}
               </tbody>
