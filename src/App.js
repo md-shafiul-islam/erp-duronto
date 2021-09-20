@@ -80,7 +80,6 @@ import Account from "./component/Account/Account";
 import Banks from "./component/Account/Banks/Banks";
 import BankDetails from "./component/Account/Banks/BankDetails";
 import RechargePending from "./component/Account/Recharge/RechargePending";
-import RechargeApprove from "./component/Account/Recharge/RechargeApprove";
 import RechargeReject from "./component/Account/Recharge/RechargeReject";
 import RechargeRejectDetails from "./component/Account/Recharge/RechargeRejectDetails";
 import RechargeDetails from "./component/Account/Recharge/RechargeDetails";
@@ -89,6 +88,9 @@ import Sales from "./component/Sale/Sales";
 import UpdateBankAccount from "./component/Account/Banks/UpdateBankAccount";
 import BankApprove from "./component/Account/Banks/BankApprove";
 import BanksUpdatePending from "./component/Account/Banks/BanksUpdatePending";
+import RechargeConfirmed from "./component/Account/Recharge/RechargeConfirmed";
+import PendingWalletWithdraw from "./component/Wallet/PendingWalletWithdraw";
+import WalletWithDrawDetails from "./component/Wallet/WalletWithDrawDetails";
 require("dotenv").config();
 const jwtToken = localStorage.jwtToken;
 
@@ -133,10 +135,16 @@ class App extends Component {
               <SecuredRoute exact path="/bank/update/pending" component={BanksUpdatePending} />
               
               <SecuredRoute exact path="/recharge/pending" component={RechargePending} />
-              <SecuredRoute exact path="/recharge/approve" component={RechargeApprove} />
+              <SecuredRoute exact path="/recharge/confirmed" component={RechargeConfirmed} />
               <SecuredRoute exact path="/recharge/reject" component={RechargeReject} />
               <SecuredRoute exact path="/recharge/reject/:id" component={RechargeRejectDetails} />
               <SecuredRoute exact path="/recharge/:id" component={RechargeDetails} />
+
+              {/** Wallet Withdraw Start */}
+              <SecuredRoute exact path="/walletwithdraw/pending" component={PendingWalletWithdraw} />
+              <SecuredRoute exact path="/walletwithdraw/:id" component={WalletWithDrawDetails} />
+
+              {/** Wallet Withdraw End */}
 
               {/*Sale */}
               <SecuredRoute exact path="/sales" component={Sales} />

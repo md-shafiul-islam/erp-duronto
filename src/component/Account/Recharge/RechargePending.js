@@ -66,7 +66,7 @@ const RechargePending = (params) => {
                         keyName="pen"
                         recharge={recharge}
                         mouseOverAction={mouseOverAction}
-                        action={false}
+                        detailsUrl={`/recharge/${recharge.publicId}`}
                       />
                     );
                   })}

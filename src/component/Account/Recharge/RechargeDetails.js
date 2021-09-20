@@ -48,8 +48,7 @@ const RechargeDetails = (params) => {
   }, [recharge && recharge.approveStatus]);
 
   useEffect(() => {
-    let spliPath = params.location.pathname.split("/");
-
+    
     const id = params.match.params && params.match.params.id;
     setRechargeId(id);
     params.getRechargeDetails(id);

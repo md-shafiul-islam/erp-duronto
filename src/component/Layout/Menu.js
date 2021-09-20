@@ -254,7 +254,7 @@ class Menu extends Component {
 
                     <li className="nav-item">
                       <MenuLinkOrButton
-                        action="/recharge/approve"
+                        action="/recharge/confirmed"
                         btnIconClass="fas fa-book nav-icon"
                         labelName="Confirmed Recharge"
                       />
@@ -270,6 +270,47 @@ class Menu extends Component {
                   </ul>
                 </li>
                 {/* Recharge End */}
+
+                {/*  Wallet Withdarw Start */}
+                <li className="nav-item has-treeview">
+                  <a
+                    href="javascript:void(0);"
+                    onClick={NoAction}
+                    className="nav-link"
+                  >
+                    {" "}
+                    <i className="nav-icon fas fa-coins" />
+                    <p>
+                      Wallet Withdarwals <i className="right fas fa-angle-left" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/walletwithdraw/pending"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Approval Wallet Withdraw"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/walletwithdraw/confirmed"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Confirmed Wallet Withdraw"
+                      />
+                    </li>
+
+                    <li className="nav-item">
+                      <MenuLinkOrButton
+                        action="/walletwithdraw/reject"
+                        btnIconClass="fas fa-book nav-icon"
+                        labelName="Reject Wallet Withdraw"
+                      />
+                    </li>
+                  </ul>
+                </li>
+                {/* Wallet Withdarw End */}
                 {/*  Sale */}
                 <li className="nav-item has-treeview">
                   <a

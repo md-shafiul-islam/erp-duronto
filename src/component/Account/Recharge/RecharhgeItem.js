@@ -3,7 +3,7 @@ import { Image } from "react-bootstrap";
 import { EXT_BASE_URL } from "../../../actions/types";
 import ActionLink from "../../../utils/ActionLink";
 
-const RecharhgeItem = ({ recharge, mouseOverAction, keyName, idx, action }) => {
+const RecharhgeItem = ({ recharge, mouseOverAction, keyName, idx, detailsUrl }) => {
   return (
     <React.Fragment key={`recharge-${keyName}`}>
       <tr>
@@ -35,27 +35,10 @@ const RecharhgeItem = ({ recharge, mouseOverAction, keyName, idx, action }) => {
             )}
           </div>
         </td>
-        {console.log("Approve action", action)}
-        {action === true ? (
-          <td>
-            <ActionLink
-              to={`/recharge/approve/${recharge.publicId}`}
-              label="Approve"
-              clazz="btn btn-block btn-success btn-sm"
-            />
-            <ActionLink
-              to={`/recharge/${recharge.publicId}`}
-              label="Reject"
-              clazz="btn btn-block btn-danger btn-sm"
-            />
-          </td>
-        ) : (
-          ""
-        )}
-
+        
         <td>
           <ActionLink
-            to={`/recharge/${recharge.publicId}`}
+            to={detailsUrl}
             label="Details"
             clazz="btn btn-block btn-primary btn-sm"
           />

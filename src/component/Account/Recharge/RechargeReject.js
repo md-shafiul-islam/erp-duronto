@@ -67,7 +67,7 @@ const RechargeReject = (params) => {
                         keyName="reject"
                         recharge={recharge}
                         mouseOverAction={mouseOverAction}
-                        action={false}
+                        detailsUrl={`/recharge/reject/${recharge.publicId}`}
                       />
                     );
                   })}

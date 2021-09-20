@@ -27,7 +27,7 @@ const initialValues = {
 };
 
 export default function (state = initialValues, action) {
-  console.log("Bank Action Reducer :) ", action.payload);
+  
   switch (action.type) {
     case ADD_BANK_ACCOUNT:
       return {

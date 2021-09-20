@@ -9,6 +9,8 @@ import packCatReducer from "./packCatReducer";
 import designationReducer from "./designationReducer";
 import bankAccountReducer from "./bankAccountReducer";
 import rechargeReduucer from "./rechargeReduucer";
+import walletWithdrawReduucer from "./walletWithdrawReduucer";
+import statusReducer from "./statusReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -21,4 +23,6 @@ export default combineReducers({
   designation: designationReducer,
   bankAccount: bankAccountReducer,
   recharge: rechargeReduucer,
+  walletWithdarw: walletWithdrawReduucer,
+  status:statusReducer,
 });

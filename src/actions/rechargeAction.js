@@ -80,11 +80,6 @@ export const getRejectRecharges = () => async (dispatch) => {
 
   const resp = await Axios.get(`${BASE_URL}/recharges/reject`);
 
-  // dispatch({
-  //   type: SET_REJECT_RECHARGES_STATUS,
-  //   payload: true,
-  // });
-
   try {
     dispatch({
       type: SET_REJECT_RECHARGES,
