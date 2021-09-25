@@ -281,7 +281,8 @@ class Menu extends Component {
                     {" "}
                     <i className="nav-icon fas fa-coins" />
                     <p>
-                      Wallet Withdarwals <i className="right fas fa-angle-left" />
+                      Wallet Withdarwals{" "}
+                      <i className="right fas fa-angle-left" />
                     </p>
                   </a>
                   <ul className="nav nav-treeview">
@@ -557,302 +558,255 @@ class Menu extends Component {
                 </li>
                 {/* Office / Branch Location End */}
                 {/*  Clients & Vendors */}
-                <li className="nav-item has-treeview">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={NoAction}
-                    className="nav-link"
-                  >
+                {/* Clients / Customer Start */}
+
+                <li className="nav-item">
+                  <a href="/category/view?page=0" className="nav-link">
                     {" "}
-                    <i className="nav-icon fas fa-project-diagram" />
+                    <i className="fas fa-list nav-icon" />
                     <p>
-                      Clients &amp; Vendors{" "}
-                      <i className="right fas fa-angle-left" />
+                      Clients <i className="right fas fa-angle-left" />
                     </p>
                   </a>
                   <ul className="nav nav-treeview">
-                    {/* Clients / Customer Start */}
-
+                    {/* Sub Menu Client & Customer */}
                     <li className="nav-item">
-                      <a href="/category/view?page=0" className="nav-link">
+                      <a href="/" className="nav-link">
                         {" "}
                         <i className="fas fa-list nav-icon" />
                         <p>
-                          Clients / Customer{" "}
+                          B2C Clients <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="Clients update approval"
+                            action="/b2cclients/uapprove"
+                          />
+                        </li>
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="Clients confirmed"
+                            action="/b2cclients"
+                          />
+                        </li>
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="Clients rejected"
+                            action="/b2cclients/reject"
+                          />
+                        </li>
+                      </ul>
+                    </li>
+                    {/*  Sub Menu Client & Customer */}
+                    {/*  Sub Menu B2B Client / Customer */}
+                    <li className="nav-item">
+                      <a href="/role/add" className="nav-link">
+                        {" "}
+                        <i className="fas fa-plus-square nav-icon" />
+                        <p>
+                          B2B Clients <i className="right fas fa-angle-left" />
+                        </p>
+                      </a>
+                      <ul className="nav nav-treeview">
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="B2B approval"
+                            action="/b2bclients/approve"
+                          />
+                        </li>
+
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="B2B confirmed"
+                            action="/b2bclients"
+                          />
+                        </li>
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="B2B update"
+                            action="/b2bclients/update"
+                          />
+                        </li>
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="B2B update approval"
+                            action="/b2bclients/uapprove"
+                          />
+                        </li>
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="B2B Reject"
+                            action="/b2bclients/reject"
+                          />
+                        </li>
+                      </ul>
+                    </li>
+                    {/*  Sub Menu B2B Client / Customer */}
+                    {/*  Sub Menu Corporate Client / Customer */}
+                    <li className="nav-item">
+                      <a href="/role/add" className="nav-link">
+                        {" "}
+                        <i className="fas fa-plus-square nav-icon" />
+                        <p>
+                          Corporate Clients{" "}
                           <i className="right fas fa-angle-left" />
                         </p>
                       </a>
                       <ul className="nav nav-treeview">
-                        {/* Sub Menu Client & Customer */}
                         <li className="nav-item">
                           <a href="/role/view?page=0" className="nav-link">
                             {" "}
                             <i className="fas fa-list nav-icon" />
-                            <p>
-                              Clients / Customer{" "}
-                              <i className="right fas fa-angle-left" />
-                            </p>
+                            <p>new corporate client</p>
                           </a>
-                          <ul className="nav nav-treeview">
-                            <li className="nav-item">
-                              <a href="/role/view?page=0" className="nav-link">
-                                {" "}
-                                <i className="fas fa-list nav-icon" />
-                                <p>new Clients</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/view?page=0" className="nav-link">
-                                {" "}
-                                <i className="fas fa-list nav-icon" />
-                                <p>new Clients approval</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>Clients update</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>Clients update approval</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>Clients confirmed</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>Clients rejected</p>
-                              </a>
-                            </li>
-                          </ul>
                         </li>
-                        {/*  Sub Menu Client & Customer */}
-                        {/*  Sub Menu Corporate Client / Customer */}
+                        <li className="nav-item">
+                          <a href="/role/view?page=0" className="nav-link">
+                            {" "}
+                            <i className="fas fa-list nav-icon" />
+                            <p>new corporate client</p>
+                          </a>
+                        </li>
                         <li className="nav-item">
                           <a href="/role/add" className="nav-link">
                             {" "}
                             <i className="fas fa-plus-square nav-icon" />
-                            <p>
-                              Corporate Client / Customer{" "}
-                              <i className="right fas fa-angle-left" />
-                            </p>
+                            <p>corporate client update</p>
                           </a>
-                          <ul className="nav nav-treeview">
-                            <li className="nav-item">
-                              <a href="/role/view?page=0" className="nav-link">
-                                {" "}
-                                <i className="fas fa-list nav-icon" />
-                                <p>new corporate client</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/view?page=0" className="nav-link">
-                                {" "}
-                                <i className="fas fa-list nav-icon" />
-                                <p>new corporate client</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>corporate client update</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>corporate client update approval</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>corporate client confirmed</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>corporate client rejected</p>
-                              </a>
-                            </li>
-                          </ul>
                         </li>
-                        {/*  Sub Menu Corporate Client / Customer End*/}
-                        {/*  Sub Menu B2B Client / Customer */}
                         <li className="nav-item">
                           <a href="/role/add" className="nav-link">
                             {" "}
                             <i className="fas fa-plus-square nav-icon" />
-                            <p>
-                              B2B Client / Customer{" "}
-                              <i className="right fas fa-angle-left" />
-                            </p>
+                            <p>corporate client update approval</p>
                           </a>
-                          <ul className="nav nav-treeview">
-                            <li className="nav-item">
-                              <a href="/role/view?page=0" className="nav-link">
-                                {" "}
-                                <i className="fas fa-list nav-icon" />
-                                <p>new B2B client</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/view?page=0" className="nav-link">
-                                {" "}
-                                <i className="fas fa-list nav-icon" />
-                                <p>new B2B client approval</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>new B2B client update</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>new B2B client update approval</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>new B2B client confirmed</p>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a href="/role/add" className="nav-link">
-                                {" "}
-                                <i className="fas fa-plus-square nav-icon" />
-                                <p>new B2B client rejected</p>
-                              </a>
-                            </li>
-                          </ul>
                         </li>
-                        {/*  Sub Menu B2B Client / Customer */}
+                        <li className="nav-item">
+                          <a href="/role/add" className="nav-link">
+                            {" "}
+                            <i className="fas fa-plus-square nav-icon" />
+                            <p>corporate client confirmed</p>
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a href="/role/add" className="nav-link">
+                            {" "}
+                            <i className="fas fa-plus-square nav-icon" />
+                            <p>corporate client rejected</p>
+                          </a>
+                        </li>
                       </ul>
                     </li>
-
-                    {/* Clients / Customer End */}
-
-                    {/* vendor / supplier Start */}
-                    {vendor && vendor.noAccess !== 1 ? (
-                      <li className="nav-item">
-                        <a
-                          href="javascript:void(0);"
-                          onClick={NoAction}
-                          className="nav-link"
-                        >
-                          {" "}
-                          <i className="fas fa-plus-square nav-icon" />
-                          <p>
-                            vendor / supplier{" "}
-                            <i className="right fas fa-angle-left" />
-                          </p>
-                        </a>
-                        <ul className="nav nav-treeview">
-                          {vendor.add === 1 || vendor.all === 1 ? (
-                            <li className="nav-item">
-                              <MenuLinkOrButton
-                                btnIconClass="fas fa-plus-square nav-icon"
-                                labelName="vendor/supplier Add"
-                                action="/vendors/add"
-                              />
-                            </li>
-                          ) : (
-                            ""
-                          )}
-
-                          {vendor.approve === 1 || vendor.all === 1 ? (
-                            <li className="nav-item">
-                              <MenuLinkOrButton
-                                btnIconClass="fas fa-list nav-icon"
-                                labelName="vendor/supplier approval"
-                                action="/vendors/approval"
-                              />
-                            </li>
-                          ) : (
-                            ""
-                          )}
-
-                          {vendor.edit === 1 || vendor.all === 1 ? (
-                            <li className="nav-item">
-                              <MenuLinkOrButton
-                                btnIconClass="fas fa-list nav-icon"
-                                labelName="vendor/supplier Update "
-                                action="/vendors/update"
-                              />
-                            </li>
-                          ) : (
-                            ""
-                          )}
-
-                          {vendor.updateApproval === 1 || vendor.all === 1 ? (
-                            <li className="nav-item">
-                              <MenuLinkOrButton
-                                btnIconClass="fas fa-list nav-icon"
-                                labelName="vendor/supplier Update approval"
-                                action="/vendors/update-approval"
-                              />
-                            </li>
-                          ) : (
-                            ""
-                          )}
-                          {vendor.noAccess === 1 ? (
-                            ""
-                          ) : (
-                            <li className="nav-item">
-                              <MenuLinkOrButton
-                                btnIconClass="fas fa-list nav-icon"
-                                labelName="vendor/supplier Confirmed"
-                                action="/vendors"
-                              />
-                            </li>
-                          )}
-                          {vendor.add === 1 ||
-                          vendor.updateApproval === 1 ||
-                          vendor.approve === 1 ||
-                          vendor.edit ||
-                          vendor.all === 1 ? (
-                            <li className="nav-item">
-                              <MenuLinkOrButton
-                                btnIconClass="fas fa-list nav-icon"
-                                labelName="vendor/supplier Rejected"
-                                action="/vendors/reject"
-                              />
-                            </li>
-                          ) : (
-                            ""
-                          )}
-                        </ul>
-                      </li>
-                    ) : (
-                      ""
-                    )}
-                    {/* vendor / supplier End */}
+                    {/*  Sub Menu Corporate Client / Customer End*/}
                   </ul>
                 </li>
+
+                {/* Clients / Customer End */}
+                {/* vendor / supplier Start */}
+                {vendor && vendor.noAccess !== 1 ? (
+                  <li className="nav-item">
+                    <a
+                      href="javascript:void(0);"
+                      onClick={NoAction}
+                      className="nav-link"
+                    >
+                      {" "}
+                      <i className="fas fa-plus-square nav-icon" />
+                      <p>
+                        vendor / supplier{" "}
+                        <i className="right fas fa-angle-left" />
+                      </p>
+                    </a>
+                    <ul className="nav nav-treeview">
+                      {vendor.add === 1 || vendor.all === 1 ? (
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-plus-square nav-icon"
+                            labelName="vendor/supplier Add"
+                            action="/vendors/add"
+                          />
+                        </li>
+                      ) : (
+                        ""
+                      )}
+
+                      {vendor.approve === 1 || vendor.all === 1 ? (
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier approval"
+                            action="/vendors/approval"
+                          />
+                        </li>
+                      ) : (
+                        ""
+                      )}
+
+                      {vendor.edit === 1 || vendor.all === 1 ? (
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Update "
+                            action="/vendors/update"
+                          />
+                        </li>
+                      ) : (
+                        ""
+                      )}
+
+                      {vendor.updateApproval === 1 || vendor.all === 1 ? (
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Update approval"
+                            action="/vendors/update-approval"
+                          />
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                      {vendor.noAccess === 1 ? (
+                        ""
+                      ) : (
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Confirmed"
+                            action="/vendors"
+                          />
+                        </li>
+                      )}
+                      {vendor.add === 1 ||
+                      vendor.updateApproval === 1 ||
+                      vendor.approve === 1 ||
+                      vendor.edit ||
+                      vendor.all === 1 ? (
+                        <li className="nav-item">
+                          <MenuLinkOrButton
+                            btnIconClass="fas fa-list nav-icon"
+                            labelName="vendor/supplier Rejected"
+                            action="/vendors/reject"
+                          />
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                    </ul>
+                  </li>
+                ) : (
+                  ""
+                )}
+                {/* vendor / supplier End */}
                 {/* Clients & Vendors End */}
                 {/*  Category */}
                 {category &&

@@ -91,6 +91,14 @@ import BanksUpdatePending from "./component/Account/Banks/BanksUpdatePending";
 import RechargeConfirmed from "./component/Account/Recharge/RechargeConfirmed";
 import PendingWalletWithdraw from "./component/Wallet/PendingWalletWithdraw";
 import WalletWithDrawDetails from "./component/Wallet/WalletWithDrawDetails";
+import B2CUsers from "./component/User/B2CUser/B2CUsers";
+import B2CRejectedUsers from "./component/User/B2CUser/B2CRejectedUsers";
+import B2CUpdateApproveUsers from "./component/User/B2CUser/B2CUpdateApproveUsers";
+import B2BUsers from "./component/User/B2BUser/B2BUsers";
+import B2BPendingUsers from "./component/User/B2BUser/B2BPendingUsers";
+import B2BUserReject from "./component/User/B2BUser/B2BUserReject";
+import B2BUpdateApprovePendingUsers from "./component/User/B2BUser/B2BUpdateApprovePendingUsers";
+import B2BUpdateUser from "./component/User/B2BUser/B2BUpdateUser";
 require("dotenv").config();
 const jwtToken = localStorage.jwtToken;
 
@@ -125,6 +133,21 @@ class App extends Component {
             <Switch>
               {/** Private  Route Start*/}
               <SecuredRoute exact path="/" component={Dashboard} />
+
+              {/*B2CUsers B2C B2CP Start*/}
+              
+              <SecuredRoute exact path="/b2cclients" component={B2CUsers} />             
+              <SecuredRoute exact path="/b2cclients/reject" component={B2CRejectedUsers} />             
+              <SecuredRoute exact path="/b2cclients/uapprove" component={B2CUpdateApproveUsers} /> 
+
+              <SecuredRoute exact path="/b2bclients" component={B2BUsers} /> 
+              <SecuredRoute exact path="/b2bclients/approve" component={B2BPendingUsers} /> 
+              <SecuredRoute exact path="/b2bclients/update" component={B2BUpdateUser} /> 
+              <SecuredRoute exact path="/b2bclients/uapprove" component={B2BUpdateApprovePendingUsers} /> 
+              <SecuredRoute exact path="/b2bclients/reject" component={B2BUserReject} /> 
+              
+
+              {/*B2CUsers End*/}
 
               <SecuredRoute exact path="/bank/add" component={Account} />              
               <SecuredRoute exact path="/bank/edit/" component={UpdateBankAccount} />              

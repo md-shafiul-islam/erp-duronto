@@ -408,3 +408,7 @@
   box-shadow: 2em rgba(0, 0, 0, 0.35);
   background-color: transparent;
 }
+
+aside .nav-item .nav-item {
+  padding-left: 20px;
+}
