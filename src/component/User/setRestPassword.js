@@ -199,8 +199,7 @@ class SetRestPassword extends Component {
                                   >
                                     {this.state.requermentMsg}
                                   </p>
-                                  <Field
-                                    type="password"
+                                  <Field                                    
                                     name="password"
                                     className="form-control"
                                     id="password"

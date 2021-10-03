@@ -77,7 +77,7 @@ class Users extends Component {
           userList = [];
         }
 
-        res.data.map((user) => {
+        res.data.forEach((user) => {
           userList.push(user);
         });
       })
@@ -129,16 +129,16 @@ class Users extends Component {
                                 <td>{idx + 1}</td>
                                 <td>{item.userGemId}</td>
                                 <td>
-                                  {item.name != null ? item.name : "Anonymous"}
+                                  {item.name !== null ? item.name : "Anonymous"}
                                 </td>
                                 <td>{item.officialEmail}</td>
                                 <td>{item.officialPhoneNumber}</td>
                                 <td>
-                                  {item.role != null ? item.role.name : ""}
+                                  {item.role !== null ? item.role.name : ""}
                                 </td>
                                 <td>{item.officeLocation}</td>
                                 <td>
-                                  {item.department != null
+                                  {item.department !== null
                                     ? item.department.name
                                     : ""}
                                 </td>
@@ -149,7 +149,7 @@ class Users extends Component {
                                 </td>
                                 <td>
                                   <b>
-                                    {item.status == 1 ? (
+                                    {item.status === 1 ? (
                                       <b className="btn btn-block btn-success btn-sm">
                                         Active
                                       </b>
@@ -162,7 +162,7 @@ class Users extends Component {
                                   <br />
 
                                   {item &&
-                                    (item.status == 1 ? (
+                                    (item.status === 1 ? (
                                       <a
                                         href={`javascript:void(0);`}
                                         onClick={() => {

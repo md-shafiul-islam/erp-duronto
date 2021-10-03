@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import HelperServices from "../Helper/HelperServices";
 import NoAction from "../Helper/NoAction";
 import { connect } from "react-redux";
 import { logOut } from "../../actions/securityActions";
 import { PropTypes } from "prop-types";
-import { Redirect } from "react-router-dom";
 
 class Header extends Component {
   state = {
@@ -17,7 +15,7 @@ class Header extends Component {
   };
 
   render() {
-    let { user, validToken } = this.props.security;
+    let { validToken } = this.props.security;
 
     let clasnameHeader = "";
     if (validToken) {

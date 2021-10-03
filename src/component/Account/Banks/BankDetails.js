@@ -1,8 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Card } from "react-bootstrap";
+import { Col, Row, Card} from "react-bootstrap";
 
 const BankDetails = (params) => {
   return (

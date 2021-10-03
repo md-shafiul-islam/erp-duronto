@@ -13,7 +13,6 @@ import DesignationButton from "../RouterController/designation/designationButton
 import AddDesignationButton from "../RouterController/designation/addDesignationButton";
 import DurationButton from "../RouterController/durations-rout/durationButton";
 import AddDurationButton from "../RouterController/durations-rout/addDurationButton";
-import PackCategoriesView from "../Pack-Category/packCategoriesView";
 import PackCategoryButton from "../RouterController/package-category-rout/packCategoryButton";
 import AddPackCatButton from "../RouterController/package-category-rout/addPackCatButton";
 import UserButton from "../RouterController/user-rout/userButton";
@@ -30,7 +29,6 @@ import MenuLinkOrButton from "./menuLinkOrButton";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import { getAccess } from "../../actions/appStoreAction";
-import LoadingData from "./LoadingData";
 
 class Menu extends Component {
   state = {
@@ -81,8 +79,6 @@ class Menu extends Component {
   render() {
     let {
       package_ac,
-      role,
-      sale,
       user,
       vendor,
       category,
@@ -92,10 +88,8 @@ class Menu extends Component {
       duration,
       pack_category,
       privacy_policy,
-      purchase,
       rules_and_regulation,
       terms_tandc,
-      visa_service,
     } = this.props.access.accesses;
     let { validToken } = this.props.security;
 
@@ -1168,7 +1162,7 @@ class Menu extends Component {
                           <p>Tour packages</p>
                         </a>
                         <ul className="nav nav-treeview">
-                          {package_ac.add === 1 || package_ac.all == 1 ? (
+                          {package_ac.add === 1 || package_ac.all === 1 ? (
                             <li className="nav-item">
                               <AddPackageButton />
                             </li>
@@ -1176,7 +1170,7 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.approve === 1 || package_ac.all == 1 ? (
+                          {package_ac.approve === 1 || package_ac.all === 1 ? (
                             <li className="nav-item">
                               <AddPackApprovalPemdingButton />
                             </li>
@@ -1184,7 +1178,7 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.edit === 1 || package_ac.all == 1 ? (
+                          {package_ac.edit === 1 || package_ac.all === 1 ? (
                             <li className="nav-item">
                               <UpdatePackageButton />
                             </li>
@@ -1202,11 +1196,11 @@ class Menu extends Component {
                           )}
 
                           {package_ac.view === 1 ||
-                          package_ac.add == 1 ||
-                          package_ac.all == 1 ||
-                          package_ac.edit == 1 ||
-                          package_ac.approval == 1 ||
-                          package_ac.updateApproval == 1 ? (
+                          package_ac.add === 1 ||
+                          package_ac.all === 1 ||
+                          package_ac.edit === 1 ||
+                          package_ac.approval === 1 ||
+                          package_ac.updateApproval === 1 ? (
                             <li className="nav-item">
                               <PackageConfrimViewButton />
                             </li>
@@ -1214,7 +1208,7 @@ class Menu extends Component {
                             ""
                           )}
 
-                          {package_ac.add === 1 || package_ac.all == 1 ? (
+                          {package_ac.add === 1 || package_ac.all === 1 ? (
                             <li className="nav-item">
                               <PackageRejectViewBuuton />
                             </li>
@@ -1429,7 +1423,7 @@ class Menu extends Component {
                         </li>
                         <li className="nav-item">
                           {rules_and_regulation.add === 1 ||
-                          rules_and_regulation.all == 1 ? (
+                          rules_and_regulation.all === 1 ? (
                             <MenuLinkOrButton
                               action="/rules/add"
                               labelName="Add"

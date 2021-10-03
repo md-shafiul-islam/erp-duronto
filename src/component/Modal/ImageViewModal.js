@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Image, Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { Modal, Image  } from "react-bootstrap";
 
 const ImageViewModal = ({ showModal, location, hideAction }) => {
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow(showModal);
-    console.log("Show, ", showModal, " Location ", location);
-  }, [showModal]);
-
   return (
     <React.Fragment>
       <Modal

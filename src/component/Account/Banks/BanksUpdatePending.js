@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { connect, shallowEqual, useSelector } from "react-redux";
+import { connect} from "react-redux";
 import { PropTypes } from "prop-types";
 
 import ActionLink from "../../../utils/ActionLink";

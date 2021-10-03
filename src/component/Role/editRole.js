@@ -116,7 +116,7 @@ class EditRole extends Component {
           publicId: res.data.publicId,
         };
 
-        res.data.accesses.map((acs, ind) => {
+        res.data.accesses.forEach((acs, ind) => {
           roleData.accesses.push({
             id: acs.id,
 
@@ -180,7 +180,7 @@ class EditRole extends Component {
           gAccessTypes = [];
         }
 
-        res.data.map((typeAccess, ind) => {
+        res.data.forEach((typeAccess, ind) => {
           gAccessTypes.push({
             id: typeAccess.id,
             name: typeAccess.name,

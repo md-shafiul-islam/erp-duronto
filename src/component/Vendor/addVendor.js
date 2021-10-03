@@ -12,10 +12,6 @@ const countryOprions = [];
 const countryPhoneCode = [];
 const vendorOptions = [{ label: `None`, value: 0 }];
 
-const baseUrl = BASE_URL;
-
-const headers = REQUEST_HEADER;
-
 class AddVendor extends Component {
   state = {
     countryesList: [],
@@ -24,9 +20,6 @@ class AddVendor extends Component {
     vendorCatStatus: true,
     redirecStatus: false,
   };
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.loadCountry();
@@ -34,10 +27,10 @@ class AddVendor extends Component {
   }
 
   loadVendorCats = async () => {
-    await Axios.get(`${baseUrl}/vendor-cats`, { headers: headers }).then(
+    await Axios.get(`${BASE_URL}/vendor-cats`, { headers: REQUEST_HEADER }).then(
       (res) => {
         res.data &&
-          res.data.map((item, inx) => {
+          res.data.forEach((item, inx) => {
             vendorOptions.push({ label: `${item.name}`, value: item.id });
           });
 
@@ -49,10 +42,10 @@ class AddVendor extends Component {
   };
 
   loadCountry = async () => {
-    await Axios.get(`${baseUrl}/countries`, { headers: headers })
+    await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
 
       .then((res) => {
-        res.data.map((count) => {
+        res.data.forEach((count) => {
           countries.push(count);
         });
       })
@@ -63,11 +56,11 @@ class AddVendor extends Component {
 
     if (countries !== undefined) {
       if (countries.length !== undefined) {
-        countries.map((countOp, ind) => {
+        countries.forEach((countOp, ind) => {
           countryOprions.push({ label: `${countOp.name}`, value: countOp.id });
         });
         this.setState({ countryesList: countryOprions });
-        countries.map((cntCode, indx) => {
+        countries.forEach((cntCode, indx) => {
           countryPhoneCode.push({
             label: `${cntCode.isoCode}, ${cntCode.dialOrPhoneCode}`,
             value: cntCode.dialOrPhoneCode,
@@ -83,7 +76,7 @@ class AddVendor extends Component {
 
   submitAction = async (values) => {
     let fData = JSON.stringify(values, null, 2);
-    await Axios.post(`${baseUrl}/vendors/vendor`, fData, { headers: headers })
+    await Axios.post(`${BASE_URL}/vendors/vendor`, fData, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ redirecStatus: true });
       })

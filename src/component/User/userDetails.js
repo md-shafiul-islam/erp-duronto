@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import LoadingData from "../Layout/LoadingData";
 import { BASE_URL, REQUEST_HEADER, EXT_BASE_URL } from "../../actions/types";
 import { Link } from "react-router-dom";
 import DataNotFound from "../Layout/dataNotFound";
+import { Image } from "react-bootstrap";
 
 class UserDetails extends Component {
   state = {
@@ -584,7 +584,7 @@ class UserDetails extends Component {
                     </h3>
                     <div className="mp-10 text-center mt-5 mb-3">
                       <div>
-                        <img
+                        <Image
                           src={
                             user.profileIimage !== undefined
                               ? `${EXT_BASE_URL}${user.profileIimage}`

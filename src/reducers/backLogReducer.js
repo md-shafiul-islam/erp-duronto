@@ -1,4 +1,4 @@
-import { GET_BACKLOG, GET_COUNTRIES, GET_COUNTRIY } from "../actions/types";
+import { GET_COUNTRIES, GET_COUNTRIY } from "../actions/types";
 
 const initialState = {
   countres: [],

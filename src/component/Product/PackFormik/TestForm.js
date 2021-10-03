@@ -1,27 +1,6 @@
-import React, { Component, createRef } from "react";
-import { Field, Form, Formik, FormikProps } from "formik";
-import FileWithDropZone from "../../Helper/FileWithDropZone";
-import { EditorState, Editor } from "draft-js";
+import React, { Component } from "react";
+import { Formik} from "formik";
 import UsoitCKEditor from "../../UsoitCKEditor";
-
-const dropzoneStyle = {
-  width: "100%",
-  height: "auto",
-  borderWidth: 2,
-  borderColor: "rgb(102, 102, 102)",
-  borderStyle: "dashed",
-  borderRadius: 5,
-};
-
-const dropzoneRef = createRef();
-
-const openDialog = () => {
-  // Note that the ref is set async,
-  // so it might be null at some point
-  if (dropzoneRef.current) {
-    dropzoneRef.current.open();
-  }
-};
 
 class TestForm extends Component {
   handleSubmit = (e) => {

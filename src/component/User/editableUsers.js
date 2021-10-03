@@ -27,11 +27,7 @@ class EditableUsers extends Component {
   loadAllUsers = async () => {
     await Axios.get(`${BASE_URL}/users/edit-users`)
       .then((res) => {
-        if (userList.length > 0) {
-          userList = [];
-        }
-
-        res.data.map((user) => {
+        res.data.forEach((user) => {
           userList.push(user);
         });
       })
@@ -98,13 +94,13 @@ class EditableUsers extends Component {
                                     : ""}
                                 </td>
                                 <td>
-                                  {item.joiningDate != null
+                                  {item.joiningDate !== null
                                     ? new Date(item.joiningDate).toDateString()
                                     : "Not Set !!"}
                                 </td>
                                 <td>
                                   <b>
-                                    {item.status == 1 ? (
+                                    {item.status === 1 ? (
                                       <b className="btn btn-block btn-success btn-sm">
                                         Active
                                       </b>
@@ -117,7 +113,7 @@ class EditableUsers extends Component {
                                   <br />
 
                                   {item &&
-                                    (item.status == 1 ? (
+                                    (item.status === 1 ? (
                                       <b>Deactive</b>
                                     ) : (
                                       <b>Active</b>

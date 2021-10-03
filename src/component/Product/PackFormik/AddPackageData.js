@@ -9,22 +9,11 @@ import UsoitCKEditor from "../../UsoitCKEditor";
 import { REQUEST_HEADER, BASE_URL } from "../../../actions/types";
 import { Redirect } from "react-router-dom";
 
-const dropzoneRef = createRef();
-const openDialog = () => {
-  // Note that the ref is set async,
-  // so it might be null at some point
-  if (dropzoneRef.current) {
-    dropzoneRef.current.open();
-  }
-};
-
 let categories = [{ value: 0, Lebel: "None" }];
 let packCats = [{ value: 0, Lebel: "None" }];
 let countries = [{ value: 0, Lebel: "None" }];
 let vendorsGlobal = [{ value: 0, Lebel: "None" }];
 let durationGlobal = [{ value: 0, Lebel: "None" }];
-
-let dataLoad = false;
 
 class AddPackageData extends Component {
   state = {
@@ -53,7 +42,7 @@ class AddPackageData extends Component {
     })
       .then((res) => {
         console.log(res.data);
-        res.data.map((count) => {
+        res.data.forEach((count) => {
           countries.push({ value: count.id, label: count.name });
 
           console.log(countries.length);
@@ -70,7 +59,7 @@ class AddPackageData extends Component {
     })
       .then((res) => {
         this.setState({ allVendor: res.data });
-        res.data.map((vendor) => {
+        res.data.forEach((vendor) => {
           vendorsGlobal.push({
             value: vendor.id,
             label: `${vendor.vGenId} Person Name: ${vendor.companyName}`,
@@ -87,7 +76,7 @@ class AddPackageData extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((pack) => {
+        res.data.forEach((pack) => {
           packCats.push({ value: pack.id, label: pack.name });
         });
       })
@@ -101,7 +90,7 @@ class AddPackageData extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((cat) => {
+        res.data.forEach((cat) => {
           categories.push({ value: cat.id, label: cat.name });
         });
       })
@@ -115,7 +104,7 @@ class AddPackageData extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((duration) => {
+        res.data.forEach((duration) => {
           durationGlobal.push({ value: duration.id, label: duration.name });
         });
       })
@@ -229,7 +218,7 @@ class AddPackageData extends Component {
       console.log(image.img_file[0]);
       const imageFile = new FormData();
       imageFile.append("imageFile", image.img_file[0]);
-      if (imageSize == idx + 1) {
+      if (imageSize === idx + 1) {
         this.setState({ uploadProgressGallery: 100 });
       } else {
         this.setState({ uploadProgressGallery: 0 });
@@ -258,7 +247,6 @@ class AddPackageData extends Component {
 
   submitData(values) {
     if (this.state.imagesSet && this.state.uploadImageG) {
-      let dataVal = JSON.stringify(values, null, 2);
 
       Axios.post(
         `${BASE_URL}/packages/package`,
@@ -1124,7 +1112,7 @@ class AddPackageData extends Component {
                                                                         ) => {
                                                                           return (
                                                                             <React.Fragment>
-                                                                              {vend.id ==
+                                                                              {vend.id ===
                                                                               this
                                                                                 .state
                                                                                 .vendorId ? (

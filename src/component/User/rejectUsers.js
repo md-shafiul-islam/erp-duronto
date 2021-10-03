@@ -4,7 +4,6 @@ import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 import { Link } from "react-router-dom";
 
 let userList = [];
-const baseUrl = BASE_URL;
 
 class RejectUsers extends Component {
   state = {
@@ -28,10 +27,6 @@ class RejectUsers extends Component {
   loadAllUsers = async () => {
     await Axios.get(`${BASE_URL}/users/reject`, { headers: REQUEST_HEADER })
       .then((res) => {
-        if (userList.length > 0) {
-          userList = [];
-        }
-
         res.data.map((user) => {
           userList.push(user);
         });
@@ -84,21 +79,21 @@ class RejectUsers extends Component {
                                 <td>{idx + 1}</td>
                                 <td>{item.userGemId}</td>
                                 <td>
-                                  {item.name != null ? item.name : "Anonymous"}
+                                  {item.name !== null ? item.name : "Anonymous"}
                                 </td>
                                 <td>{item.officialEmail}</td>
                                 <td>{item.officialPhoneNumber}</td>
                                 <td>
-                                  {item.role != null ? item.role.name : ""}
+                                  {item.role !== null ? item.role.name : ""}
                                 </td>
                                 <td>{item.officeLocation}</td>
                                 <td>
-                                  {item.department != null
+                                  {item.department !== null
                                     ? item.department.name
                                     : ""}
                                 </td>
                                 <td>
-                                  {item.joiningDate != null
+                                  {item.joiningDate !== null
                                     ? new Date(item.joiningDate).toDateString()
                                     : "Not Set !!"}
                                 </td>

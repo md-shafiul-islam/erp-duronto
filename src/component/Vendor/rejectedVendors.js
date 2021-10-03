@@ -10,9 +10,6 @@ const baseUrl = BASE_URL;
 const headers = REQUEST_HEADER;
 
 class RejectedVendors extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     vendors: [],

@@ -102,11 +102,11 @@ export const getAllConfrimedBanks = (callBack) => {
 /** Pass this */
 export const getAllConfrimedBankAccounts = (initProps) => {
   getAllConfrimedBanks((bankAccounts) => {
-    const accountOptons =
-      bankAccounts &&
-      bankAccounts.map((bank, idx) => {
+    const accountOptons = [];
+    bankAccounts &&
+      bankAccounts.forEach((bank, idx) => {
         if (bank) {
-          return { label: bank.accountNumber, value: idx };
+          accountOptons.push({ label: bank.accountNumber, value: idx });
         }
       });
     initProps.setState({ accountOptons, bankAccounts });

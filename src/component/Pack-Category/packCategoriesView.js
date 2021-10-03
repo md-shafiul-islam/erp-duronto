@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Redirect } from "react-router-dom";
 import CommonTableView from "../Layout/TableView/CommonTableView";
 import { getAccess } from "../../actions/appStoreAction";
 import { PropTypes } from "prop-types";
@@ -30,12 +29,9 @@ class PackCategoriesView extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        if (catList.length > 0) {
-          catList = [];
-        }
 
         console.log("Success Pack Categories Loading... ", res);
-        res.data.map((item, idx) => {
+        res.data.forEach((item, idx) => {
           catList.push(item);
         });
       })

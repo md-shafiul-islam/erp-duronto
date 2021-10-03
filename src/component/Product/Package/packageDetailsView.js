@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Image, Row } from "react-bootstrap";
+import { Col, Image } from "react-bootstrap";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import { REQUEST_HEADER, EXT_BASE_URL, BASE_URL } from "../../../actions/types";

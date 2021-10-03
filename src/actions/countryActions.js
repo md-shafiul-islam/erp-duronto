@@ -8,7 +8,6 @@ import {
   SET_COUNTRIY_OPTION,
   SET_COUNTRIY_OPTION_ERROR,
 } from "./types";
-import { Redirect } from "react-router-dom";
 
 export const addCountry = (country, history) => async (dispatch) => {
   let url = `${BASE_URL}/countries/country`;

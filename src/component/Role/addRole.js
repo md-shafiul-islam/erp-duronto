@@ -6,35 +6,7 @@ import { FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 import { Redirect } from "react-router-dom";
 
-const index = 0;
-const acItem = [{}];
 let gAccessTypes = [{ id: 1, name: "Sale", value: "sale", numValue: 1 }];
-
-const gRole = {
-  id: 0,
-  name: null,
-  description: null,
-  accesses: [
-    {
-      id: 0,
-      accessType: {
-        id: 1,
-        name: "Sale",
-        value: "sale",
-        numValue: 1,
-      },
-      name: null,
-      description: null,
-      view: 0,
-      noAccess: 0,
-      add: 0,
-      edit: 0,
-      approve: 0,
-      updateApproval: 0,
-      all: 0,
-    },
-  ],
-};
 
 let roleData = {
   id: 0,
@@ -91,7 +63,7 @@ class AddRole extends Component {
           authStatus: res.data.authStatus === 1 ? true : false,
         };
 
-        res.data.accesses.map((acs, ind) => {
+        res.data.accesses.forEach((acs, ind) => {
           roleData.accesses.push({
             id: acs.id,
             accessType: {
@@ -143,7 +115,7 @@ class AddRole extends Component {
           gAccessTypes = [];
         }
 
-        res.data.map((typeAccess, ind) => {
+        res.data.forEach((typeAccess, ind) => {
           gAccessTypes.push({
             id: typeAccess.id,
             name: typeAccess.name,

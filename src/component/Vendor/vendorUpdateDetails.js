@@ -144,7 +144,7 @@ class VendorUpdateDetails extends Component {
     await Axios.get(`${baseUrl}/countries`, { headers: headers })
       .then((res) => {
         res.data &&
-          res.data.map((item, idx) => {
+          res.data.forEach((item, idx) => {
             countryList.push({ label: item.name, value: item.id });
           });
 
@@ -277,13 +277,14 @@ class VendorUpdateDetails extends Component {
                                           tempVendor.contactPersons.lenght
                                           ? vendor.contactPersons.map(
                                               (item, inx) => {
-                                                let tempPerson = tempVendor.contactPersons.map(
+                                                let tempPerson = null;
+                                                tempVendor.contactPersons.forEach(
                                                   (tempItem, tInd) => {
                                                     if (
                                                       tempItem.prevId ===
                                                       item.id
                                                     ) {
-                                                      return tempItem;
+                                                      tempItem = tempPerson;
                                                     }
                                                   }
                                                 );
@@ -399,13 +400,14 @@ class VendorUpdateDetails extends Component {
                                                   tempVendor.contactPersons
                                                     .lenght
                                                 );
-                                                let vPerson = vendor.contactPersons.map(
+                                                let vPerson = null;
+                                                vendor.contactPersons.forEach(
                                                   (vItem, ind) => {
                                                     if (
                                                       vItem.id ===
                                                       tmPerson.prevId
                                                     ) {
-                                                      return vItem;
+                                                      vPerson = vItem;
                                                     }
                                                   }
                                                 );
@@ -538,13 +540,14 @@ class VendorUpdateDetails extends Component {
                                           ? vendor.addresses.map(
                                               (item, inx) => {
                                                 console.log("Vendor Address: ");
-                                                let tempAddress = tempVendor.addresses.map(
+                                                let tempAddress = null;
+                                                tempVendor.addresses.forEach(
                                                   (tempItem, tInd) => {
                                                     if (
                                                       tempItem.prevId ===
                                                       item.id
                                                     ) {
-                                                      return tempItem;
+                                                      tempAddress = tempItem;
                                                     }
                                                   }
                                                 );
@@ -668,7 +671,8 @@ class VendorUpdateDetails extends Component {
                                                   tempVendor.addresses.lenght,
                                                   tmAddress.country
                                                 );
-                                                let vAddress = vendor.addresses.map(
+                                                let lVAddress = null;
+                                                vendor.addresses.forEach(
                                                   (vAddress, ind) => {
                                                     console.log(
                                                       " VAddress: TempVAddress",
@@ -679,21 +683,23 @@ class VendorUpdateDetails extends Component {
                                                       vAddress.id ===
                                                       tmAddress.prevId
                                                     ) {
-                                                      return vAddress;
+                                                      lVAddress = vAddress;
                                                     }
                                                   }
                                                 );
 
                                                 console.log(
                                                   "Difined Vendor Is Address",
-                                                  vAddress
+                                                  lVAddress
                                                 );
-                                                if (vAddress[0] !== undefined) {
+                                                if (
+                                                  lVAddress[0] !== undefined
+                                                ) {
                                                   return (
                                                     <React.Fragment>
                                                       <VendorTrComponent
                                                         cValue={
-                                                          vAddress[0].house
+                                                          lVAddress[0].house
                                                         }
                                                         reqValue={
                                                           tmAddress.house
@@ -703,7 +709,7 @@ class VendorUpdateDetails extends Component {
 
                                                       <VendorTrComponent
                                                         cValue={
-                                                          vAddress[0].village
+                                                          lVAddress[0].village
                                                         }
                                                         reqValue={
                                                           tmAddress.village
@@ -713,7 +719,7 @@ class VendorUpdateDetails extends Component {
 
                                                       <VendorTrComponent
                                                         cValue={
-                                                          vAddress[0].street
+                                                          lVAddress[0].street
                                                         }
                                                         reqValue={
                                                           tmAddress.street
@@ -723,7 +729,7 @@ class VendorUpdateDetails extends Component {
 
                                                       <VendorTrComponent
                                                         cValue={
-                                                          vAddress[0].zipCode
+                                                          lVAddress[0].zipCode
                                                         }
                                                         reqValue={
                                                           tmAddress.zipCode
@@ -733,7 +739,7 @@ class VendorUpdateDetails extends Component {
 
                                                       <VendorTrComponent
                                                         cValue={
-                                                          vAddress[0].city
+                                                          lVAddress[0].city
                                                         }
                                                         reqValue={
                                                           tmAddress.city
@@ -743,7 +749,7 @@ class VendorUpdateDetails extends Component {
 
                                                       <VendorTrComponent
                                                         cValue={
-                                                          vAddress.countryName
+                                                          lVAddress.countryName
                                                         }
                                                         reqValue={
                                                           tmAddress.countryName
@@ -837,13 +843,14 @@ class VendorUpdateDetails extends Component {
                                           tempVendor.paymentInfos.lenght
                                           ? vendor.paymentInfos.map(
                                               (item, inx) => {
-                                                let tempPayInf = tempVendor.paymentInfos.map(
+                                                let tempPayInf = null;
+                                                tempVendor.paymentInfos.forEach(
                                                   (tempItem, tInd) => {
                                                     if (
                                                       tempItem.prevId ===
                                                       item.id
                                                     ) {
-                                                      return tempItem;
+                                                      tempPayInf = tempItem;
                                                     }
                                                   }
                                                 );
@@ -972,13 +979,14 @@ class VendorUpdateDetails extends Component {
                                               (tmPayInf, idx) => {
                                                 console.log("Temp idx", idx);
 
-                                                let vPayInf = vendor.paymentInfos.map(
+                                                let vPayInf = null;
+                                                vendor.paymentInfos.forEach(
                                                   (vPay, ind) => {
                                                     if (
                                                       vPay.id ===
                                                       tmPayInf.prevId
                                                     ) {
-                                                      return vPay;
+                                                      vPayInf = vPay;
                                                     }
                                                   }
                                                 );

@@ -81,7 +81,7 @@ class EditUser extends Component {
 
     await Axios.get(`${baseUrl}/roles`)
       .then((res) => {
-        res.data.map((role) => {
+        res.data.forEach((role) => {
           roleList.push({
             value: role.id,
             label: role.name,
@@ -125,7 +125,7 @@ class EditUser extends Component {
 
     await Axios.get(`${baseUrl}/countries`, { headers: headers })
       .then((res) => {
-        res.data.map((country) => {
+        res.data.forEach((country) => {
           countryList.push({ value: country.id, label: country.name });
         });
       })
@@ -157,7 +157,7 @@ class EditUser extends Component {
   loadDepartmets = async () => {
     await Axios.get(`${baseUrl}/departments`, { headers: headers })
       .then((res) => {
-        res.data.map((department) => {
+        res.data.forEach((department) => {
           departmentList.push({ value: department.id, label: department.name });
         });
       })
@@ -183,7 +183,7 @@ class EditUser extends Component {
   loadDesignations = async () => {
     await Axios.get(`${baseUrl}/designations`, { headers: headers })
       .then((res) => {
-        res.data.map((designation) => {
+        res.data.forEach((designation) => {
           designationList.push({
             value: designation.id,
             label: designation.name,
@@ -215,7 +215,7 @@ class EditUser extends Component {
     await Axios.get(`${baseUrl}/genders`, { headers: headers })
       .then((res) => {
         console.log("Done Gender User");
-        res.data.map((gender) => {
+        res.data.forEach((gender) => {
           genderList.push({
             value: gender.id,
             label: gender.name,
@@ -244,7 +244,7 @@ class EditUser extends Component {
   loadMaritalStatuses = async () => {
     await Axios.get(`${baseUrl}/marital-status`, { headers: headers })
       .then((res) => {
-        res.data.map((maritalStatus) => {
+        res.data.forEach((maritalStatus) => {
           maritalStatusList.push({
             value: maritalStatus.id,
             label: maritalStatus.name,
@@ -283,7 +283,7 @@ class EditUser extends Component {
       this.setState({
         uploadProgress: percentCompleted,
       });
-      console.log(percentCompleted + "%" + "File No: " + count);
+      console.log(percentCompleted, " % ", " File No: " + count);
     },
     headers: headers,
   };
@@ -1406,26 +1406,13 @@ class EditUser extends Component {
                                       options={this.state.roles}
                                       defaultValue={this.state.roles.map(
                                         (cRole, rIndx) => {
-                                          console.log(
-                                            "Map Role: index",
-                                            rIndx,
-                                            cRole.value,
-                                            cRole.label
-                                          );
-                                          console.log(
-                                            "Both: ",
-                                            cRole.id,
-                                            props.values.role
-                                          );
+                                          let cLRole = null;
                                           if (
                                             cRole.value === props.values.role
                                           ) {
-                                            console.log(
-                                              "Match Role: ",
-                                              cRole.label
-                                            );
-                                            return cRole;
+                                            cLRole = cRole;
                                           }
+                                          return cLRole;
                                         }
                                       )}
                                       value={this.value}

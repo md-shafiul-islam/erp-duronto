@@ -5,10 +5,6 @@ import VendorInfLabelValue from "./vendorInfLabelValue";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 import { Link } from "react-router-dom";
 
-const baseUrl = BASE_URL;
-
-const headers = REQUEST_HEADER;
-
 class DetailsVendor extends Component {
   constructor(props) {
     super(props);
@@ -27,8 +23,8 @@ class DetailsVendor extends Component {
   getVendorById = async () => {
     console.log("ID: ", this.paramVendorId);
 
-    let vendorUrl = `${baseUrl}/vendors/vendor/details/${this.paramVendorId}`;
-    Axios.get(vendorUrl, { headers: headers })
+    let vendorUrl = `${BASE_URL}/vendors/vendor/details/${this.paramVendorId}`;
+    Axios.get(vendorUrl, { headers: REQUEST_HEADER })
       .then((res) => {
         res.data && this.setState({ vendor: res.data, vendorStatus: false });
         console.log("Vendor Details, ", res.data);

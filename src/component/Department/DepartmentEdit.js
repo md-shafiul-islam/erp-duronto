@@ -3,7 +3,7 @@ import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 import Axios from "axios";
 import LoadingData from "../Layout/LoadingData";
 import { Formik, Form, Field } from "formik";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class DepartmentEdit extends Component {
   constructor(props) {
@@ -64,7 +64,6 @@ class DepartmentEdit extends Component {
       return <LoadingData />;
     }
 
-    let { department } = this.state;
     return (
       <React.Fragment>
         <div className="content-wrapper">

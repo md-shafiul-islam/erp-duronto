@@ -10,24 +10,11 @@ import { TextField } from "@material-ui/core";
 import { EXT_BASE_URL, REQUEST_HEADER, BASE_URL } from "../../../actions/types";
 import { Redirect } from "react-router-dom";
 
-const dropzoneRef = createRef();
-const openDialog = () => {
-  // Note that the ref is set async,
-  // so it might be null at some point
-  if (dropzoneRef.current) {
-    dropzoneRef.current.open();
-  }
-};
-
 let categories = [{ value: 0, label: "None" }];
 let packCats = [{ value: 0, label: "None" }];
 let countries = [{ value: 0, label: "None" }];
 let vendorsGlobal = [{ value: "0", label: "None" }];
 let durationGlobal = [{ value: 0, label: "None" }];
-
-let dataLoad = false;
-
-let headers = REQUEST_HEADER; /*"Access-Control-Allow-Origin": "*",*/
 
 class EditPackage extends Component {
   constructor(props) {
@@ -98,7 +85,7 @@ class EditPackage extends Component {
     })
       .then((res) => {
         this.setState({ allVendor: res.data });
-        res.data.map((vendor) => {
+        res.data.forEach((vendor) => {
           vendorsGlobal.push({
             value: vendor.publicId,
             label: `${vendor.vGenId} Person Name: ${vendor.companyName}`,
@@ -126,7 +113,7 @@ class EditPackage extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((pack) => {
+        res.data.forEach((pack) => {
           packCats.push({ value: pack.id, label: pack.name });
         });
       })
@@ -151,7 +138,7 @@ class EditPackage extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((cat) => {
+        res.data.forEach((cat) => {
           this.setState({ catList: [] });
 
           categories.push({ value: cat.id, label: cat.name });
@@ -162,7 +149,7 @@ class EditPackage extends Component {
         console.log(res);
       });
 
-    if (1 >= this.state.catList.length || this.state.catList == undefined) {
+    if (1 >= this.state.catList.length || this.state.catList === undefined) {
       this.setState({ catStatus: true });
       this.loadCategory();
     } else {
@@ -177,7 +164,7 @@ class EditPackage extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((duration) => {
+        res.data.forEach((duration) => {
           durationGlobal.push({ value: duration.id, label: duration.name });
         });
       })
@@ -206,7 +193,7 @@ class EditPackage extends Component {
       headers: REQUEST_HEADER,
     })
       .then((res) => {
-        res.data.map((count) => {
+        res.data.forEach((count) => {
           countries.push({ value: count.id, label: count.name });
         });
       })
@@ -260,7 +247,7 @@ class EditPackage extends Component {
     return arrayData.find((aData) => {
       let slData = {};
 
-      if (aData.value == index) {
+      if (aData.value === index) {
         slData = aData;
       }
 
@@ -394,7 +381,7 @@ class EditPackage extends Component {
         console.log(image.img_file);
         const imageFile = new FormData();
         imageFile.append("imageFile", image.img_file[0]);
-        if (imageSize == idx + 1) {
+        if (imageSize === idx + 1) {
           console.log("Last Image");
           this.setState({ uploadProgressGallery: 100 });
         } else {
@@ -1248,7 +1235,6 @@ class EditPackage extends Component {
                                                                         )}
                                                                       </label>
                                                                       <TextField
-                                                                        id={`itarnarys[${inx}].expDate`}
                                                                         label="Exp Date"
                                                                         type="date"
                                                                         defaultValue={`${this.getDateLocal(
@@ -1463,7 +1449,7 @@ class EditPackage extends Component {
                                                                           ) => {
                                                                             return (
                                                                               <React.Fragment>
-                                                                                {vend.publicId ==
+                                                                                {vend.publicId ===
                                                                                 props
                                                                                   .values
                                                                                   .itarnarys[

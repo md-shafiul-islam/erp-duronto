@@ -13,10 +13,6 @@ class Durations extends Component {
   loadDesignationList = async () => {
     await Axios.get(`${BASE_URL}/durations`, { headers: REQUEST_HEADER })
       .then((res) => {
-        if (durationsList.length > 0) {
-          durationsList = [];
-        }
-
         console.log("Success Categories Loading... ", res);
         res.data.map((item, idx) => {
           durationsList.push(item);

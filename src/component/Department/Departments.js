@@ -27,12 +27,9 @@ class Departments extends Component {
   loadDepartmentList = async () => {
     await Axios.get(`${BASE_URL}/departments`, { headers: REQUEST_HEADER })
       .then((res) => {
-        if (departmentList.length > 0) {
-          departmentList = [];
-        }
 
         console.log("Success Categories Loading... ", res);
-        res.data.map((item, idx) => {
+        res.data.forEach((item, idx) => {
           departmentList.push(item);
         });
       })

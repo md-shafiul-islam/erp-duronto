@@ -4,8 +4,6 @@ import LoadingData from "../Layout/LoadingData";
 import { Link } from "react-router-dom";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-const baseUrl = BASE_URL;
-let headers = REQUEST_HEADER;
 
 class DetailsPrivacyPolicy extends Component {
   constructor(props) {
@@ -27,7 +25,7 @@ class DetailsPrivacyPolicy extends Component {
   }
 
   loadPolicyByPbId = async () => {
-    let policyUrl = `${baseUrl}/privacy-policies/policy/${this.pubId}`;
+    let policyUrl = `${BASE_URL}/privacy-policies/policy/${this.pubId}`;
 
     await Axios.get(policyUrl, { headers: REQUEST_HEADER }).then((res) => {
       console.log("recive Data: ", res.data);

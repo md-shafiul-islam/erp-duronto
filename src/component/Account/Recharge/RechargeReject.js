@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import ActionLink from "../../../utils/ActionLink";
 import ImageViewModal from "../../Modal/ImageViewModal";
 

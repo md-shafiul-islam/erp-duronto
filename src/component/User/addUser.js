@@ -7,7 +7,6 @@ import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import {
   FormControl,
-  FormGroup,
   FormControlLabel,
   Checkbox,
 } from "@material-ui/core";
@@ -53,7 +52,7 @@ class AddUser extends Component {
 
     await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((country) => {
+        res.data.forEach((country) => {
           countryList.push({ value: country.id, label: country.name });
         });
       })
@@ -75,7 +74,7 @@ class AddUser extends Component {
   loadDepartmets = async () => {
     await Axios.get(`${BASE_URL}/departments`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((department) => {
+        res.data.forEach((department) => {
           departmentList.push({ value: department.id, label: department.name });
         });
       })
@@ -97,7 +96,7 @@ class AddUser extends Component {
   loadDesignations = async () => {
     await Axios.get(`${BASE_URL}/designations`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((designation) => {
+        res.data.forEach((designation) => {
           designationList.push({
             value: designation.id,
             label: designation.name,
@@ -122,7 +121,7 @@ class AddUser extends Component {
   loadGender = async () => {
     await Axios.get(`${BASE_URL}/genders`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((gender) => {
+        res.data.forEach((gender) => {
           genderList.push({
             value: gender.id,
             label: gender.name,
@@ -147,7 +146,7 @@ class AddUser extends Component {
   loadMaritalStatuses = async () => {
     await Axios.get(`${BASE_URL}/marital-status`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((maritalStatus) => {
+        res.data.forEach((maritalStatus) => {
           maritalStatusList.push({
             value: maritalStatus.id,
             label: maritalStatus.name,
@@ -175,7 +174,7 @@ class AddUser extends Component {
   loadRoles = async () => {
     await Axios.get(`${BASE_URL}/roles`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((role) => {
+        res.data.forEach((role) => {
           roleList.push({
             value: role.id,
             label: role.name,
@@ -207,7 +206,7 @@ class AddUser extends Component {
       this.setState({
         uploadProgress: percentCompleted,
       });
-      console.log(percentCompleted + "%" + "File No: " + count);
+      console.log(percentCompleted, " % File No: ", count);
     },
     headers: REQUEST_HEADER,
   };

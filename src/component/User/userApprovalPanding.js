@@ -88,7 +88,7 @@ class UserApprovalPanding extends Component {
           userList = [];
         }
 
-        res.data.map((user) => {
+        res.data.forEach((user) => {
           userList.push(user);
         });
       })
