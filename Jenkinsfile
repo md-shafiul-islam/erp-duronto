@@ -30,8 +30,8 @@ pipeline {
         stage('Start Or Deploye') {
             steps {
                 script {
-                    if (isUnix()) sh 'npm start'
-                    else bat 'npm strat'
+                    if (isUnix()) sh 'npm forever strat'
+                    else bat 'npm forever strat'
                 }
             }
         }

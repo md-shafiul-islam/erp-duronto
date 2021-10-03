@@ -110,6 +110,7 @@ export const getAllConfrimedBankAccounts = (initProps) => {
         }
       });
     initProps.setState({ accountOptons, bankAccounts });
+    return;
   });
 };
 
@@ -139,6 +140,7 @@ export const getBankAcccountUpdate = (bankAccount) => async (dispatch) => {
       });
     }
   }
+  return;
 };
 
 export const getBankAccountTypes = () => async (dispatch) => {
@@ -155,4 +157,5 @@ export const getBankAccountTypes = () => async (dispatch) => {
       payload: { msg: "Bank Account Types not found", status: false },
     });
   }
+  return;
 };
