@@ -22,6 +22,7 @@ const BanksUpdatePending = (params) => {
     if (helperIsEmpty(params.bankAccountTypes)) {
       params.getBankAccountTypes();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFieldValue = (bank, type) => {

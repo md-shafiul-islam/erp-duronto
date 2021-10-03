@@ -12,9 +12,6 @@ let countryOprions = [{ label: `None`, value: 0 }];
 let countryPhoneCode = [{ label: `None`, value: 0 }];
 let vendorOptions = [{ label: `None`, value: 0 }];
 
-const baseUrl = BASE_URL;
-
-const headers = REQUEST_HEADER;
 
 class EditVendor extends Component {
   constructor(props) {
@@ -39,10 +36,10 @@ class EditVendor extends Component {
   }
 
   getVendorById = async () => {
-    let vendorUrl = `${baseUrl}/vendors/vendor/${this.paramVendorId}`;
+    let vendorUrl = `${BASE_URL}/vendors/vendor/${this.paramVendorId}`;
 
     if (this.paramVendorId !== undefined) {
-      await Axios.get(vendorUrl, { headers: headers })
+      await Axios.get(vendorUrl, { headers: REQUEST_HEADER })
         .then((res) => {
           this.setState({ curVandor: res.data, vendorLoadStatus: false });
         })
@@ -54,10 +51,10 @@ class EditVendor extends Component {
   };
 
   loadVendorCats = async () => {
-    await Axios.get(`${baseUrl}/vendor-cats`, { headers: headers }).then(
+    await Axios.get(`${BASE_URL}/vendor-cats`, { headers: REQUEST_HEADER }).then(
       (res) => {
         res.data &&
-          res.data.map((item, inx) => {
+          res.data.forEach((item, inx) => {
             if (item.name !== undefined) {
               vendorOptions.push({ label: `${item.name}`, value: item.id });
             }
@@ -71,10 +68,10 @@ class EditVendor extends Component {
   };
 
   loadCountry = async () => {
-    await Axios.get(`${baseUrl}/countries`, { headers: headers })
+    await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
 
       .then((res) => {
-        res.data.map((count) => {
+        res.data.forEach((count) => {
           countries.push(count);
         });
       })
@@ -85,7 +82,7 @@ class EditVendor extends Component {
 
     if (countries !== undefined) {
       if (countries.length !== undefined) {
-        countries.map((countOp, ind) => {
+        countries.forEach((countOp, ind) => {
           if (countOp.name !== undefined) {
             countryOprions.push({
               label: `${countOp.name}`,
@@ -95,7 +92,7 @@ class EditVendor extends Component {
         });
         this.state.countryesList = [];
         this.setState({ countryesList: countryOprions });
-        countries.map((cntCode, indx) => {
+        countries.forEach((cntCode, indx) => {
           if (cntCode !== undefined) {
             countryPhoneCode.push({
               label: `${cntCode.isoCode}, ${cntCode.dialOrPhoneCode}`,
@@ -115,7 +112,7 @@ class EditVendor extends Component {
 
   submitAction = async (values) => {
     let fData = JSON.stringify(values, null, 2);
-    await Axios.put(`${baseUrl}/vendors/vendor`, fData, { headers: headers })
+    await Axios.put(`${BASE_URL}/vendors/vendor`, fData, { headers: REQUEST_HEADER })
       .then((res) => {
         this.setState({ redirecStatus: true });
       })
@@ -183,7 +180,8 @@ class EditVendor extends Component {
                                 id={`vendorCategory`}
                                 defaultValue={
                                   this.state.venCatLis &&
-                                  this.state.venCatLis.map((item, ind) => {
+                                  this.state.venCatLis.forEach((item, ind) => {
+                                    let vCat = null;
                                     if (
                                       item !== undefined &&
                                       props.values.vendorCategory !== undefined
@@ -192,9 +190,10 @@ class EditVendor extends Component {
                                         item.value ===
                                         props.values.vendorCategory
                                       ) {
-                                        return item;
+                                        vCat = item;
                                       }
                                     }
+                                    return vCat;
                                   })
                                 }
                                 options={this.state.venCatLis}
@@ -245,8 +244,9 @@ class EditVendor extends Component {
                                 <div className="col-md-4">
                                   <Select
                                     options={countryPhoneCode}
-                                    defaultValue={countryPhoneCode.map(
+                                    defaultValue={countryPhoneCode.forEach(
                                       (item, ind) => {
+                                        let pCode = null;
                                         if (
                                           item !== undefined &&
                                           props.values.phoneCode !== undefined
@@ -255,9 +255,10 @@ class EditVendor extends Component {
                                             item.value ===
                                             props.values.phoneCode
                                           ) {
-                                            return item;
+                                            pCode = item;
                                           }
                                         }
+                                        return pCode;
                                       }
                                     )}
                                     value={this.value}
@@ -343,8 +344,9 @@ class EditVendor extends Component {
                                                     <div className="row">
                                                       <div className="col-md-4">
                                                         <Select
-                                                          defaultValue={countryPhoneCode.map(
+                                                          defaultValue={countryPhoneCode.forEach(
                                                             (item, ind) => {
+                                                              let cpCode = null;
                                                               if (
                                                                 item !==
                                                                   undefined &&
@@ -363,9 +365,10 @@ class EditVendor extends Component {
                                                                     indx
                                                                   ].conPhoneCode
                                                                 ) {
-                                                                  return item;
+                                                                  cpCode = item;
                                                                 }
                                                               }
+                                                              return cpCode; 
                                                             }
                                                           )}
                                                           options={
@@ -543,8 +546,9 @@ class EditVendor extends Component {
                                                       Country:
                                                     </label>
                                                     <Select
-                                                      defaultValue={this.state.countryesList.map(
+                                                      defaultValue={this.state.countryesList.forEach(
                                                         (item, cInx) => {
+                                                          let cont = null;
                                                           if (
                                                             props.values
                                                               .addresses !==
@@ -563,10 +567,11 @@ class EditVendor extends Component {
                                                                 ].country ===
                                                                 item.value
                                                               ) {
-                                                                return item;
+                                                                cont = item;
                                                               }
                                                             }
                                                           }
+                                                          return cont;
                                                         }
                                                       )}
                                                       name={`addresses[${inx}].country`}
@@ -706,8 +711,9 @@ class EditVendor extends Component {
                                                   <div className="form-group">
                                                     <label>Country:</label>{" "}
                                                     <Select
-                                                      defaultValue={this.state.countryesList.map(
+                                                      defaultValue={this.state.countryesList.forEach(
                                                         (item, cIndx) => {
+                                                          let cnt = null;
                                                           if (
                                                             props.values
                                                               .paymentInfos[idx]
@@ -721,9 +727,10 @@ class EditVendor extends Component {
                                                               ].country ===
                                                               item.value
                                                             ) {
-                                                              return item;
+                                                              cnt = item;
                                                             }
                                                           }
+                                                          return cnt;
                                                         }
                                                       )}
                                                       name={`paymentInfos[${idx}].country`}

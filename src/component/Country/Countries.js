@@ -19,11 +19,8 @@ class Countries extends Component {
   getAllCountries = async () => {
     await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
       .then((res) => {
-        if (countryList.length > 0) {
-          countryList = [];
-        }
-        console.log("Countries Done: ", res);
-        res.data.map((country) => {
+       console.log("Countries Done: ", res);
+        res.data.forEach((country) => {
           countryList.push(country);
         });
       })

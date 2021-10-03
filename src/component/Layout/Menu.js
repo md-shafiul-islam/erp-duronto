@@ -1409,7 +1409,7 @@ class Menu extends Component {
                       <ul className="nav nav-treeview">
                         <li className="nav-item">
                           {rules_and_regulation.add === 1 ||
-                          rules_and_regulation.all == 1 ||
+                          rules_and_regulation.all === 1 ||
                           rules_and_regulation.view === 1 ||
                           rules_and_regulation.edit === 1 ? (
                             <MenuLinkOrButton

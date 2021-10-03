@@ -1,9 +1,7 @@
 import {
   GET_ACCESSES,
   BASE_URL,
-  REQUEST_HEADER_GET,
   GET_ERRORS,
-  REQUEST_HEADER,
 } from "./types";
 import Axios from "axios";
 

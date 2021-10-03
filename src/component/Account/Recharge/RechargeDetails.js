@@ -18,6 +18,7 @@ const RechargeDetails = (params) => {
         setDisplayApprove(true);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const mouseOverAction = () => {

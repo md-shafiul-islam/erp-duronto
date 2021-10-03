@@ -27,7 +27,7 @@ class RejectUsers extends Component {
   loadAllUsers = async () => {
     await Axios.get(`${BASE_URL}/users/reject`, { headers: REQUEST_HEADER })
       .then((res) => {
-        res.data.map((user) => {
+        res.data.forEach((user) => {
           userList.push(user);
         });
       })

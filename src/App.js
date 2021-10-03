@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-
 import "./App.css";
-
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Header from "./component/Layout/Header";
 import Menu from "./component/Layout/Menu";
@@ -62,14 +60,12 @@ import VendorUpdateDetails from "./component/Vendor/vendorUpdateDetails";
 import RejectedVendors from "./component/Vendor/rejectedVendors";
 
 import Login from "./component/Layout/User/Login";
-import { Provider, connect } from "react-redux";
+import { Provider } from "react-redux";
 import store from "./store";
 import setJWTToken from "./SecurityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logOut } from "./actions/securityActions";
-import { PropTypes } from "prop-types";
-import { getAccess } from "./actions/appStoreAction";
 import SecuredRoute from "./SecurityUtils/securedRoute";
 import packCategoryEdit from "./component/Pack-Category/packCategoryEdit";
 import DepartmentEdit from "./component/Department/DepartmentEdit";

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PackCountryList from "./PackCountryList";
 import ItarnarysList from "./ItarnarysList";
 import ImageGalleryList from "./ImageGalleryList";
 import Select from "react-select";

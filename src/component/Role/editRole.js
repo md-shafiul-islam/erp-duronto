@@ -4,7 +4,7 @@ import Axios from "axios";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
 //import { Checkbox } from "formik-material-ui";
 import {
-  Checkbox as MatCheckbox,
+  Checkbox as 
   FormControlLabel,
   FormControl,
   RadioGroup,

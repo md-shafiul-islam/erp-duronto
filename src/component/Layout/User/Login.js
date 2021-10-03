@@ -4,13 +4,9 @@ import { Formik, Form, Field } from "formik";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import { loginAction } from "../../../actions/securityActions";
-import { getAccess } from "../../../actions/appStoreAction";
 import { Redirect } from "react-router-dom";
 
 class Login extends Component {
-  constructor() {
-    super();
-  }
 
   state = {
     errors: {},
@@ -46,7 +42,6 @@ class Login extends Component {
     if (this.state.redirectStatus) {
       return <Redirect to="/" />;
     }
-    const { errors } = this.state;
     return (
       <div className="content-wrapper">
         <section className="content">

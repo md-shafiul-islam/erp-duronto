@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Field, Formik, Form } from "formik";
 
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCountry, updateCountry } from "../../actions/countryActions";
 import { PropTypes } from "prop-types";

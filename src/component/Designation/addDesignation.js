@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Field, Formik, Form } from "formik";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
 
 class AddDesignation extends Component {

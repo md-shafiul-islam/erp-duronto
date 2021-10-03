@@ -14,7 +14,7 @@ class Durations extends Component {
     await Axios.get(`${BASE_URL}/durations`, { headers: REQUEST_HEADER })
       .then((res) => {
         console.log("Success Categories Loading... ", res);
-        res.data.map((item, idx) => {
+        res.data.forEach((item, idx) => {
           durationsList.push(item);
         });
       })
