@@ -21,8 +21,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    if (isUnix()) sh 'CI=false npm run build'
-                    else bat 'CI=false npm run build'
+                    if (isUnix()) sh 'npm run build'
+                    else bat 'npm run build'
                 }
             }
         }
