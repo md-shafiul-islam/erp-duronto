@@ -1,22 +1,38 @@
 pipeline {
     agent any
 
-    
+    tools {
+        nodejs 'node-v14.18.0'
+    }
 
     stages {
         stage('Initializing') {
             steps {
-                bat 'npm install'
+                script {
+                    if (isUnix()) {
+                        sh 'npm install'
+                    }else {
+                        bat 'npm install'
+                    }
+                }
             }
         }
-        stage('Start') {
+
+        stage('Build') {
             steps {
-                bat 'npm start'
+                script {
+                    if (isUnix()) sh 'npm run build'
+                    else bat 'npm run build'
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Start Or Deploye') {
             steps {
-                echo 'Deploying....'
+                script {
+                    if (isUnix()) sh 'npm start'
+                    else bat 'npm strat'
+                }
             }
         }
     }
