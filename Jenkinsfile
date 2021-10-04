@@ -10,15 +10,17 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'rm -rf node_modules'
-                        sh 'rm package-lock.json'
-                        sh 'npm cache clean --force'
+                        sh 'npm rm -rf node_modules'
+                        sh 'npm rm package-lock.json'
+                        sh 'npm cache clean --force'                        
                         sh 'npm install'
+                        sh 'npm audit fix'
                     }else {
-                        sh 'rm -rf node_modules'
-                        sh 'rm package-lock.json'
-                        bat 'npm cache clean --force'
+                        sh 'npm rm -rf node_modules'
+                        sh 'npm rm package-lock.json'
+                        bat 'npm npm cache clean --force'
                         bat 'npm install'
+                        bat 'npm audit fix'
                     }
                 }
             }
