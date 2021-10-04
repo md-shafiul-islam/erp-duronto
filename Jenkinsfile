@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node-v14.18.0'
+        nodejs 'Node-DtoErp'
     }
 
     stages {
