@@ -1,12 +1,7 @@
-import React, { Component } from "react";
 import Axios from "axios";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-class EsLoadData extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+class EsLoadData {
   getCountries = async () => {
     //Load Countries Start
     let countries = [];

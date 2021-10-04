@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, ListGroup } from "react-bootstrap";
-import { Row, Image, Col } from "react-bootstrap";
+import { Card, ListGroup, Row, Image, Col} from "react-bootstrap";
 
 const RechargeRejectDetails = (params) => {
   const mouseOverAction = () => {

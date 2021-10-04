@@ -1,5 +1,5 @@
 import React from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import { Editor, RichUtils } from "draft-js";
 
 export class DraftEditor extends React.Component {
   onChange = (editorState) => {

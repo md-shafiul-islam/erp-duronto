@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
-import Avatar from "@material-ui/core/Avatar";
-
-import classnames from "classnames";
 
 class CustomImageInput extends Component {
   constructor(props) {

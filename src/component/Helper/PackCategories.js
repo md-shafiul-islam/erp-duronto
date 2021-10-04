@@ -1,8 +1,7 @@
-import React, { Component } from "react";
 import Axios from "axios";
 import { BASE_URL, REQUEST_HEADER } from "../../actions/types";
 
-class PackCategories extends Component {
+class PackCategories {
   getAllPackagesCategories() {
     return Axios.get(`${BASE_URL}/package-categories`, {
       headers: REQUEST_HEADER,

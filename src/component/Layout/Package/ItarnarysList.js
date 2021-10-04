@@ -2,12 +2,6 @@ import React from "react";
 import Select from "react-select";
 //import FileInput from "@brainhubeu/react-file-input";
 
-const cuntOptions = [
-  { value: "1", label: "Bangladesh" },
-  { value: "2", label: "USA" },
-  { value: "3", label: "UAE" },
-];
-
 const packCatOptions = [
   { value: "1", label: "Basic" },
   { value: "2", label: "Standerd" },

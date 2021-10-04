@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Field, Form, Formik } from "formik";
-import { Button, Card, ListGroup } from "react-bootstrap";
-import { Row, Image, Col } from "react-bootstrap";
+import { Button, Card, ListGroup, Row, Image, Col} from "react-bootstrap";
 import * as Yup from "yup";
 import { isFieldError } from "../../../utils/helper/esFunc";
 

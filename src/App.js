@@ -141,6 +141,7 @@ class App extends Component {
                 path="/recharge/approve/:id"
                 component={RechargeDetails}
                 //TODO:Create Approve Action Page
+
               />
               <SecuredRoute
                 exact

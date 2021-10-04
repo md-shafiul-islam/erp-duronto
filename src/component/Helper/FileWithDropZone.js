@@ -2,7 +2,7 @@ import React from "react";
 import Dropzone from "react-dropzone";
 
 const FileWithDropZone = (props) => {
-  const { fieldName, setData } = props;
+  const { fieldName} = props;
 
   return (
     <React.Fragment>

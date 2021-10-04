@@ -2,7 +2,7 @@ import React from "react";
 import CKEdito from "@ckeditor/ckeditor5-react";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 
-function UsoitCKEditor(props) {
+const UsoitCKEditor =(props) =>{
   return (
     <div className="content out-line-only">
       <CKEdito

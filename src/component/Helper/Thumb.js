@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-bootstrap";
 
 class Thumb extends React.Component {
   state = {
@@ -35,7 +36,7 @@ class Thumb extends React.Component {
     }
 
     return (
-      <img
+      <Image
         src={thumb}
         alt={file.name}
         className="img-thumbnail mt-2"
