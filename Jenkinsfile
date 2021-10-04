@@ -14,7 +14,7 @@ pipeline {
                         sh 'npm install'
                         sh 'npm audit fix'
                     }else {
-                        bat 'npm npm cache clean --force'
+                        bat 'npm cache clean --force'
                         bat 'npm install'
                         bat 'npm audit fix'
                     }
