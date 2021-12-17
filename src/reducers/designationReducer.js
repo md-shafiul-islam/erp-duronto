@@ -1,8 +1,15 @@
-import { GET_DESIGNATIONS, GET_DESIGNATION } from "../actions/types";
+import {
+  GET_DESIGNATIONS,
+  GET_DESIGNATION,
+  GET_DESIGNATION_OPTIONS,
+  GET_DESIGNATION_OPTIONS_ERROR,
+} from "../actions/types";
 
 const initialState = {
   designations: [],
   designation: {},
+  designationOptions: [],
+  designationOptionsError: {},
 };
 
 export default function (state = initialState, action) {
@@ -17,6 +24,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         designation: action.payload,
+      };
+
+    case GET_DESIGNATION_OPTIONS:
+      return {
+        ...state,
+        designationOptions: action.payload,
+      };
+
+    case GET_DESIGNATION_OPTIONS_ERROR:
+      return {
+        ...state,
+        designationOptionsError: action.payload,
       };
 
     default:

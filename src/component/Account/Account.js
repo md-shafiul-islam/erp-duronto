@@ -6,7 +6,6 @@ import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import { getAddBankAccountAction } from "../../actions/bankActions";
 
-
 class Account extends Component {
   validationScema = () => {
     return Yup.object().shape({
@@ -16,15 +15,13 @@ class Account extends Component {
       accountNumber: Yup.string().required(
         "Required. Please, Input bank account number"
       ),
-      bankName: Yup.string().required(
-        "Required. Please, Input bank name "
-      ),
+      bankName: Yup.string().required("Required. Please, Input bank name "),
       branchName: Yup.string().required(
         "Required. Please, Input bank branch name"
       ),
       bankingType: Yup.string().required("Required, Please Select one type"),
       country: Yup.string().required("Required, Please Select a country"),
-      initialAmount:Yup.number().typeError("You must input number").min(0),
+      initialAmount: Yup.number().typeError("You must input number").min(0),
     });
   };
 
@@ -54,8 +51,8 @@ class Account extends Component {
   };
 
   addBankAccountAction = (values) => {
-    console.log("Bank Accounts Info, ", values);
-    if (values) {      
+    console.log("Bank Accounts Info, ", JSON.stringify(values, null, 2));
+    if (values) {
       this.props.getAddBankAccountAction(values);
     }
   };
@@ -74,19 +71,17 @@ class Account extends Component {
   }
 }
 
-
 Account.prototypes = {
   getAddBankAccountAction: PropTypes.func.isRequired,
-  addBankAccount:PropTypes.object.isRequired,
-  addBankAccountError:PropTypes.object.isRequired,
+  addBankAccount: PropTypes.object.isRequired,
+  addBankAccountError: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state)=>{
-  return{
-    addBankAccount:state.bankAccount.addBankAccount,
-    addBankAccountError:state.bankAccount.bankError
+const mapStateToProps = (state) => {
+  return {
+    addBankAccount: state.bankAccount.addBankAccount,
+    addBankAccountError: state.bankAccount.bankError,
+  };
+};
 
-  }
-}
-
-export default connect(mapStateToProps, {getAddBankAccountAction})(Account);
+export default connect(mapStateToProps, { getAddBankAccountAction })(Account);

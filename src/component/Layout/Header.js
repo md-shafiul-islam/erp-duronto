@@ -37,7 +37,7 @@ class Header extends Component {
               <a
                 className="nav-link"
                 data-widget="pushmenu"
-                href="javascript:void(0);"
+                href="!#"
                 onClick={NoAction}
               >
                 <i className="fas fa-bars" />
@@ -64,13 +64,13 @@ class Header extends Component {
           <ul className="navbar-nav ml-auto">
             {/* Messages Dropdown Menu */}
             <li className="nav-item dropdown">
-              <a className="nav-link" data-toggle="dropdown">
+              <a className="nav-link" data-toggle="dropdown" href="!#">
                 {" "}
                 <i className="far fa-comments" />
                 <span className="badge badge-danger navbar-badge">3</span>
               </a>
               <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a className="dropdown-item">
+                <a className="dropdown-item" href="!#">
                   {" "}
                   {/* Message Start */}
                   <div className="media">
@@ -95,7 +95,7 @@ class Header extends Component {
                   {/* Message End */}
                 </a>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item">
+                <a className="dropdown-item" href="!#">
                   {" "}
                   {/* Message Start */}
                   <div className="media">
@@ -120,7 +120,7 @@ class Header extends Component {
                   {/* Message End */}
                 </a>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item">
+                <a className="dropdown-item" href="!#">
                   {" "}
                   {/* Message Start */}
                   <div className="media">
@@ -145,14 +145,14 @@ class Header extends Component {
                   {/* Message End */}
                 </a>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item dropdown-NoActionter">
+                <a className="dropdown-item dropdown-NoActionter" href="!#">
                   See All Messages
                 </a>
               </div>
             </li>
             {/* Notifications Dropdown Menu */}
             <li className="nav-item dropdown">
-              <a className="nav-link" data-toggle="dropdown">
+              <a className="nav-link" data-toggle="dropdown" href="!#">
                 {" "}
                 <i className="far fa-bell" />{" "}
                 <span className="badge badge-warning navbar-badge">15</span>
@@ -162,13 +162,13 @@ class Header extends Component {
                   15 Notifications
                 </span>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item">
+                <a className="dropdown-item" href="!#">
                   {" "}
                   <i className="fas fa-envelope mr-2" /> 4 new messages{" "}
                   <span className="float-right text-muted text-sm">3 mins</span>
                 </a>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item">
+                <a className="dropdown-item" href="!#">
                   {" "}
                   <i className="fas fa-users mr-2" /> 8 friend requests{" "}
                   <span className="float-right text-muted text-sm">
@@ -176,19 +176,19 @@ class Header extends Component {
                   </span>
                 </a>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item">
+                <a className="dropdown-item" href="!#">
                   {" "}
                   <i className="fas fa-file mr-2" /> 3 new reports{" "}
                   <span className="float-right text-muted text-sm">2 days</span>
                 </a>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item dropdown-NoActionter">
+                <a className="dropdown-item dropdown-NoActionter" href="!#">
                   See All Notifications
                 </a>
               </div>
             </li>
             <li className="nav-item dropdown">
-              <a className="nav-link" data-toggle="dropdown">
+              <a className="nav-link" data-toggle="dropdown" href="!#">
                 {" "}
                 <i className="fas fa-users-cog" />
               </a>
@@ -202,7 +202,7 @@ class Header extends Component {
                 <div className="dropdown-divider" />
                 {validToken ? (
                   <a
-                    href={`javascript:void(0);`}
+                    href="!#"
                     onClick={this.actionLogout}
                     className="dropdown-item"
                   >
@@ -220,6 +220,7 @@ class Header extends Component {
                 className="nav-link"
                 data-widget="control-sidebar"
                 data-slide="true"
+                href="!#"
               >
                 {" "}
                 <i className="fas fa-th-large" />

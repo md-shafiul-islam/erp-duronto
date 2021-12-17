@@ -5,28 +5,24 @@ import Dropzone from "react-dropzone";
 import { ProgressBar } from "react-bootstrap";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
-import {
-  FormControl,
-  FormControlLabel,
-  Checkbox,
-} from "@material-ui/core";
+import { FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
 import { REQUEST_HEADER, BASE_URL } from "../../actions/types";
+import { getGenderOptionsAction } from "../../actions/genderAction";
+import { getDepartmetOptionsAction } from "../../actions/departmentAction";
+import { getDesignationOptionsAction } from "../../actions/designationActions";
+import { getMaritalStatusOptionsAction } from "../../actions/maritalStatusAction";
+import { getRoleOptionsAction } from "../../actions/roleAction";
+import { PropTypes } from "prop-types";
+import { connect } from "react-redux";
+import { getCountryOptionsAction } from "../../actions/countryActions";
 
 let headers = REQUEST_HEADER;
 
-const genderList = [{ value: 0, label: "None" }];
-const departmentList = [{ value: 0, label: "None" }];
-const designationList = [{ value: 0, label: "None" }];
-const roleList = [{ value: 0, label: "None" }];
-const maritalStatusList = [{ value: 0, label: "None" }];
-const countryList = [{ value: 0, label: "None" }];
 let count = 1;
 
 class AddUser extends Component {
   state = {
     genders: [{ value: 0, label: "None" }],
-    departments: [{ value: 0, label: "None" }],
-    designations: [{ value: 0, label: "None" }],
     roles: [{ value: 0, label: "None" }],
     maritalStatuses: [{ value: 0, label: "None" }],
     countries: [{ value: 0, label: "None" }],
@@ -39,162 +35,15 @@ class AddUser extends Component {
   //this.setState({ totalAttachFile: this.state.totalAttachFile + 1 });
 
   componentDidMount() {
-    this.loadCountries();
-    this.loadDesignations();
-    this.loadDepartmets();
-    this.loadRoles();
-    this.loadMaritalStatuses();
-    this.loadGender();
+    this.props.getGenderOptionsAction();
+    this.props.getMaritalStatusOptionsAction();
+    this.props.getRoleOptionsAction();
+    this.props.getDesignationOptionsAction();
+    this.props.getDepartmetOptionsAction();
+    this.props.getCountryOptionsAction();
+
+    console.log("Add User Props, ", this.props);
   }
-
-  loadCountries = async () => {
-    console.log("Run Country User");
-
-    await Axios.get(`${BASE_URL}/countries`, { headers: REQUEST_HEADER })
-      .then((res) => {
-        res.data.forEach((country) => {
-          countryList.push({ value: country.id, label: country.name });
-        });
-      })
-      .catch((res) => {
-        console.log("Load Faield Country User", res);
-      });
-
-    this.setState({ countries: countryList });
-
-    if (countryList.length > 0 && 0 >= this.state.countries) {
-      this.setState({ countries: countryList });
-    }
-
-    if (0 >= this.state.countries) {
-      this.loadCountries();
-    }
-  };
-
-  loadDepartmets = async () => {
-    await Axios.get(`${BASE_URL}/departments`, { headers: REQUEST_HEADER })
-      .then((res) => {
-        res.data.forEach((department) => {
-          departmentList.push({ value: department.id, label: department.name });
-        });
-      })
-      .catch((res) => {
-        console.log("Load Faield department User", res);
-      });
-
-    this.setState({ departments: departmentList });
-
-    if (departmentList.length > 0 && 0 >= this.state.departments.length) {
-      this.setState({ departments: departmentList });
-    }
-
-    if (0 >= this.state.departments.length) {
-      this.loadDepartmets();
-    }
-  };
-
-  loadDesignations = async () => {
-    await Axios.get(`${BASE_URL}/designations`, { headers: REQUEST_HEADER })
-      .then((res) => {
-        res.data.forEach((designation) => {
-          designationList.push({
-            value: designation.id,
-            label: designation.name,
-          });
-        });
-      })
-      .catch((res) => {
-        console.log("Load Faield designation User", res);
-      });
-
-    this.setState({ designations: designationList });
-
-    if (designationList.length > 0 && 0 >= this.state.designations.length) {
-      this.setState({ designations: designationList });
-    }
-
-    if (0 >= this.state.designations.length) {
-      this.loadDesignations();
-    }
-  };
-
-  loadGender = async () => {
-    await Axios.get(`${BASE_URL}/genders`, { headers: REQUEST_HEADER })
-      .then((res) => {
-        res.data.forEach((gender) => {
-          genderList.push({
-            value: gender.id,
-            label: gender.name,
-          });
-        });
-      })
-      .catch((res) => {
-        console.log("Load Faield gender User", res);
-      });
-
-    this.setState({ genders: genderList });
-
-    if (genderList.length > 0 && 0 >= this.state.genders.length) {
-      this.setState({ genders: genderList });
-    }
-
-    if (0 >= this.state.genders.length) {
-      this.loadGender();
-    }
-  };
-
-  loadMaritalStatuses = async () => {
-    await Axios.get(`${BASE_URL}/marital-status`, { headers: REQUEST_HEADER })
-      .then((res) => {
-        res.data.forEach((maritalStatus) => {
-          maritalStatusList.push({
-            value: maritalStatus.id,
-            label: maritalStatus.name,
-          });
-        });
-      })
-      .catch((res) => {
-        console.log("Load Faield MS  User", res);
-      });
-
-    this.setState({ maritalStatuses: maritalStatusList });
-
-    if (
-      maritalStatusList.length > 0 &&
-      0 >= this.state.maritalStatuses.length
-    ) {
-      this.setState({ maritalStatuses: maritalStatusList });
-    }
-
-    if (0 >= this.state.maritalStatuses.length) {
-      this.loadMaritalStatuses();
-    }
-  };
-
-  loadRoles = async () => {
-    await Axios.get(`${BASE_URL}/roles`, { headers: REQUEST_HEADER })
-      .then((res) => {
-        res.data.forEach((role) => {
-          roleList.push({
-            value: role.id,
-            label: role.name,
-          });
-        });
-      })
-      .catch((res) => {
-        console.log("Load Faield Roles User", res);
-      });
-
-    this.setState({ roles: roleList });
-
-    if (roleList.length > 0 && 0 >= this.state.roles) {
-      this.setState({ roles: roleList });
-    }
-
-    if (0 >= this.state.roles.length) {
-      this.loadRoles();
-    }
-  };
 
   imgUploadconfig = {
     onUploadProgress: (progressEvent) => {
@@ -928,7 +777,7 @@ class AddUser extends Component {
                                     <Select
                                       name="gender"
                                       id="gender"
-                                      options={this.state.genders}
+                                      options={this.props.genderOptions}
                                       value={this.value}
                                       onChange={(opt, e) => {
                                         props.handleChange.bind(this);
@@ -980,7 +829,7 @@ class AddUser extends Component {
                                     <Select
                                       name="maritalStatus"
                                       id="maritalStatus"
-                                      options={this.state.maritalStatuses}
+                                      options={this.props.maritalStatusOptions}
                                       value={this.value}
                                       onChange={(opt, e) => {
                                         props.handleChange.bind(this);
@@ -1119,7 +968,9 @@ class AddUser extends Component {
                                     {props.values.userAddresses.map(
                                       (addre, indx) => {
                                         return (
-                                          <React.Fragment>
+                                          <React.Fragment
+                                            key={`add-user-add-${indx}`}
+                                          >
                                             <div
                                               className="row"
                                               key="addre.index"
@@ -1196,7 +1047,7 @@ class AddUser extends Component {
                                                   <Select
                                                     name={`userAddresses[${indx}].country`}
                                                     options={
-                                                      this.state.countries
+                                                      this.props.countryOptions
                                                     }
                                                     value={this.value}
                                                     onChange={(opt, e) => {
@@ -1297,7 +1148,7 @@ class AddUser extends Component {
                                     <Select
                                       name="department"
                                       id="department"
-                                      options={this.state.departments}
+                                      options={this.props.departmentOptions}
                                       value={this.value}
                                       onChange={(opt, e) => {
                                         props.handleChange.bind(this);
@@ -1317,7 +1168,7 @@ class AddUser extends Component {
                                     <Select
                                       name="designation"
                                       id="designation"
-                                      options={this.state.departments}
+                                      options={this.props.designationOptions}
                                       value={this.value}
                                       onChange={(opt, e) => {
                                         props.handleChange.bind(this);
@@ -1337,7 +1188,7 @@ class AddUser extends Component {
                                     <Select
                                       name="role"
                                       id="role"
-                                      options={this.state.roles}
+                                      options={this.props.roleOptions}
                                       value={this.value}
                                       onChange={(opt, e) => {
                                         props.handleChange.bind(this);
@@ -2747,4 +2598,37 @@ class AddUser extends Component {
   }
 }
 
-export default AddUser;
+AddUser.prototypes = {
+  getGenderOptionsAction: PropTypes.func.isRequired,
+  getMaritalStatusOptionsAction: PropTypes.func.isRequired,
+  getRoleOptionsAction: PropTypes.func.isRequired,
+  getDesignationOptionsAction: PropTypes.func.isRequired,
+  getDepartmetOptionsAction: PropTypes.func.isRequired,
+  getCountryOptionsAction: PropTypes.func.isRequired,
+  countryOptions: PropTypes.object.isRequired,
+  genderOptions: PropTypes.object.isRequired,
+  departmentOptions: PropTypes.object.isRequired,
+  designationOptions: PropTypes.object.isRequired,
+  roleOptions: PropTypes.object.isRequired,
+  maritalStatusOptions: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    countryOptions: state.country.countryOptions,
+    genderOptions: state.gender.genderOptions,
+    departmentOptions: state.department.departmentOptions,
+    designationOptions: state.designation.designationOptions,
+    roleOptions: state.role.roleOptions,
+    maritalStatusOptions: state.maritalStatus.maritalStatusOptions,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getGenderOptionsAction,
+  getMaritalStatusOptionsAction,
+  getRoleOptionsAction,
+  getDesignationOptionsAction,
+  getDepartmetOptionsAction,
+  getCountryOptionsAction,
+})(AddUser);

@@ -983,6 +983,7 @@ class Menu extends Component {
                     </p>
                   </a>
                   <ul className="nav nav-treeview">
+                    {console.log("Menu Current User Access, ", user)}
                     {/* User */}
                     {user && user.noAccess !== 1 ? (
                       <li className="nav-item has-treeview">
@@ -1187,7 +1188,7 @@ class Menu extends Component {
                           )}
 
                           {package_ac.updateApproval === 1 ||
-                          package_ac.all == 1 ? (
+                          package_ac.all === 1 ? (
                             <li className="nav-item">
                               <PackageUpdateApprovalButton />
                             </li>

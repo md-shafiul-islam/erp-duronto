@@ -4,6 +4,8 @@ import {
   GET_DESIGNATIONS,
   GET_ERRORS,
   GET_DESIGNATION,
+  GET_DESIGNATION_OPTIONS,
+  GET_DESIGNATION_OPTIONS_ERROR,
 } from "./types";
 import Axios from "axios";
 
@@ -78,4 +80,21 @@ export const getDesignations = () => async (dispatch) => {
           : "Designations Load Error ",
     });
   }
+};
+
+export const getDesignationOptionsAction = () => async (dispatch) => {
+  const designationOptions = await Axios.get(`${BASE_URL}/designations/options`, { headers: REQUEST_HEADER });
+
+  try {
+    dispatch({
+      type: GET_DESIGNATION_OPTIONS,
+      payload: designationOptions.data,
+    })
+  } catch (err) {
+    dispatch({
+      type:GET_DESIGNATION_OPTIONS_ERROR,
+      payload:err,
+    })
+  }
+
 };

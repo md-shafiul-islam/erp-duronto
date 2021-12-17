@@ -1,20 +1,40 @@
-import React, {useEffect,  useState} from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import Select from "react-select";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { getCountryOptions } from "../../../actions/countryActions";
-import { getBankAccountTypeOptions } from "../../../actions/bankActions";
+import { helperIsEmpty } from "../../../utils/helper/esFunc";
+import {
+  getBankAccountTypeOptions,
+  getBankNameOptions,
+} from "../../../actions/bankActions";
+import { connect } from "react-redux";
 
-const AddBank = ({ title, validationScema, submitAction, isError }) => {
+const AddBank = ({
+  title,
+  validationScema,
+  submitAction,
+  isError,
+  ...params
+}) => {
+  const [countries, setCountries] = useState([{ label: "", value: 0 }]);
+  const [bankAccountTypes, setBankAccountTypes] = useState([
+    { label: "", value: 0 },
+  ]);
 
-  const [countries, setCountries] = useState([{label: "", value: 0 }])
-  const [bankAccountTypes, setBankAccountTypes] = useState([{label: "", value: 0 }])
-  
   useEffect(() => {
     getCountryOptions(setCountries);
-    getBankAccountTypeOptions(setBankAccountTypes)
-    
-  }, [])
+    getBankAccountTypeOptions(setBankAccountTypes);
+
+    if (!helperIsEmpty(params.bankOptions)) {
+      if (params.bankOptions.lenght === 0) {
+        params.getBankNameOptions();
+      }
+    } else {
+      params.getBankNameOptions();
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -133,17 +153,26 @@ const AddBank = ({ title, validationScema, submitAction, isError }) => {
                           <label className="form-label" htmlFor="bankName">
                             Bank Name.{" "}
                           </label>
-                          <Field
+                          <Select
                             placeholder="Bank Name"
                             name={`bankName`}
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
+                            onChange={(item) => {
+                              props.setFieldValue(
+                                `bankName`,
+                                item ? item.label : ""
+                              );
+                            }}
+                            onBlur={() => {
+                              props.setFieldTouched(`bankName`, true);
+                            }}
                             id={`bankName`}
-                            className={`form-control ${
+                            options={params.bankOptions}
+                            className={`vselect-item ${
                               isError(props.errors, props.touched, "bankName")
                                 .cls
                             }`}
                           />
+
                           <div className="invalid-feedback">
                             {
                               isError(props.errors, props.touched, "bankName")
@@ -260,14 +289,20 @@ const AddBank = ({ title, validationScema, submitAction, isError }) => {
                             onBlur={props.handleBlur}
                             id={`initialAmount`}
                             className={`form-control ${
-                              isError(props.errors, props.touched, "initialAmount")
-                                .cls
+                              isError(
+                                props.errors,
+                                props.touched,
+                                "initialAmount"
+                              ).cls
                             }`}
                           />
                           <div className="invalid-feedback">
                             {
-                              isError(props.errors, props.touched, "initialAmount")
-                                .msg
+                              isError(
+                                props.errors,
+                                props.touched,
+                                "initialAmount"
+                              ).msg
                             }
                           </div>
                         </Col>
@@ -300,4 +335,10 @@ const AddBank = ({ title, validationScema, submitAction, isError }) => {
   );
 };
 
-export default AddBank;
+const mapStateToProps = (state) => {
+  return {
+    bankOptions: state.bank.bankOptions,
+  };
+};
+
+export default connect(mapStateToProps, { getBankNameOptions })(AddBank);

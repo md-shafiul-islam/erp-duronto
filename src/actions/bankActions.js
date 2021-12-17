@@ -1,3 +1,4 @@
+import axios from "axios";
 import Axios from "axios";
 import {
   ADD_BANK_ACCOUNT,
@@ -7,12 +8,33 @@ import {
   GET_BANK_ACCOUNT_OPTIONS_ERROR,
   GET_BANK_ACCOUNT_TYPES,
   GET_BANK_ERROR,
+  GET_BANK_OPTIONS,
   GET_BANK_UPDATE,
   REQUEST_HEADER,
 } from "./types";
 
+export const getBankNameOptions = () =>async (dispatch)=>{
+
+  console.log("Bank Name Options ... ", )
+  const urlAction = `${BASE_URL}/banks/bank/options`; 
+
+  try {
+    const resp = await axios.get(urlAction, {headers:REQUEST_HEADER});
+    console.log("bank options response, ", resp);
+
+    dispatch({
+      payload:resp.data&&resp.data.data,
+      type:GET_BANK_OPTIONS,
+    })
+
+  } catch (error) {
+    
+    console.log("Get Bank action ", error);
+  }
+}
+
 export const getBankAccountTypeOptions = async (callBack) => {
-  const res = await Axios.get(`${BASE_URL}/banks/types-options`, {
+  const res = await Axios.get(`${BASE_URL}/bankaccounts/types-options`, {
     headers: REQUEST_HEADER,
   });
   console.log("Bank Accounts Type Options Action Response Data, ", res);
@@ -66,11 +88,12 @@ export const getAllUpdatePendingBanks = (callBack, count = 1) => {
 };
 
 export const getAddBankAccountAction = (bankAccount) => async (dispatch) => {
-  bankAccount = JSON.stringify(bankAccount, null, 2);
-  const res = await Axios.post(`${BASE_URL}/banks`, bankAccount, {
+  
+  const res = await Axios.post(`${BASE_URL}/bankaccounts`, bankAccount, {
     headers: REQUEST_HEADER,
   });
 
+  console.log("Bank Account Save Action response, ", res);
   try {
     dispatch({
       type: ADD_BANK_ACCOUNT,

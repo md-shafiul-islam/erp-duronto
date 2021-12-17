@@ -7,6 +7,8 @@ import {
   GET_ERRORS,
   SET_COUNTRIY_OPTION,
   SET_COUNTRIY_OPTION_ERROR,
+  GET_COUNTRY_OPTIONS_ERROR,
+  GET_COUNTRY_OPTIONS,
 } from "./types";
 
 export const addCountry = (country, history) => async (dispatch) => {
@@ -45,7 +47,7 @@ export const getCountries = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: {msg:"Countries Not Found", status:false},
+      payload: { msg: "Countries Not Found", status: false },
     });
   }
 };
@@ -89,6 +91,25 @@ export const getCountryOptions = async (callBack) => {
   }
 };
 
+export const getCountryOptionsAction = () => async (dispatch) => {
+  // console.log("Country Option Action ... Header, ", REQUEST_HEADER)
+  const res = await Axios.get(`${BASE_URL}/countries/options`, {
+    headers: REQUEST_HEADER,
+  });
+  // console.log("Countries Options Action Response Data, ", res);
+  try {
+    dispatch({
+      type: GET_COUNTRY_OPTIONS,
+      payload: res.data && res.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_COUNTRY_OPTIONS_ERROR,
+      payload: error,
+    });
+  }
+};
+
 const haveCountryOptions = (data) => {
   if (data) {
     console.log("Before Send Via Redux Country Options ", data.data);
@@ -96,12 +117,11 @@ const haveCountryOptions = (data) => {
   }
 };
 
-export const getCountryOptionsViaRedux = ()=> async (dispatch) => {
+export const getCountryOptionsViaRedux = () => async (dispatch) => {
   const resp = await Axios.get(`${BASE_URL}/countries/options`, {
     headers: REQUEST_HEADER,
   });
   try {
-    
     dispatch({
       type: SET_COUNTRIY_OPTION,
       payload: haveCountryOptions(resp.data) ? resp.data.data : [],

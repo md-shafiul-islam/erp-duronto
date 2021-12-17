@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import backLogReducer from "./backLogReducer";
 import categoryReduucer from "./categoryReduucer";
 import errorReducer from "./errorReducer";
 import securityReducer from "./securityReducer";
@@ -7,16 +6,27 @@ import appReducer from "./appReducer";
 import tokenReducer from "./tokenReducer";
 import packCatReducer from "./packCatReducer";
 import designationReducer from "./designationReducer";
+import genderReducer from "./genderReducer";
+import roleReducer from "./roleReducer";
+import maritalStatusReducer from "./maritalStatusReducer";
+import departmetReducer from "./departmetReducer";
+import countryReduucer from "./countryReduucer";
+import bankReducer from "./bankReducer";
 import bankAccountReducer from "./bankAccountReducer";
 
 export default combineReducers({
   errors: errorReducer,
   category: categoryReduucer,
-  country: backLogReducer,
+  country: countryReduucer,
   security: securityReducer,
   appStore: appReducer,
   tokenData: tokenReducer,
   packCats: packCatReducer,
   designation: designationReducer,
-  bankAccount: bankAccountReducer
+  bank: bankReducer,
+  gender:genderReducer,
+  role:roleReducer,
+  maritalStatus:maritalStatusReducer,
+  department:departmetReducer,
+  bankAccount:bankAccountReducer,
 });
