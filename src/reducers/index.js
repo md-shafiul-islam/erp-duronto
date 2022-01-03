@@ -13,6 +13,7 @@ import departmetReducer from "./departmetReducer";
 import countryReduucer from "./countryReduucer";
 import bankReducer from "./bankReducer";
 import bankAccountReducer from "./bankAccountReducer";
+import rechargeReducer from "./rechargeReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -29,4 +30,5 @@ export default combineReducers({
   maritalStatus:maritalStatusReducer,
   department:departmetReducer,
   bankAccount:bankAccountReducer,
+  recharge:rechargeReducer,
 });

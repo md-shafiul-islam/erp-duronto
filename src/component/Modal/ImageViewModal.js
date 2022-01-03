@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect} from "react";
 import { Modal, Image  } from "react-bootstrap";
 
-const ImageViewModal = ({ showModal, location, hideAction }) => {
+
+const ImageViewModal = ({ showModal, location, hideAction  }) => {
   const [show, setShow] = useState(false);
+
+  console.log("ImageViewModal, ", showModal, " locs ", location, " action ", hideAction);
+  useEffect(() => {
+    setShow(showModal);
+  }, []);
+
   return (
     <React.Fragment>
       <Modal
-        show={show}
+        show={showModal}
         onHide={() => {
           setShow(false);
           hideAction(false);
@@ -17,7 +25,7 @@ const ImageViewModal = ({ showModal, location, hideAction }) => {
         className="image-modal-container"
       >
         <Modal.Body className="modal-image-area">
-          <Image className="modal-image" src={location} thumbnail />
+          <Image className="modal-image image-container" src={location ? location : `/uimage/not-found.jpg`} thumbnail  />
         </Modal.Body>
       </Modal>
     </React.Fragment>

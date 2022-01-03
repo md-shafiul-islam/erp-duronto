@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const helperIsEmpty = (obj) => {
   if (obj === null || obj === undefined || typeof obj === "undefined") {
     return true;
@@ -17,7 +19,7 @@ export const helperIsEmpty = (obj) => {
     return false;
   }
 
-  if(obj.length === 0) return true;
+  if (obj.length === 0) return true;
 
   return false;
 };
@@ -98,4 +100,12 @@ export const isFieldError = (errors, touched, fieldName) => {
     }
   }
   return { cls: "", msg: msg, status: false };
+};
+
+export const esDateFormat = (date) => {
+  if (date) {
+    const fDate = format(new Date(date), "EEE, dd MMM yyyy");
+    return fDate;
+  }
+  return "";
 };

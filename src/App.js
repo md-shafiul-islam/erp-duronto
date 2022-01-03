@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import 'react-toastify/dist/ReactToastify.min.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Header from "./component/Layout/Header";
@@ -78,13 +79,13 @@ import BankDetails from "./component/Account/Banks/BankDetails";
 import RechargePending from "./component/Account/Recharge/RechargePending";
 import RechargeApprove from "./component/Account/Recharge/RechargeApprove";
 import RechargeReject from "./component/Account/Recharge/RechargeReject";
-import RechargeRejectDetails from "./component/Account/Recharge/RechargeRejectDetails";
 import RechargeDetails from "./component/Account/Recharge/RechargeDetails";
 import BanksReject from "./component/Account/Banks/BanksReject";
 import Sales from "./component/Sale/Sales";
 import UpdateBankAccount from "./component/Account/Banks/UpdateBankAccount";
 import BankApprove from "./component/Account/Banks/BankApprove";
 import BanksUpdatePending from "./component/Account/Banks/BanksUpdatePending";
+import { ToastContainer } from "react-toastify";
 require("dotenv").config();
 const jwtToken = localStorage.jwtToken;
 
@@ -131,7 +132,7 @@ class App extends Component {
               <SecuredRoute exact path="/recharge/pending" component={RechargePending} />
               <SecuredRoute exact path="/recharge/approve" component={RechargeApprove} />
               <SecuredRoute exact path="/recharge/reject" component={RechargeReject} />
-              <SecuredRoute exact path="/recharge/reject/:id" component={RechargeRejectDetails} />
+              <SecuredRoute exact path="/recharge/reject/:id" component={RechargeDetails} />
               <SecuredRoute exact path="/recharge/:id" component={RechargeDetails} />
 
               {/*Sale */}
@@ -395,6 +396,7 @@ class App extends Component {
               />
               {/** Private  Route End*/}
             </Switch>
+            <ToastContainer />
             <Footer />
           </React.Fragment>
         </Router>

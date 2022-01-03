@@ -1,17 +1,30 @@
-import React, {useState} from "react";
-import { Image } from "react-bootstrap";
-import ActionLink from "../../../utils/ActionLink";
+import React, { useState, useEffect } from "react";
+import { PropTypes } from "prop-types";
 import ImageViewModal from "../../Modal/ImageViewModal";
+import RechargeItemList from "./RechargeItemList";
+import { connect } from "react-redux";
+import { getApprovedRecharges } from "../../../actions/rechargeAction";
+import { getRestrictedImage } from "../../../utils/helper/esGetImageAction";
 
 const RechargeApprove = (params) => {
   const [displayModal, setDisplayModal] = useState(false);
-  const [imageLocation, setImageLocation] = useState("");
+  const [imageLocation, setImageLocation] = useState(undefined);
 
-  const mouseOverAction = (location) => {
+  useEffect(() => {
+    params.getApprovedRecharges();
+  }, []);
+
+  const mouseOverAction = async (location) => {
     if (location) {
-      console.log("Mouse Over, ", location);
+      console.log("Mouse Over, Location ", location);
+      setImageLocation(undefined);
+
+      const respImage = await getRestrictedImage(location);
+
       setDisplayModal(true);
-      setImageLocation(location);
+      if (respImage.status) {
+        setImageLocation(respImage.image);
+      }
     }
   };
 
@@ -26,137 +39,56 @@ const RechargeApprove = (params) => {
         hideAction={hideAction}
       />
       <div className="content-wrapper">
-        <div>
-          {/* /.card-header */}
-          <div className="recharge-table">
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th style={{ width: 10 }}>#</th>
-                  <th>Date</th>
-                  <th>Trans. Date</th>
-                  <th>Client ID</th>
-                  <th>Client Name</th>
-                  <th>Email</th>
-                  <th>Phone No</th>
+        <div className="recharge-items-area">
+          <ul className="recharge-items">
+            <li className="recharge-item title bg-info">
+              <ul className="recharge-item-area">
+                <li className="srlnum">#</li>
+                <li className="m-item">Date</li>
+                <li className="m-item">Trans. Date</li>
+                <li className="lg-item">Client ID</li>
+                <li className="m-item">Client Name</li>
+                <li className="lg-item">Email</li>
+                <li className="lg-item">Phone No</li>
 
-                  <th>Bank Name</th>
-                  <th>Brance Name</th>
-                  <th>Account Name</th>
-                  <th style={{ width: "16vw" }}>Account Number</th>
-                  <th>Transection Id</th>
-                  <th>Amount</th>
-                  <th>Image</th>                  
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>48451</td>
-                  <td>Md Shafiul Islam</td>
-                  <td>shafiul2014bd@gmail.com</td>
-                  <td>01725686029</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <Image
-                        src="/dist/img/photo1.png"
-                        thumbnail
-                        onMouseOver={() => {
-                          mouseOverAction("/uimage/slip.jpg");
-                        }}
-                      />
-                    </div>
-                  </td>
-                  
-                  <td>
-                    <ActionLink
-                      to={`/recharge/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>1.</td>
-                  <td>11/09/2021</td>
-                  <td>10/09/2021</td>
-                  <td>Client ID</td>
-                  <td>Client Name</td>
-                  <td>Email</td>
-                  <td>Phone No</td>
-                  <td>Brack Bank</td>
-                  <td>Bogura</td>
-                  <td>Duronto Trip</td>
-                  <td>4984841541</td>
-                  <td>AG48184H484KA84L</td>
-                  <td>4,481584</td>
-                  <td>
-                    <div className="recharge-image-area">
-                      <i className="fas fa-image"></i>
-                    </div>
-                  </td>
-                  
-                  <td>
-                    <ActionLink
-                      to={`/recharge/${1}`}
-                      label="Details"
-                      clazz="btn btn-block btn-primary btn-sm"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={16}>
-                    <div className="card-footer clearfix">
-                      <ul className="pagination pagination-sm m-0 float-right">
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            «
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            1
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            2
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            3
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            »
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          {/* /.card-body */}
+                <li className="m-item">Bank Name</li>
+                <li className="m-item">Brance Name</li>
+                <li className="m-item">Account Name</li>
+                <li className="m-item">Account Number</li>
+                <li className="lg-item">Transection Id</li>
+                <li className="sm-item">Amount</li>
+                <li className="sm-item">Image</li>
+                <li className="sm-item">Details</li>
+              </ul>
+            </li>
+            <RechargeItemList
+              recharges={
+                params.recharges && params.recharges.status
+                  ? params.recharges.data
+                  : undefined
+              }
+              mouseOverAction={mouseOverAction}
+              actionStatus={false}
+            />
+          </ul>
         </div>
+        <div></div>
       </div>
     </React.Fragment>
   );
 };
 
-export default RechargeApprove;
+RechargeApprove.prototype = {
+  getApprovedRecharges: PropTypes.func.isRequired,
+  recharges: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    recharges: state.recharge.approveRecharges,
+  };
+};
+
+export default connect(mapStateToProps, { getApprovedRecharges })(
+  RechargeApprove
+);
